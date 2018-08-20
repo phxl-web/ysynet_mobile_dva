@@ -1,0 +1,42 @@
+@import './../../common/reset.css';
+
+.container{
+  display:-ms-flexbox;
+  display:flex;
+  -ms-flex-direction:column;
+  flex-direction:column;
+  position:relative;
+  height:100%;
+  /* overflow:hidden; */
+  
+}
+.titleBox{
+  position: relative;
+  margin: .25rem 0 .1rem 0;
+  padding: 0 .1rem;
+}
+.titleBox > .title{
+  font-size: .17rem;
+  font-weight: bolder;
+  border-left: 2px solid #26a2fa;
+  padding-left: 10px;
+}
+.footer{
+  padding: 0 .1rem;
+  margin-bottom: .2rem;
+}
+.toolbar_container {
+  background: #fff;
+  position: absolute;
+  color: #1890ff;
+  left: 8px;
+  right: 8px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 8px;
+  top: 20vh;
+  z-index: 10;
+}
+.activeGridClass{
+  background-color: #fff;
+}

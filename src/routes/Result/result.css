@@ -1,0 +1,11 @@
+.imgInfo{
+  width: 100%;
+  margin-top: .5rem;
+}
+
+.title{
+  text-align: center;
+  font-size: .24rem;
+  font-weight: bolder;
+  color: #fc6621;
+}

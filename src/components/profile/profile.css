@@ -1,0 +1,64 @@
+.header{
+  position: relative;
+  z-index: 1;
+  background-color: #26a2fa;
+  height: 1.65rem;
+  padding: .3rem .1rem 0 .1rem;
+  zoom:1;
+  
+}
+.header::after {
+  clear:both; display:block; height:0; visibility:hidden; content:".";
+  font-size: 0;
+}
+.header .left{
+  float: left;
+  width: 3.4rem;
+  zoom:1;
+}
+.left::after{
+  clear:both; display:block; height:0; visibility:hidden; content:".";
+  font-size: 0;
+}
+.right{
+  float: left;
+  width: .15rem;
+ margin-top: .25rem;
+  color: #fff;
+  text-align: center;
+}
+/* 头像 */
+.head{
+  float: left;
+  width: .7rem;
+}
+.portrait{
+  width: .7rem;
+  height: .7rem;
+  border-radius: 99999px;
+  border:1px solid #eee;
+  background-color: #fff;
+}
+/* 头像旁边文字 */
+.text{
+  float: left;
+  width: 2.7rem;
+  padding-left: .15rem;
+}
+.text strong{
+  font-size: .18rem;
+  color: #fff;
+  font-weight: 800;
+}
+.text span{
+  display: inline-block;
+  padding: .1rem .12rem;
+  margin-left: .1rem;
+  background-color: #30a6ff;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: bold;
+}
+.text p{
+  color: #fff;
+}

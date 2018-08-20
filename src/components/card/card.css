@@ -1,0 +1,48 @@
+.listCheck{
+  border-bottom: 1px solid #eee;
+}
+.textAlignright{
+  text-align: right;
+}
+.titleInfo{
+  margin: 0.08rem 0;
+  font-size: .14rem;
+  font-weight: bolder;
+}
+.geName{
+  margin-left: 0;
+  padding-bottom: 0;
+}
+.checkInfo{
+  font-size: .12rem;
+  color: #666;
+  line-height: 24px;
+}
+.unitPriceTitle{
+  width: 60%;
+  display: inline-block;
+}
+.price{
+  color: #fc6621;
+  font-size: .16rem;
+  padding-left: .1rem;
+}
+.footCheckBtns{
+  margin-top: .1rem;
+  padding-top: .1rem;
+  padding-bottom: .1rem;
+  text-align: right;
+  border-top: 1px solid #eee;
+}
+.passBtn{
+  color: #26a2fa;
+}
+.noPassBtn{
+  color: #fc6621;
+  margin-left: .1rem;
+}
+.passBtn,.noPassBtn{
+  font-size: .14rem;
+  height: .35rem;
+  line-height: .35rem;
+}

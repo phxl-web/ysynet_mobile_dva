@@ -1,0 +1,24 @@
+
+@import './../../common/reset.css';
+.container{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #eee;
+}
+.logoBox{
+  margin-top: calc(50vh - 80px);
+  text-align: center;
+}
+.input{
+ font-size: .12rem;
+ color: #26a2fa;
+}
+.fromBox{
+  padding: 0 .1rem;
+}
+.btnLogin{
+  margin-top: .15rem;
+}

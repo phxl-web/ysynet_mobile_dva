@@ -12,11 +12,11 @@
 }
 .titleBox{
   position: relative;
-  margin: .25rem 0 .1rem 0;
+  margin: .2rem 0 0 0;
   padding: 0 .1rem;
 }
 .titleBox > .title{
-  font-size: .17rem;
+  font-size: .14rem;
   font-weight: bolder;
   border-left: 2px solid #26a2fa;
   padding-left: 10px;
@@ -31,8 +31,8 @@
   color: #1890ff;
   left: 8px;
   right: 8px;
-  height: 45px;
-  line-height: 45px;
+  height: .4rem;
+  line-height: .4rem;
   border-radius: 8px;
   top: 20vh;
   z-index: 10;

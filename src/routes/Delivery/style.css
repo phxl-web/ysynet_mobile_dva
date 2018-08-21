@@ -26,6 +26,9 @@
   height: .3rem;
   line-height: .3rem;
 }
+.listCardTitle{
+  font-size: .18rem;
+}
 .listPrice{
   position: absolute;
   right: .1rem;

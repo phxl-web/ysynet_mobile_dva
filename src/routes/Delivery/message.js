@@ -2,12 +2,12 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:20:41 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-20 11:24:43
+ * @Last Modified time: 2018-08-20 16:02:24
  * 发表评价
  */
 
 import React , { PureComponent } from 'react';
-import { NavBar, Icon, TextareaItem, List,Flex } from 'antd-mobile';
+import { NavBar, Icon, TextareaItem, List,Flex ,Button } from 'antd-mobile';
 const Item = List.Item;
 const Brief = Item.Brief;
 class Message extends PureComponent{
@@ -67,6 +67,7 @@ class Message extends PureComponent{
             </Brief>
           </Item>
         </List>
+        　<Button type="primary">发表</Button>
       </div>
     )
   }

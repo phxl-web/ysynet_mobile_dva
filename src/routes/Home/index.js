@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-20 11:00:30
+ * @Last Modified time: 2018-08-20 15:17:03
  * 主页
  */
 
@@ -52,7 +52,7 @@ class Home extends PureComponent {
         </div>
         <div className={styles.titleBox}>
             <span className={styles.title}>我的待办</span>
-            <Grid data={gridDaibanData} hasLine={false} columnNum={3}/>
+            <Grid data={gridDaibanData} hasLine={false} columnNum={4} activeClassName={styles.activeGridClass}/>
         </div>
         <div className={styles.footer}>
           <Tabs tabs={tabs}
@@ -61,10 +61,10 @@ class Home extends PureComponent {
             onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
           >
             <div className={styles.tabsItem}>
-              <Grid data={gridStorageData} hasLine={false} columnNum={3} activeClassName={styles.activeGridClass} onClick={this.handleGridClick}/>
+              <Grid data={gridStorageData} hasLine={false} columnNum={4} activeClassName={styles.activeGridClass} onClick={this.handleGridClick}/>
             </div>
             <div className={styles.tabsItem}>
-              <Grid data={gridShebeiData} hasLine={false} columnNum={3} activeClassName={styles.activeGridClass} onClick={this.handleGridClick}/>
+              <Grid data={gridShebeiData} hasLine={false} columnNum={4} activeClassName={styles.activeGridClass} onClick={this.handleGridClick}/>
             </div>
           </Tabs>
         </div>

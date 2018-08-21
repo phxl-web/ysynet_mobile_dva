@@ -6,17 +6,17 @@
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: #eee;
+  background-color: #fff;
+  background-image: url("../../assets/image/login_bg.png");
+  background-size: 100% 100%;
 }
-.logoBox{
-  margin-top: calc(50vh - 80px);
-  text-align: center;
-}
+
 .input{
  font-size: .12rem;
  color: #26a2fa;
 }
 .fromBox{
+  margin-top: 65vh;
   padding: 0 .1rem;
 }
 .btnLogin{

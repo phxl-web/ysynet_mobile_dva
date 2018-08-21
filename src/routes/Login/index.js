@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:29:35 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-21 13:54:07
+ * @Last Modified time: 2018-08-21 15:44:02
  */
 
   
@@ -19,21 +19,25 @@ class Login extends PureComponent {
     pwdError: false,
     userName: "",
     password: "",
-    loading: false
+    loading: false,
+    value:''
   }
   //检测用户名
-  onUserNameBlur = (value) => {
+  handleUserNameChange = (value) => {
     //字母，数字，下划线，减号 点
-    const uPattern = /^[a-zA-Z0-9_-_.]{4,16}$/;
+    const uPattern = /^[a-zA-Z0-9_-_.]{0,16}$/;
     if(!uPattern.test(value)){
       this.setState( { userError: true})
     }else{
 
-      this.setState( { userError: false,userName: value})
+      this.setState( { userError: false,userName: value});
+      this.setState({
+        value,
+      });
     }
   }
   //检测密码
-  onUserPasswordBlur = (value) => {
+  handlePwdChange = (value) => {
     const uPattern = /^.*(?=.{6,})/;
     if(!uPattern.test(value)){
       this.setState( { pwdError: true})
@@ -55,7 +59,7 @@ class Login extends PureComponent {
       pwd: sha1(pwd),
       token: 'vania'
     }
-    //console.log(this.props.dispatch({ type: 'users/userLogin',}))
+
     this.props.dispatch({
       type: 'users/userLogin',
       payload: userInfo,
@@ -68,7 +72,6 @@ class Login extends PureComponent {
         }
       }
     })
-    //this.props.history.push({pathname: '/home'})
   }
   render() {
     return (
@@ -79,16 +82,17 @@ class Login extends PureComponent {
               <InputItem
                 type="text"
                 placeholder="请输入用户名"
-                onChange={this.onUserPasswordBlur}
+                onChange={this.handleUserNameChange}
                 maxLength="20"
                 error={this.state.userError}
+                value={this.state.value}
               >用户名</InputItem>
               <InputItem
                 type="password"
                 placeholder="请输入密码"
                 error={this.state.pwdError}
                 maxLength="20"
-                onChange={this.onUserPasswordBlur}
+                onChange={this.handlePwdChange}
               >密码</InputItem>
             </List>
           </div>

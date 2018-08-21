@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-20 15:17:03
+ * @Last Modified time: 2018-08-21 16:47:43
  * 主页
  */
 
@@ -17,17 +17,17 @@ const tabs = [
   { title:  '设备' }
 ];
 const gridDaibanData = [
-  { text: '验收', icon: require('../../assets/image/check.svg') , pathname : '/ResultInfo'},
-  { text: '审批', icon: require('../../assets/image/approval.svg') , pathname : '/ResultInfo'},
+  { text: '验收', icon: require('../../assets/image/check.svg') , pathname : '/result'},
+  { text: '审批', icon: require('../../assets/image/approval.svg') , pathname : '/result'},
 ];
 const gridStorageData = [
-  { text: '我的订单', icon: require('../../assets/image/order.svg') , pathname : '/ResultInfo' },
-  { text: '我的送货单', icon: require('../../assets/image/delivery.svg') , pathname : '/Delivery'},
-  { text: '我的供应商', icon: require('../../assets/image/supplier.svg'), pathname : '/ResultInfo' },
-  { text: '我的产品', icon: require('../../assets/image/product.svg'), pathname : '/ResultInfo' },
-  { text: '我的发票', icon: require('../../assets/image/invoice.svg') , pathname : '/ResultInfo'},
-  { text: '审批管理', icon: require('../../assets/image/checkmgm.svg') , pathname : '/ResultInfo'},
-  { text: '意见反馈', icon: require('../../assets/image/feedback.svg'), pathname : '/ResultInfo' },
+  { text: '我的订单', icon: require('../../assets/image/order.svg') , pathname : '/result' },
+  { text: '我的送货单', icon: require('../../assets/image/delivery.svg') , pathname : '/delivery'},
+  { text: '我的供应商', icon: require('../../assets/image/supplier.svg'), pathname : '/result' },
+  { text: '我的产品', icon: require('../../assets/image/product.svg'), pathname : '/result' },
+  { text: '我的发票', icon: require('../../assets/image/invoice.svg') , pathname : '/result'},
+  { text: '审批管理', icon: require('../../assets/image/checkmgm.svg') , pathname : '/result'},
+  { text: '意见反馈', icon: require('../../assets/image/feedback.svg'), pathname : '/result' },
 ];
 
 const gridShebeiData = [
@@ -42,6 +42,7 @@ const gridShebeiData = [
 class Home extends PureComponent {
 
   handleGridClick = (el,index) => {
+   // console.log(this.props.history)
     this.props.history.push({pathname: el.pathname})
   }
   render() {

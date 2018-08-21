@@ -1,5 +1,5 @@
-import request from '../utils/request';
-import { _local } from '../api/local';
+import request from '../../utils/request';
+import { _local } from '../../api/local';
 
 //我的送货单列表
 export function mobileDeliveryList(options){

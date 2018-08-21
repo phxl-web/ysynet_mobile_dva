@@ -3,7 +3,7 @@ import { _local } from '../api/local'
 
 //登录
 export function login(options) {
-  return request(`${_local}login/userLogin`,{
+  return request(`${_local}/login/userLogin`,{
     methods: "POST",
     type: 'formData',
     body: options

@@ -2,18 +2,41 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:18:06 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-21 11:18:29
+ * @Last Modified time: 2018-08-21 16:43:58
  * 我的送货单页面
  */
 
 import React , { PureComponent } from 'react';
-import { NavBar,Icon,SearchBar,Card, Button} from 'antd-mobile';
+import { NavBar,Icon,SearchBar,Card, Button,Toast} from 'antd-mobile';
 import { connect } from 'dva';
 import styles from './style.css';
 class Delivery extends PureComponent{
-  //huo
+  state ={
+    rStorageGuid: "08497F2122BA411DA4A47DE133D4C353",
+    dataSource: []
+  }
+  
+  UNSAFE_componentWillMount = () =>{
+    this.getDeliveryList(this.state.rStorageGuid);
+  }
+  getDeliveryList = (value) =>{
+    this.props.dispatch({
+      type: 'delivery/mobileDeliveryList',
+      payload: { rStorageGuid: value ? value: '' },
+      callback: (data) => {
+        this.setState({ loading: false});
+        if(!data.rows){
+          Toast.fail("无数据",1)
+        }else{
+          this.setState( { dataSource : data.rows})
+        }
+      }
+    });
+  }
   render(){
+    console.log(this.state.dataSource)
     return (
+      
       <div className={styles.container}>
         <NavBar
           mode="dark"
@@ -50,4 +73,4 @@ class Delivery extends PureComponent{
   }
  }
 
- export default connect(state => state)(Delivery);
+ export default connect(state =>  state)(Delivery);

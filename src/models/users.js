@@ -1,6 +1,6 @@
 import *  as usersService from '../services/users';
 import  { Toast } from "antd-mobile";
-console.log('222')
+
 export default {
   namespace : 'users' ,
   state : {
@@ -21,12 +21,13 @@ export default {
     },
   },
   effects: {
-    *userLogin({ payload, callback },{ call }){
+    *userLogin({ payload, callback },{ call, put }){
       const data = yield call(usersService.login,payload);
       if(data.status){
-        if(callback) callback(data.result);
+        if(callback) callback(data);
+        yield put({ type: 'userInfo',payload: data.result })
       }else{
-        Toast.fail(data.msg || '登录获取用户信息失败!', 1);
+        Toast.fail(data.result.loginResult || '登录获取用户信息失败!', 1);
       }
     },
     *getUserInfo({ payload, callback },{ call }){

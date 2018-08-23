@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import { ListView, PullToRefresh } from 'antd-mobile';
 import promiseRequest from '../../utils/promise_request'
 
-const NUM_ROWS = 10;
+const NUM_ROWS = 50;
 let pageIndex = 0;
 
 class ListViewScroll extends PureComponent {
@@ -35,12 +35,14 @@ class ListViewScroll extends PureComponent {
       },
       type:'formData'
     });
+
     const data = promiseData.result.rows || promiseData.result;
     for (let i = 0; i < data.length ; i++) {
       dataArr.push(`row - ${(pIndex * NUM_ROWS) + i}`);
     }
     this.setState({ data: [ ...this.state.data, ...data] });
     return dataArr;
+    
   }
   componentDidUpdate() {
     document.body.style.overflow = 'hidden';
@@ -113,8 +115,8 @@ class ListViewScroll extends PureComponent {
         </div>)}
         renderRow={row}
         style={{
-          minHeight: '100vh',
-          height: this.state.height,
+          minHeight: 'calc(100vh - 80px)',
+
           border: '1px solid #ddd',
           margin: '5px 0',
           overflowX: 'hidden'

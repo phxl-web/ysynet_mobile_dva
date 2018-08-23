@@ -95,7 +95,7 @@ function getLayout(navData, path) {
 function RouterConfig({ history, app }) {
   const navData = getNavData(app);
   //const WorkplaceLayout = getLayout(navData, 'WorkplaceLayout').component;
-  const Home = getLayout(navData, 'Home').component;
+  const BasicLayout = getLayout(navData, 'BasicLayout').component;
   const passProps = {
     app,
     navData,
@@ -111,7 +111,7 @@ function RouterConfig({ history, app }) {
           <Route path="/login" component={Login}/>
           {/* <Route path="/home" component={Home}/> */}
           {/* <Route path="/app" render={props => <WorkplaceLayout {...props} {...passProps} />} /> */}
-          <Route path="/" render={props => <Home {...props} {...passProps} />} />
+          <Route path="/" render={props => <BasicLayout {...props} {...passProps} />} />
         </Switch>
       </Router>
 

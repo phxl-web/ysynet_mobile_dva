@@ -9,11 +9,17 @@ const dynamicWrapper = (app, models, component) => dynamic({
 
 export const getNavData = app => [
   {
-  component: dynamicWrapper(app, [], () => import('../routes/Home')),
-  layout: 'Home',
-  path: '/',
-  name: 'Home',
+    component: dynamicWrapper(app, [], () => import('../layouts/BasicLayout')),
+    layout: 'BasicLayout',
+    path: '/',
+    name: '工作台',
   children: [
+    {
+      name: "home",
+      icon: 'home',
+      path: '/home',
+      component: dynamicWrapper(app, [], () => import('../routes/Home'))
+    },
     {
       name: "建设中",
       icon: 'setting',
@@ -24,12 +30,12 @@ export const getNavData = app => [
       name: "我的送货单",
       icon: 'setting',
       path: '/delivery',
-      component: dynamicWrapper(app, [], () => import('../routes/Delivery'))
+      component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery'))
     },
     {
       name: "送货单信息",
       icon: 'setting',
-      path: '/deliveryInfo',
+      path: '/deliveryInfo/:sendId',
       component: dynamicWrapper(app, [], () => import('../routes/Delivery/deliveryInfo'))
     },
     {
@@ -41,20 +47,20 @@ export const getNavData = app => [
     {
       name: "送货单验收界面",
       icon: 'setting',
-      path: '/deliveryCheck',
-      component: dynamicWrapper(app, [], () => import('../routes/Delivery/deliveryCheck'))
+      path: '/deliveryCheck/:sendId',
+      component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/deliveryCheck'))
     },
     {
       name: "验收完成界面",
       icon: 'setting',
-      path: '/checkComplete',
-      component: dynamicWrapper(app, [], () => import('../routes/Delivery/checkComplete'))
+      path: '/checkComplete/:sendId',
+      component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/checkComplete'))
     },
     {
       name: "发表评价",
       icon: 'setting',
-      path: '/message',
-      component: dynamicWrapper(app, [], () => import('../routes/Delivery/message'))
+      path: '/message/:sendId',
+      component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/message'))
     },
     {
       name: "感谢评价",
@@ -63,7 +69,7 @@ export const getNavData = app => [
       component: dynamicWrapper(app, [], () => import('../routes/Delivery/thankMessage'))
     },
     {
-      name: "感谢评价",
+      name: "进度",
       icon: 'setting',
       path: '/deliveryProgress',
       component: dynamicWrapper(app, [], () => import('../routes/Delivery/deliveryProgress'))

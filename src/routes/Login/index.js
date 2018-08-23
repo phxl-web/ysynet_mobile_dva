@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:29:35 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-21 15:44:02
+ * @Last Modified time: 2018-08-22 14:58:50
  */
 
   
@@ -57,12 +57,12 @@ class Login extends PureComponent {
     const userInfo = {
       userNo: userName, 
       pwd: sha1(pwd),
-      token: 'vania'
+      token: 'vania',
     }
 
     this.props.dispatch({
       type: 'users/userLogin',
-      payload: userInfo,
+      payload: {...userInfo,rStorageGuid: "926ACEBC275F4806942DB9C7932D6C54"},
       callback: (data) => {
         this.setState({ loading: false});
         if(!data.result.userInfo){

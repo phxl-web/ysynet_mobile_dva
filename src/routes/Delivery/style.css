@@ -2,32 +2,48 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:29:18 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-21 14:18:03
+ * @Last Modified time: 2018-08-22 17:06:38
  */
  @import './../../common/reset.css';
 .container{
   background-color: #eee;
 }
 .infoContent{
-  height: calc(100vh - 85px);
+  height: calc(100vh - 40px);
   background-color: #fff;
   overflow: auto;
 }
 /* home页面进入的送货单列表界面 */
 .checkDeliveryBtn{
-  color: #26a2fa;
-  font-size: .12rem;
+  font-size: .14rem;
   height: .3rem;
   line-height: .3rem;
+  width: .9rem;
 }
 .messageDeliveryBtn{
-  color: green;
-  font-size: .12rem;
+  font-size: .14rem;
   height: .3rem;
   line-height: .3rem;
+  width: .9rem;
 }
 .listCardTitle{
   font-size: .18rem;
+}
+.listHeaderExtra{
+  font-size: .14rem;
+}
+.listDeliverNo{
+  font-size: .12rem;
+  color: #a0a0a0;
+}
+.listNum{
+  font-size: .14rem;
+  color: #1688e8;
+  line-height: .3rem;
+}
+.listProduct{
+  font-size: .14rem;
+  color: #838383;
 }
 .listPrice{
   position: absolute;
@@ -50,7 +66,7 @@
   font-weight: bolder
 }
 .infoRightBtn{
-  background-color: #26a2fa;
+  background-color: #1688e8;
   color: #fff;
 
 }
@@ -72,7 +88,56 @@
   border-top: 1px solid #eee;
 }
 
-
+/* 验收界面 */
+.listCheck{
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+.textAlignright{
+  text-align: right;
+}
+.titleInfo{
+  margin: 0.08rem 0;
+  font-size: .14rem;
+  font-weight: bolder;
+}
+.geName{
+  margin-left: 0;
+  padding-bottom: 0;
+}
+.checkInfo{
+  font-size: .12rem;
+  color: #666;
+  line-height: 24px;
+}
+.unitPriceTitle{
+  width: 60%;
+  display: inline-block;
+}
+.price{
+  color: #fc6621;
+  font-size: .16rem;
+  padding-left: .1rem;
+}
+.footCheckBtns{
+  margin-top: .1rem;
+  padding-top: .1rem;
+  padding-bottom: .1rem;
+  text-align: right;
+  border-top: 1px solid #eee;
+}
+.passBtn{
+  color: #26a2fa;
+}
+.noPassBtn{
+  color: #fc6621;
+  margin-left: .1rem;
+}
+.passBtn,.noPassBtn{
+  font-size: .14rem;
+  height: .35rem;
+  line-height: .35rem;
+}
 /* 无效的送货单 */
 .nullIcon{
   height: .6rem;
@@ -94,7 +159,7 @@
   color: #666;
 }
 .messageBtn{
-  color: #26a2fa;
+  color: #1688e8;
 }
 .goBtn{
   color: green;
@@ -107,6 +172,34 @@
   font-size: .14rem;
   height: .35rem;
   line-height: .35rem;
+}
+.checkPassIcon {
+  position: absolute;
+  top:10px;
+  right: 10px;
+  background-image: url("../../assets/image/icon_already_accepted.png");
+  background-size: 100px 90px;
+  height: 90px;
+  width: 100px;
+}
+.checkNoPassIcon {
+  position: absolute;
+  top:10px;
+  right: 10px;
+  background-image: url("../../assets/image/icon_rejection.png");
+  background-size: 100px 90px;
+  height: 90px;
+  width: 100px;
+}
+@media only screen and (-Webkit-min-device-pixel-ratio: 1.5),only screen and (-moz-min-device-pixel-ratio: 1.5),only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
+  .checkNoPassIcon {
+    background-image: url("../../assets/image/icon_rejection@2x.png");
+  }
+  .checkPassIcon{
+    background-image: url("../../assets/image/icon_already_accepted@2x.png");
+  }
+
 }
 /* 进度 */
 .progressBox{
@@ -121,7 +214,7 @@
 
 /* 评价 */
 .star {
-  font-size: 30px;
+  font-size: 24px;
 }
 
 .star label {

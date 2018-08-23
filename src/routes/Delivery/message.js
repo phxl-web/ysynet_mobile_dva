@@ -2,13 +2,14 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:20:41 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-21 14:33:45
+ * @Last Modified time: 2018-08-22 13:47:16
  * 发表评价
  */
 
 import React , { PureComponent } from 'react';
-import { TextareaItem, List ,Button } from 'antd-mobile';
+import { TextareaItem, List ,Button,Toast } from 'antd-mobile';
 import StarRatingComponent from 'react-star-rating-component';
+import { connect } from 'dva';
 import styles from './style.css'
 
 const Item = List.Item;
@@ -28,9 +29,19 @@ class Message extends PureComponent{
   handleClick = () => {
     this.setState({ loading: true})
     const { evaluateWords,score } = this.state;
-    console.log(evaluateWords,score);
-    this.setState({ loading: false})
+    const storageGuid = this.props.users.userInfo.rStorageGuid;
+    const sendId = this.props.match.params.sendId;
+    this.props.dispatch({
+      type: 'delivery/deliveryEvaluate',
+      payload: { storageGuid:storageGuid,sendId:sendId,evaluateWords:evaluateWords,score:score },
+      callback: (data) => {
+        this.setState({ loading: false});
+      }
+    })
+
   }
+
+
   render (){
     const { score } = this.state;
     return(
@@ -70,4 +81,4 @@ class Message extends PureComponent{
   }
 }
 
-export default Message;
+export default connect(state =>  state)(Message);

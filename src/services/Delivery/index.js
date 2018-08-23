@@ -12,7 +12,7 @@ export function mobileDeliveryList(options){
 
 //移动端扫码送货单查询
 export function mobileCheckDelivery(options){
-  return request(`${_local}/check/mobileCheckDelivery`,{
+  return request(`${_local}/delivery/mobileCheckDelivery`,{
     methods: 'POST',
     type: 'formData',
     body: options
@@ -29,8 +29,8 @@ export function deliveryDetialCheck(options){
 }
 
 //送货单验收通过
-export function deliveryThrough(options){
-  return request(`${_local}/check/deliveryThrough`,{
+export function mobileDeliveryThrough(options){
+  return request(`${_local}/check/mobileDeliveryThrough`,{
     methods: 'POST',
     type: 'formData',
     body: options
@@ -38,8 +38,8 @@ export function deliveryThrough(options){
 }
 
 //送货单验收不通过
-export function deliveryNotThrough(options){
-  return request(`${_local}/check/deliveryNotThrough`,{
+export function mobileDeliveryNotThrough(options){
+  return request(`${_local}/check/mobileDeliveryNotThrough`,{
     methods: 'POST',
     type: 'formData',
     body: options

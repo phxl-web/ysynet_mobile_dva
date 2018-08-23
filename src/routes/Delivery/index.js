@@ -2,72 +2,86 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:18:06 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-21 16:43:58
+ * @Last Modified time: 2018-08-22 14:24:25
  * 我的送货单页面
  */
 
 import React , { PureComponent } from 'react';
-import { NavBar,Icon,SearchBar,Card, Button,Toast} from 'antd-mobile';
+import { NavBar,Icon,SearchBar,Card, Button,Flex} from 'antd-mobile';
 import { connect } from 'dva';
+import ListViewScroll from '../../components/listViewScroll';
 import styles from './style.css';
+import { _local } from '../../api/local';
 class Delivery extends PureComponent{
-  state ={
-    rStorageGuid: "08497F2122BA411DA4A47DE133D4C353",
-    dataSource: []
+
+  //根据不同的状态只显示不同的字体颜色
+  handleFstateClass = (value) => {
+    switch (value){
+      case "80" :
+      return {color:'#03c28f'};
+      case "50" :
+      return {color:'#1688e8'};
+      default : 
+      return {color:'#666'};
+    }
   }
-  
-  UNSAFE_componentWillMount = () =>{
-    this.getDeliveryList(this.state.rStorageGuid);
+
+  handleFstateButtonClass = (value) => {
+    switch (value){
+      case "80" :
+      return {color:'#03c28f',border:'1px solid #03c28f'};
+      case "50" :
+      return {color:'#1688e8',border:'1px solid #1688e8'};
+      default : 
+      return {color:'#666',border:'1px solid #666',display:'none'};
+    }
   }
-  getDeliveryList = (value) =>{
-    this.props.dispatch({
-      type: 'delivery/mobileDeliveryList',
-      payload: { rStorageGuid: value ? value: '' },
-      callback: (data) => {
-        this.setState({ loading: false});
-        if(!data.rows){
-          Toast.fail("无数据",1)
-        }else{
-          this.setState( { dataSource : data.rows})
-        }
+
+  handleFstateButtonValue = (value) => {
+    switch (value){
+      case "80" :
+      return "评价";
+      case "50" :
+      return "验收通过";
+      default : 
+      return "不显示";
+    }
+  }
+
+  handleClick = (item) => {
+      if(item.fstate === "50"){
+
+      }else if(item.fstate === "80"){
+        this.props.history.push({pathname: `/message/:${item.sendId}`})
       }
-    });
   }
   render(){
-    console.log(this.state.dataSource)
+    const  rStorageGuid = this.props.users.userInfo.rStorageGuid;
     return (
-      
       <div className={styles.container}>
-        <NavBar
-          mode="dark"
-          leftContent={<Icon type="left"/>}
-          rightContent={
-            <span onClick={() => this.props.history.push({pathname:'/DeliveryInfo'})}>扫码</span>
-          }
-          onLeftClick={() => this.props.history.push({pathname:'/home'}) }
-        >我的送货单</NavBar>
-        <SearchBar placeholder="搜索" ref={ref => this.autoFocusInst = ref} />
-        <Card full style={{marginBottom:"10px"}}>
-          <Card.Header
-            title={<span className={styles.listCardTitle}>供应商名称</span>}
-            extra={<a>待验收</a>}
-          />
-          <Card.Body>
-            <div>Txxxxxx等32件产品 <span className={styles.listPrice}>¥:7600</span></div>
-          </Card.Body>
-          <Card.Footer  extra={ <Button type="default" inline className={styles.checkDeliveryBtn} style={{border:'1px solid #26a2fa'}} onClick={() => this.props.history.push({pathname:'/CheckComplete'})}>验收通过</Button>} />
-        </Card>
-        <Card full>
-          <Card.Header
-            title={<span className={styles.listCardTitle}>供应商名称</span>}
-            extra={<span>交易完成</span>}
-          />
-          <Card.Body>
-            <div>xxxxxx等32件产品<span className={styles.listPrice}>¥:7600</span></div>
-          </Card.Body>
-          <Card.Footer content={<span>收货数量：30</span>}  extra={<Button type="default" inline className={styles.messageDeliveryBtn} onClick={() => this.props.history.push({pathname:'/Message'})} style={{border:'1px solid green'}}>评价</Button>} />
-        </Card>
-
+        <Flex>
+          <Flex.Item style={{flex:8}}><SearchBar placeholder="搜索" ref={ref => this.autoFocusInst = ref}/></Flex.Item>
+          <Flex.Item><span onClick={() => this.props.history.push({pathname:'/DeliveryInfo/E250CD25C0B3473083E635D0816F821B'})}>扫码</span></Flex.Item>
+        </Flex>
+        <ListViewScroll
+          url={`${_local}/delivery/rMobileSearchDeliveryList`}
+          queryParams={{
+              rStorageGuid: rStorageGuid,
+          }}
+          item={item => {
+          return (<Card full style={{marginBottom:"10px"}}>
+                    <Card.Header
+                      title={<div><p className={styles.listCardTitle}>{item.rOrgName}</p><p className={styles.listDeliverNo}>{item.sendNo}</p></div>}
+                      extra={<span className={styles.listHeaderExtra} style={this.handleFstateClass(item.fstate)}>{item.sendFstate}</span>}
+                    />
+                    <Card.Body>
+                      <div><span className={styles.listProduct}>{item.detailNum}件产品</span> <span className={styles.listPrice}>¥:{item.totalPrice}</span></div>
+                    </Card.Body>
+                    <Card.Footer content={item.fstate === "80" ? <span  className={styles.listNum}>收货数量: {item.detailCheckNum}</span> : null}  extra={ <Button type="default" inline className={styles.checkDeliveryBtn} style={this.handleFstateButtonClass(item.fstate)} onClick={this.handleClick.bind(null,item)}>{this.handleFstateButtonValue(item.fstate)}</Button>} />
+                  </Card>
+          ) 
+          }}/>
+ 
       </div>
     )
   }

@@ -25,7 +25,7 @@ export default {
       const data = yield call(usersService.login,payload);
       if(data.status){
         if(callback) callback(data);
-        yield put({ type: 'userInfo',payload: data.result })
+        yield put({ type: 'userInfo',payload: {...data.result.userInfo,rStorageGuid: payload.rStorageGuid }})
       }else{
         Toast.fail(data.result.loginResult || '登录获取用户信息失败!', 1);
       }

@@ -72,7 +72,6 @@ export default {
     *uploadDeliveryImages({ payload, callback} , { call }){
       const data = yield call(deliveryService.uploadDeliveryImages,payload);
       if(data.status){
-        yield put( { type : 'mobileCheckDeliveryInfo',payload: data.result});
         if(callback) callback(data.result)
         Toast.success("保存图片成功")
       }else{

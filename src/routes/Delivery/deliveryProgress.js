@@ -2,12 +2,12 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:22:22 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-22 14:21:52
+ * @Last Modified time: 2018-08-24 09:16:11
  * 送货单进度
  */
 
  import React , { PureComponent } from 'react';
- import { NavBar, Icon, Steps } from 'antd-mobile';
+ import { Steps } from 'antd-mobile';
  import styles from './style.css';
  const Step = Steps.Step;
 

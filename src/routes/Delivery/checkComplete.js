@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:16:33 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-23 10:27:11
+ * @Last Modified time: 2018-08-24 09:25:04
  * 验收完成
  */
 
@@ -21,12 +21,12 @@
   }
 
   getMobileCheckDelivery = () => {
-    //const sendId = this.state.sendId;
-    //const storageGuid = this.props.users.userInfo.rStorageGuid;
+    const sendId = this.state.sendId;
+    const storageGuid = this.props.users.userInfo.rStorageGuid;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
-      //payload: { storageGuid: storageGuid,sendId: sendId},
-      payload: { storageGuid:"926ACEBC275F4806942DB9C7932D6C54",sendId:"E250CD25C0B3473083E635D0816F821B" },
+      payload: { storageGuid: storageGuid,sendId: sendId},
+      //payload: { storageGuid:"926ACEBC275F4806942DB9C7932D6C54",sendId:"E250CD25C0B3473083E635D0816F821B" },
       callback: (data) => {
         this.setState( { dataSource : data} )
         this.setState({ loading: false});
@@ -51,8 +51,8 @@
           <div className={styles.checkMessage}>
             <p>送货单号：{ dataSource.sendNo  }</p>
             <p>供应商：{ dataSource.fOrgName }</p>
-            <p>验收员：{ dataSource.lxr }</p>
-            <p>验收时间：{ dataSource.sendNo }</p>
+            <p>验收员：{ dataSource.checkUserName }</p>
+            <p>验收时间：{ dataSource.checkTime }</p>
           </div>
         }
         />

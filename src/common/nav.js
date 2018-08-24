@@ -77,14 +77,14 @@ export const getNavData = app => [
     {
       name: "送货单详情",
       icon: 'setting',
-      path: '/deliveryDetails',
-      component: dynamicWrapper(app, [], () => import('../routes/Delivery/deliveryDetails'))
+      path: '/deliveryDetails/:sendId',
+      component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/deliveryDetails'))
     },
     {
       name: "产品列表",
       icon: 'setting',
-      path: '/productList',
-      component: dynamicWrapper(app, [], () => import('../routes/Delivery/productList'))
+      path: '/productList/:sendId',
+      component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/productList'))
     },
   ]
 }];

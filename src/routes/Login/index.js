@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:29:35 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-22 14:58:50
+ * @Last Modified time: 2018-08-23 16:14:42
  */
 
   
@@ -59,10 +59,9 @@ class Login extends PureComponent {
       pwd: sha1(pwd),
       token: 'vania',
     }
-
     this.props.dispatch({
       type: 'users/userLogin',
-      payload: {...userInfo,rStorageGuid: "926ACEBC275F4806942DB9C7932D6C54"},
+      payload: userInfo,
       callback: (data) => {
         this.setState({ loading: false});
         if(!data.result.userInfo){
@@ -72,6 +71,8 @@ class Login extends PureComponent {
         }
       }
     })
+  
+   
   }
   render() {
     return (

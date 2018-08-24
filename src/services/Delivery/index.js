@@ -55,6 +55,15 @@ export function uploadDeliveryImages(options){
   })
 }
 
+//删除送货单附件图片
+export function deleteDeliveryImage(options){
+  return request(`${_local}/check/deleteDeliveryImage`,{
+    methods: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
+
 //送货单验收评价
 export function deliveryEvaluate(options){
   return request(`${_local}/check/deliveryEvaluate`,{

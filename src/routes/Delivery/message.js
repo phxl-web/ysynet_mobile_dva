@@ -2,12 +2,12 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:20:41 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-22 13:47:16
+ * @Last Modified time: 2018-08-24 11:30:40
  * 发表评价
  */
 
 import React , { PureComponent } from 'react';
-import { TextareaItem, List ,Button,Toast } from 'antd-mobile';
+import { TextareaItem, List ,Button } from 'antd-mobile';
 import StarRatingComponent from 'react-star-rating-component';
 import { connect } from 'dva';
 import styles from './style.css'
@@ -34,26 +34,18 @@ class Message extends PureComponent{
     this.props.dispatch({
       type: 'delivery/deliveryEvaluate',
       payload: { storageGuid:storageGuid,sendId:sendId,evaluateWords:evaluateWords,score:score },
-      callback: (data) => {
-        this.setState({ loading: false});
+      callback: () => {
+        this.setState({ loading: false}); 
       }
     })
-
   }
 
 
   render (){
     const { score } = this.state;
+    console.log(this.props)
     return(
       <div>
-        {/* <NavBar
-          mode="dark"
-          leftContent={<Icon type="left"/>}
-          rightContent={
-            <span onClick={() => this.props.history.push({pathname:'/ThankMessage'})}>发表</span>
-          }
-          onLeftClick={() => this.props.history.push({pathname:'/Delivery'}) }
-        >发表评价</NavBar> */}
         <TextareaItem
           rows={5}
           placeholder="请填写评价"

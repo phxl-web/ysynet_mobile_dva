@@ -2,19 +2,20 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 11:16:21 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-23 13:39:30
+ * @Last Modified time: 2018-08-24 12:03:45
  * 送货单验收界面
  */
 import React , { PureComponent } from 'react';
-import { NavBar, Icon, ImagePicker, Flex, Checkbox, Stepper ,Button} from 'antd-mobile';
+import { NavBar, ImagePicker, Flex, Checkbox, Stepper } from 'antd-mobile';
 import { connect } from 'dva';
 import { compressImage } from '../../utils';
+import { FTP } from '../../api/local';
 import styles from './style.css';
 const AgreeItem = Checkbox.AgreeItem;
 
 class DeliveryCheck extends PureComponent{
   state = {
-    val:3,
+    val:0,
     sendId: this.props.match.params.sendId,
     files: [], // 展示图片
     submitFiles:[], // 提交图片
@@ -23,7 +24,8 @@ class DeliveryCheck extends PureComponent{
     contentHeight: 'calc(100vh - 160px)' , //中间div高度
     productData : [],//产品列表
     dataSource: {} ,//送的货单明细
-    allChecked: false //控制全选
+    allChecked: false, //控制全选
+    urls: []
   };
 
   componentDidMount = () => {
@@ -31,14 +33,20 @@ class DeliveryCheck extends PureComponent{
   }
 
   getMobileCheckDelivery = () => {
-    //const sendId = this.state.sendId;
-    //const storageGuid = this.props.users.userInfo.rStorageGuid;
+    const { sendId } = this.state;
+    const storageGuid = this.props.users.userInfo.rStorageGuid;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
-      //payload: { storageGuid: storageGuid,sendId: sendId},
-      payload: { storageGuid:"926ACEBC275F4806942DB9C7932D6C54",sendId:"E250CD25C0B3473083E635D0816F821B" },
+      payload: { storageGuid: storageGuid,sendId: sendId},
+      //payload: { storageGuid:"926ACEBC275F4806942DB9C7932D6C54",sendId:"E250CD25C0B3473083E635D0816F821B" },
       callback: (data) => {
-        this.setState( { dataSource : data, productData: data.detials} )
+        const  filePaths  = [];
+        if(data.deliveryCheckImages.length > 0 ){
+            data.deliveryCheckImages.map((item,index) => {
+             return filePaths.push({ url: FTP+`${item}`,id:index})
+            })
+        }
+        this.setState( { dataSource : data, productData: data.detials,files: filePaths,urls:data.deliveryCheckImages} )
         this.setState({ loading: false});
       }
     })
@@ -47,41 +55,39 @@ class DeliveryCheck extends PureComponent{
   //图片更新
   imageUpdate = (files, type, index) => {
     const len = files.length - 1;
-    const { submitFiles } = this.state;
-    console.log(submitFiles,'submitFiles')
+    const { submitFiles, urls,sendId } = this.state;
     if (type === 'add') {
       compressImage(files[len], newImgData => {
         this.props.dispatch({
           type: 'delivery/uploadDeliveryImages',
-          //payload: { tfAccessory: newImgData,sendId: sendId},
-          payload: { tfAccessory:newImgData,sendId:"E250CD25C0B3473083E635D0816F821B" },
+          payload: { tfAccessory: newImgData,sendId: sendId},
           callback: (data) => {
-            files[len].tfAccessory = data.result;
-             this.setState({ files, submitFiles: [...submitFiles, newImgData]});
+            urls.push(data.result);
+            this.setState({ files, submitFiles: [...submitFiles, newImgData]});
+             
           }
-        })
+       })
       })
     } else {
-  
-      submitFiles.splice(index, 1);
-
-      // this.props.dispatch({
-      //   type: 'delivery/uploadDeliveryImages',
-      //   //payload: { tfAccessory: newImgData,sendId: sendId},
-      //   payload: { tfAccessory:newImgData,sendId:"E250CD25C0B3473083E635D0816F821B" },
-      //   callback: (data) => {
-      //   }
-      // })
-      this.setState({ files, submitFiles: submitFiles});
+      const filePath = `${urls[index]}`;
+      this.props.dispatch({
+        type: 'delivery/deleteDeliveryImage',
+        payload: { filePath: filePath,sendId: sendId},
+        callback: () => {
+          submitFiles.splice(index, 1);
+          urls.splice(index, 1);
+          this.setState({ files, submitFiles: submitFiles, urls });
+        }
+      })
+      
     }
-   
   } 
   //处理每条产品选中状态
   handleDefaultCheckedProduct = (value) =>{
-    const  defaultChecked = value === 1 ? true : false;
-
+    const  defaultChecked = value > 0 ? true : false;
     return defaultChecked
   }
+
   //点击全选，显示验收通过/不通过按钮
   handleAllSelect = (e) => {
     if(e.target.checked)
@@ -102,23 +108,25 @@ class DeliveryCheck extends PureComponent{
   handleDeliverDetialCheck = (storageGuid,sendDetailGuid,checkAmount) => {
     this.props.dispatch({
       type: 'delivery/deliveryDetialCheck',
-      //payload: { storageGuid: storageGuid,sendId: sendId},
       payload: { storageGuid: storageGuid,sendDetailGuid: sendDetailGuid,checkAmount: checkAmount },
-      callback: (data) => {
-        console.log(data)
-        this.setState( { dataSource : data, productData: data.detials} )
+      callback: () => {
+        this.getMobileCheckDelivery();
       }
     })
   }
   //验收产品数量改为0的时候要取消选中
-  onChange = (val) => {
-    // console.log(val);
-    this.setState({ val });
+  onChange = (item,val) => {
+    this.setState({ val: val})
+    if(item.checkfstate > 0){
+      console.log(`item:${item},val:${val}` );
+      const storageGuid = this.props.users.userInfo.rStorageGuid;
+      const sendDetailGuid = item.sendDetailGuid;
+      this.handleDeliverDetialCheck(storageGuid,sendDetailGuid,val)
+    }
   }
   //产品第一次验收的时候选中调用接口  取消传数量为0
   handleCheckBoxChange = (item,e) => {
-    //const storageGuid = this.props.users.userInfo.rStorageGuid;
-    const storageGuid = "926ACEBC275F4806942DB9C7932D6C54";
+    const storageGuid = this.props.users.userInfo.rStorageGuid;
     const sendDetailGuid = item.sendDetailGuid;
     if(e.target.checked){
       const checkAmount = this.state.val;
@@ -129,15 +137,14 @@ class DeliveryCheck extends PureComponent{
   }
   
   handleCheck = (type) => {
-     // const storageGuid = this.props.users.userInfo.rStorageGuid;
+     const storageGuid = this.props.users.userInfo.rStorageGuid;
      const sendIds = [],productData = this.state.productData;
      productData.map((item,index) => {
        return sendIds.push(item.sendId);
      })
      this.props.dispatch({
        type: type,
-       //payload: { storageGuid: storageGuid,sendId: sendIds},
-       payload: { storageGuid:"926ACEBC275F4806942DB9C7932D6C54",sendIds: sendIds},
+       payload: { storageGuid: storageGuid,sendId: sendIds},
        callback: () => {
          this.getMobileCheckDelivery();
        }
@@ -158,12 +165,13 @@ class DeliveryCheck extends PureComponent{
   render (){
     const { files } = this.state;
     const { productData, dataSource,allChecked } = this.state;
+    const userId = this.props.users.userInfo.userId;
     return (
       <div className={styles.container}>
            <NavBar
             mode="dark"
             rightContent={
-              <span onClick={() => this.props.history.push({pathname:'/DeliveryInfo'})}>扫码</span>
+              <span onClick={() => this.props.history.push({pathname:`http://hucdwb.natappfree.cc/meqm/test/mobileScanQrcode?userId=${userId}`})}>扫码</span>
             }
           ></NavBar>
           <div className={styles.checkContent} style={{height:this.state.contentHeight}}>
@@ -176,24 +184,24 @@ class DeliveryCheck extends PureComponent{
                         <div className={styles.checkInfo}>
                           型号: { item.spec }<br />
                           规格: { item.fmodel }<br />
-                          采购单位: { item.tenderUnit }<br />
+                          采购单位: { item.purchaseUnit }<br />
                           包装规格:{ item.tfPacking } <br/>
                           生产批号: { item.flot }<br />
                           证件效期: { item.registerFirstLast }<br />
-                          生产日期: { item.usefulDate }<br />
+                          生产日期: { item.prodDate }<br />
                           产品效期:{ item.usefulDate }
-                          <p className={styles.textAlignright}>总价: {item.tenderPrice}</p>
+                          <p className={styles.textAlignright}>总价: {item.amountMoney}</p>
                         </div>
                         <div>
-                          <div className={styles.unitPriceTitle}><span>单价(¥):</span><span className={styles.tenderPrice}>{ item.amountMoney }</span></div>
+                          <div className={styles.unitPriceTitle}><span>单价(¥):</span><span className={styles.purchasePrice}>{ item.amountMoney }</span></div>
                           <Stepper
                           style={{ width: '40%', minWidth: '100px', }}
                           showNumber
-                          max={item.amount}
+                          max={item.checkfstate}
                           min={1}
                           readOnly={false}
-                          defaultValue={item.amount}
-                          onChange={this.onChange}
+                          defaultValue={item.checkfstate}
+                          onChange={this.onChange.bind(null,item)}
                           />
                       </div>
                   </div>

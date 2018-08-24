@@ -115,7 +115,7 @@ class ListViewScroll extends PureComponent {
         </div>)}
         renderRow={row}
         style={{
-          minHeight: 'calc(100vh - 80px)',
+          minHeight: 'calc(100vh - 5px)',
 
           border: '1px solid #ddd',
           margin: '5px 0',

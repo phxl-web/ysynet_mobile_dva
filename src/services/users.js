@@ -27,3 +27,12 @@ export function getUserM(options){
     body: options
   })
 }
+
+//获取库房
+export function getStorages(options){
+  return request(`${_local}/storage/findTopStorageByUser`,{
+    methods: "POST",
+    type: 'formData',
+    body: options
+  })
+}

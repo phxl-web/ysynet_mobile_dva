@@ -2,11 +2,11 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 10:11:16 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-23 10:23:52
+ * @Last Modified time: 2018-08-24 09:20:55
  * 送货单信息页面
  */
 import React , { PureComponent } from 'react';
-import { NavBar, Icon, List, Flex } from 'antd-mobile';
+import { Icon,List, Flex } from 'antd-mobile';
 import { connect } from 'dva';
 import styles from './style.css';
 const Item = List.Item;
@@ -21,8 +21,7 @@ class DeliveryInfo extends PureComponent{
     const storageGuid = this.props.users.userInfo.rStorageGuid;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
-      //payload: { storageGuid: storageGuid,sendId: sendId},
-      payload: { storageGuid:"926ACEBC275F4806942DB9C7932D6C54",sendId:"E250CD25C0B3473083E635D0816F821B" },
+      payload: { storageGuid: storageGuid,sendId: sendId},
       callback: (data) => {
         this.setState( { data : data} )
         this.setState({ loading: false});
@@ -38,16 +37,15 @@ class DeliveryInfo extends PureComponent{
 
   render (){
     const { data } = this.state;
-    console.log(data,'data')
     return (
       <div className={styles.container}>
           <div className={styles.infoContent}>
             <Item>单号:{data.sendNo}</Item>
             <Item extra={<Icon type="right"/>} onClick={() => this.props.history.push({pathname:`/deliveryProgress`})}>状态:{data.sendFstate}</Item>
-            <Item>创建人:{data.sendUsername}</Item>
+            <Item>创建人:{data.sendUserName}</Item>
             <Item>创建时间:{data.sendDate}</Item>
             <Item>订单号:{data.orderNo}</Item>
-            <Item>验收/送货单总金额:{data.checkTotalPrice}/{data.totalPrice}</Item>
+            <Item>送货单总金额:{data.totalPrice}</Item>
             <Item>产品数量:{data.detailNum}</Item>
             <Item>收货人:{data.lxr}</Item>
             <Item>收货人联系方式:{data.lxdh}</Item>

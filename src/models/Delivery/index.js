@@ -7,18 +7,6 @@ export default {
     deliveryList: []
   },
   reducers: {
-    // mobileCheckDeliveryInfo(state,action){
-    //   return {
-    //     ...state,
-    //     mobileCheckDeliveryInfo: action.payload
-    //   }
-    // }
-    // uploadDeliveryImagesInfo(state,action){
-    //   return {
-    //     ...state,
-    //     uploadDeliveryImagesInfo: ction.payload
-    //   }
-    // }
   },
   effects: {
     *mobileDeliveryList({ payload, callback},{ call }){
@@ -33,7 +21,6 @@ export default {
       const data = yield call(deliveryService.mobileCheckDelivery,payload);
       if(data.status){
         if(callback) callback(data.result)
-       // yield put( { type : 'mobileCheckDeliveryInfo',payload: data.result});
       }else{
         Toast.fail(data.msg || "获取信息失败")
       }
@@ -72,8 +59,18 @@ export default {
     *uploadDeliveryImages({ payload, callback} , { call }){
       const data = yield call(deliveryService.uploadDeliveryImages,payload);
       if(data.status){
-        if(callback) callback(data.result)
+        if(callback) callback(data)
         Toast.success("保存图片成功")
+      }else{
+        Toast.fail(data.msg || "操作失败 ")
+      }
+     
+    },
+    *deleteDeliveryImage({ payload, callback} , { call }){
+      const data = yield call(deliveryService.deleteDeliveryImage,payload);
+      if(data.status){
+        if(callback) callback()
+        Toast.success("删除图片成功")
       }else{
         Toast.fail(data.msg || "操作失败 ")
       }

@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:29:18 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-24 18:05:49
+ * @Last Modified time: 2018-08-27 16:29:04
  */
  @import './../../common/reset.css';
 .container{
@@ -240,23 +240,43 @@ only screen and (min-device-pixel-ratio: 1.5) {
 }
 
 /* 送货单详情 */
-.detailTitle{
+.detailfiled65{
   color: rgba(0, 0, 0, 65%);
   font-size: .16rem;
+  font-weight: bolder
 }
 .detailBrief{
   color: rgba(0, 0, 0, 45%);
   font-size: .14rem;
 }
-.detailAddress{
+.detailfiled14{
   color: rgba(0, 0, 0, 65%);
   font-size: .14rem;
+  font-weight: bolder
 }
 .detailSendNo{
   color: #1890ff;
   font-size: .16rem;
+  font-weight: bolder;
 }
 .detailUnit{
-  
+  font-size: .14rem;
+  color: rgba(0, 0, 0, 65%);
+  font-weight: bolder;
 }
+
+.detailsLeftBtn,.detailsRightBtn{
+  text-align: center;
+  display: block;
+  width: 100%;
+  font-weight: bolder;
+  height: .35rem;
+  line-height: .35rem;
+}
+.detailsRightBtn{
+  background-color:#1688e8;
+  color: #fff;
+
+}
+
 

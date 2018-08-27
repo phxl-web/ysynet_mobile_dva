@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:18:06 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-27 10:00:04
+ * @Last Modified time: 2018-08-27 15:55:12
  * 我的送货单页面
  */
 
@@ -86,7 +86,7 @@ class Delivery extends PureComponent{
   render(){
     const  rStorageGuid = this.props.users.userInfo.rStorageGuid;
     const userId = this.props.users.userInfo.userId;
-    const { searchName } = this.props;
+    const { searchName } = this.state;
     return (
       <div className={styles.container}>
         <Flex>
@@ -96,14 +96,15 @@ class Delivery extends PureComponent{
               onChange={value =>this.setState({ searchName: value })}
               ref={ref => this.autoFocusInst = ref}
               onSubmit={value => {
+                console.log(111)
                 document.querySelector('.am-list-view-scrollview').scrollTo(0, 0);
                 this.setState({ searchName: value })
               }}
             />
           </Flex.Item>
           <Flex.Item>
-            {<span onClick={() => window.location.href= `http://zzy6gz.natappfree.cc/meqm/test/mobileScanQrcode?userId=${userId}`}>扫码</span>}
-            {/* <span onClick={() =>  this.props.history.push({pathname:`/deliveryInfo/2331432745D14FC68C7D1CD6D566A2F6`})}>扫码</span> */}
+             {<span onClick={() => window.location.href= `http://zzy6gz.natappfree.cc/meqm/test/mobileScanQrcode?userId=${userId}`}>扫码</span>} 
+            {/* {<span onClick={() =>  this.props.history.push({pathname:`/deliveryInfo/32E67F0B75944C8CB124BA2E898CACFF`})}>扫码</span>} */}
           </Flex.Item>
         </Flex>
         <ListViewScroll

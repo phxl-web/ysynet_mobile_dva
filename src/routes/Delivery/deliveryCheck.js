@@ -2,11 +2,11 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 11:16:21 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-27 09:31:24
+ * @Last Modified time: 2018-08-27 16:41:01
  * 送货单验收界面
  */
 import React , { PureComponent } from 'react';
-import { NavBar, ImagePicker, Flex, Checkbox, Stepper } from 'antd-mobile';
+import { NavBar, ImagePicker, Flex, Checkbox, Stepper,Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import { compressImage } from '../../utils';
 import { FTP } from '../../api/local';
@@ -65,7 +65,6 @@ class DeliveryCheck extends PureComponent{
           callback: (data) => {
             urls.push(data.result);
             this.setState({ files, submitFiles: [...submitFiles, newImgData]});
-           console.log(1)
              
           }
        })
@@ -92,6 +91,15 @@ class DeliveryCheck extends PureComponent{
 
   //点击全选，显示验收通过/不通过按钮
   handleAllSelect = (e) => {
+    // //判断是否有0的数据
+    // const productData = this.state.productData;
+    // productData.map((item,index) => {
+    //   if(item.amount === 0){
+    //     Toast.info("存在送货单为0的数据，不能全选",5)
+    //   }
+    // })
+   
+
     if(e.target.checked)
     {
       this.setState({
@@ -106,6 +114,7 @@ class DeliveryCheck extends PureComponent{
         contentHeight: "calc(100vh - 160px)"
       })
     }
+ 
   }
   handleDeliverDetialCheck = (storageGuid,sendDetailGuid,checkAmount) => {
     this.props.dispatch({
@@ -146,8 +155,9 @@ class DeliveryCheck extends PureComponent{
      })
      this.props.dispatch({
        type: type,
-       payload: { storageGuid: storageGuid,sendId: sendIds},
+       payload: { storageGuid: storageGuid,sendIds: sendIds},
        callback: () => {
+          this.props.history.push({pathname:`/CheckComplete/${this.state.sendId}`});
          this.getMobileCheckDelivery();
        }
      })
@@ -156,12 +166,10 @@ class DeliveryCheck extends PureComponent{
   //验收通过
   handleDeliveryThrough = (item) =>{
    this.handleCheck('delivery/mobileDeliveryThrough');
-   this.props.history.push({pathname:`/CheckComplete/${this.state.sendId}`});
   }
   //验收不通过
   handleDeliveryNotThrough = (item) =>{
     this.handleCheck('delivery/mobileDeliveryNotThrough');
-    this.props.history.push({pathname:`/CheckComplete/${this.state.sendId}`});
   }
 
   render (){
@@ -173,7 +181,7 @@ class DeliveryCheck extends PureComponent{
            <NavBar
             mode="dark"
             rightContent={
-             <span onClick={() => window.location.href= `http://zzy6gz.natappfree.cc/meqm/test/mobileScanQrcode?userId=${userId}`}>扫码</span>
+               <span onClick={() => window.location.href= `http://zzy6gz.natappfree.cc/meqm/test/mobileScanQrcode?userId=${userId}`}>扫码</span>
             }
           ></NavBar>
           <div className={styles.checkContent} style={{height:this.state.contentHeight}}>
@@ -208,7 +216,7 @@ class DeliveryCheck extends PureComponent{
                           style={{ width: '40%', minWidth: '100px', }}
                           showNumber
                           max={item.checkfstate}
-                          min={1}
+                          min={0}
                           readOnly={false}
                           defaultValue={item.checkfstate}
                           onChange={this.onChange.bind(null,item)}

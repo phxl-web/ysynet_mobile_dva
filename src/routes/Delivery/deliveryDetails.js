@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:22:50 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-27 10:00:02
+ * @Last Modified time: 2018-08-27 16:24:30
  * 送货单详情
  */
 import React , { PureComponent } from 'react';
@@ -56,18 +56,18 @@ class DeliveryDetails extends PureComponent{
       <div className={styles.container}>
         <List>
           <Item>
-             <span className={styles.detailTitle}> { dataSource.sendFstate }</span>
-            <Brief style={styles.detailBrief}>{dataSource.sendDate}</Brief>
+             <span className={styles.detailfiled65}> { dataSource.sendFstate }</span>
+            <Brief className={styles.detailBrief}>{dataSource.sendDate}</Brief>
           </Item>
-          <Item extra={ <span style={styles.detailAddress}>{dataSource.lxdh}</span>}>
-           <span style={styles.detailAddress}> 收货人：{dataSource.lxr} </span>
-          </Item>
-          <Item>
-            <span style={styles.detailAddress}>收货地址：{dataSource.tfAddress}</span>
+          <Item extra={ <span className={styles.detailfiled14}>{dataSource.lxdh}</span>}>
+           <span className={styles.detailfiled14}> 收货人：{dataSource.lxr} </span>
           </Item>
           <Item>
-            {dataSource.sendNo} 
-            <Brief style={styles.detailBrief}>{dataSource.fOrgName}</Brief>
+            <span className={styles.detailfiled14}>收货地址：{dataSource.tfAddress}</span>
+          </Item>
+          <Item>
+          <span className={styles.detailSendNo}> {dataSource.sendNo} </span>
+            <Brief><span className={styles.detailBrief}>{dataSource.fOrgName}</span></Brief>
           </Item>
         </List>
           <List style={{marginTop:'5px'}}>
@@ -75,8 +75,8 @@ class DeliveryDetails extends PureComponent{
               productData.map((item,index) =>{
   
                  return <Item extra={<div><span className={styles.Brief}>{item.amount}</span>
-                 <span className={styles.detailAddress}>{item.purchaseUnit}</span></div>} key={index}>
-                    <span className={styles.detailTitle}></span> {item.geName}
+                 <span className={styles.detailUnit}>{item.purchaseUnit}</span></div>} key={index}>
+                    <span className={styles.detailfiled65}>{item.materialName}</span> 
                   <Brief className={styles.detailBrief}>{item.spec}/{item.fmodel}</Brief>     
                 </Item>
               })
@@ -86,11 +86,11 @@ class DeliveryDetails extends PureComponent{
             </Item>
           </List>
         <List style={{marginTop:'5px'}}>
-          <Item extra={dataSource.evaluateValue}>
-           评价
+          <Item extra={<span className={styles.detailfiled65}>{dataSource.evaluateValue}</span>}>
+          <span className={styles.detailfiled65}>评价</span>
           </Item>
           <Item >
-           {dataSource.evaluate}
+           <span className={styles.detailBrief}> {dataSource.evaluate}</span>
           </Item>
           <Item >
             {
@@ -106,22 +106,23 @@ class DeliveryDetails extends PureComponent{
         </List>
         <List style={{marginTop:'5px'}}>
           <Item>
-            订单号:{dataSource.orderNo}
+           <span className={styles.detailfiled14}>订单号:{dataSource.orderNo}</span> 
           </Item>
           <Item >
-            创建时间：{dataSource.sendDate}
+            <span className={styles.detailfiled14}> 创建时间：{dataSource.sendDate}</span> 
           </Item>
           <Item >
-            创建人：{dataSource.sendUsername}
+            <span className={styles.detailfiled14}>创建人：{dataSource.sendUsername}</span> 
           </Item>
           <Item extra={dataSource.totalPrice}>
-            验收/送货总金额
+            <span className={styles.detailfiled14}>验收/送货总金额</span> 
+          
           </Item>
         </List>
         <div className={styles.infoFooter}>
           <Flex>
-            <Flex.Item><span className={styles.infoLeftBtn} onClick={() => this.props.history.push({pathname:'/result'})}>联系供应商</span></Flex.Item>
-            <Flex.Item><span className={styles.infoRightBtn} onClick={() => this.props.history.push({pathname:`/message/${this.state.sendId}`})}>评价</span></Flex.Item>
+            <Flex.Item><span className={styles.detailsLeftBtn} onClick={() => this.props.history.push({pathname:'/result'})}>联系供应商</span></Flex.Item>
+            <Flex.Item><span className={styles.detailsRightBtn} onClick={() => this.props.history.push({pathname:`/message/${this.state.sendId}`})}>评价</span></Flex.Item>
           </Flex>
           </div>
       </div>

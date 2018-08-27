@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:29:18 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-27 16:29:04
+ * @Last Modified time: 2018-08-27 17:05:36
  */
  @import './../../common/reset.css';
 .container{
@@ -243,7 +243,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .detailfiled65{
   color: rgba(0, 0, 0, 65%);
   font-size: .16rem;
-  font-weight: bolder
+  font-weight: bold;
 }
 .detailBrief{
   color: rgba(0, 0, 0, 45%);
@@ -252,24 +252,24 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .detailfiled14{
   color: rgba(0, 0, 0, 65%);
   font-size: .14rem;
-  font-weight: bolder
+  font-weight: bold;
 }
 .detailSendNo{
   color: #1890ff;
   font-size: .16rem;
-  font-weight: bolder;
+  font-weight: bold;
 }
 .detailUnit{
   font-size: .14rem;
   color: rgba(0, 0, 0, 65%);
-  font-weight: bolder;
+  font-weight: bold;
 }
 
 .detailsLeftBtn,.detailsRightBtn{
   text-align: center;
   display: block;
   width: 100%;
-  font-weight: bolder;
+  font-weight: bold;
   height: .35rem;
   line-height: .35rem;
 }

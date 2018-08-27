@@ -2,12 +2,13 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:21:21 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-27 09:45:12
+ * @Last Modified time: 2018-08-27 17:38:35
  * 感谢评价
  */
 
 import React , { PureComponent } from 'react';
 import { Result, Button } from 'antd-mobile';
+import { connect } from 'dva';
 import styles from './style.css';
 
 class ThankMessage extends PureComponent{
@@ -26,4 +27,4 @@ class ThankMessage extends PureComponent{
   }
 }
 
-export default ThankMessage;
+export default connect(state =>  state)(ThankMessage);

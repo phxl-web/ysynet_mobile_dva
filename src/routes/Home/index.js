@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-27 09:44:20
+ * @Last Modified time: 2018-08-27 17:02:18
  * 主页
  */
 
@@ -64,11 +64,12 @@ class Home extends PureComponent {
   }
 
   render() {
+    const userInfo = this.props.users.userInfo;
     const { tabs } = this.state;
     return (
       <div className={styles.container}>
         <div className={styles.top}>
-          <Profile title='美丽的Vania' extra='萌萌的拖鞋酱' tag='达纳苏斯' onRightClick={() => alert('go right')}/>
+          <Profile title={userInfo.orgName} extra={userInfo.userName} tag={userInfo.jobNum} onRightClick={() => alert('go right')}/>
         </div>
         <div className={styles.titleBox}>
             <span className={styles.title}>我的待办</span>

@@ -2,11 +2,11 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 11:16:21 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-27 16:41:01
+ * @Last Modified time: 2018-08-27 17:39:09
  * 送货单验收界面
  */
 import React , { PureComponent } from 'react';
-import { NavBar, ImagePicker, Flex, Checkbox, Stepper,Toast } from 'antd-mobile';
+import { NavBar, ImagePicker, Flex, Checkbox, Stepper } from 'antd-mobile';
 import { connect } from 'dva';
 import { compressImage } from '../../utils';
 import { FTP } from '../../api/local';

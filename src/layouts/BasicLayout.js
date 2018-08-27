@@ -22,7 +22,7 @@ class BasicLayout extends PureComponent {
               )
             )
           }
-          <Route component={() => <div>404</div>} />
+          <Route component={() => import('../routes/Result')} />
         </Switch>
       </div>  
     )

@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:21:21 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-24 09:15:59
+ * @Last Modified time: 2018-08-27 09:45:12
  * 感谢评价
  */
 
@@ -19,7 +19,7 @@ class ThankMessage extends PureComponent{
         title="感谢评价"
         />
         <div className={styles.checkBtns}>
-          <Button type="primary" inline onClick={() => this.props.history.push({pathname:'/Delivery'})}>继续验收</Button>
+          <Button type="primary" inline onClick={() => this.props.history.push({pathname:`/Delivery`})}>继续验收</Button>
         </div>
       </div>
     )

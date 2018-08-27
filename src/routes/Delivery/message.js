@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:20:41 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-24 11:30:40
+ * @Last Modified time: 2018-08-27 09:40:03
  * 发表评价
  */
 
@@ -36,6 +36,7 @@ class Message extends PureComponent{
       payload: { storageGuid:storageGuid,sendId:sendId,evaluateWords:evaluateWords,score:score },
       callback: () => {
         this.setState({ loading: false}); 
+        this.props.history.push({pathname:`/thankMessage`});
       }
     })
   }

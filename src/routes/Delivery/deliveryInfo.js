@@ -2,13 +2,15 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 10:11:16 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-24 09:20:55
+ * @Last Modified time: 2018-08-27 09:04:13
  * 送货单信息页面
  */
 import React , { PureComponent } from 'react';
 import { Icon,List, Flex } from 'antd-mobile';
 import { connect } from 'dva';
 import styles from './style.css';
+import { _local } from '../../api/local';
+import querystring from 'querystring';
 const Item = List.Item;
 
 class DeliveryInfo extends PureComponent{
@@ -16,24 +18,29 @@ class DeliveryInfo extends PureComponent{
     sendId: this.props.match.params.sendId,
     data: {}
   }
-  componentDidMount = () => {
+   componentDidMount() {
     const sendId = this.state.sendId;
-    const storageGuid = this.props.users.userInfo.rStorageGuid;
-    this.props.dispatch({
-      type: 'delivery/mobileCheckDelivery',
-      payload: { storageGuid: storageGuid,sendId: sendId},
-      callback: (data) => {
-        this.setState( { data : data} )
-        this.setState({ loading: false});
+    fetch(`${_local}/delivery/mobileCheckDelivery`,{
+      method: 'post',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: querystring.stringify({sendId: sendId})
+    }).then(res => res.json())
+      .then((data) => {
+        console.log(data.result)
+         this.setState( { data : data.result} )
       }
-    })
+    )
   }
 
   //开始验收按钮
   handleClickCheck = () => {
-    
     this.props.history.push({pathname:`/DeliveryCheck/${this.state.sendId}`});
   }
+
 
   render (){
     const { data } = this.state;

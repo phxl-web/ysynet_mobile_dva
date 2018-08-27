@@ -2,12 +2,13 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:22:50 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-24 09:24:45
+ * @Last Modified time: 2018-08-27 10:00:02
  * 送货单详情
  */
 import React , { PureComponent } from 'react';
-import {  List,Flex } from 'antd-mobile';
+import {  List,Flex ,ImagePicker} from 'antd-mobile';
 import { connect } from 'dva';
+import { FTP } from '../../api/local';
 import styles from './style.css';
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -16,10 +17,14 @@ class DeliveryDetails extends PureComponent{
     sendId: this.props.match.params.sendId,
     productData : [],//产品列表
     dataSource: {} ,//送的货单明细
+    files: []
   }
   
   componentDidMount = () => {
     this.getMobileCheckDelivery();
+  }
+  componentDidUpdate() {
+    document.body.style.overflow = 'auto';
   }
   
   getMobileCheckDelivery = () => {
@@ -28,9 +33,14 @@ class DeliveryDetails extends PureComponent{
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
       payload: { storageGuid: storageGuid,sendId: sendId},
-      //payload: { storageGuid:"926ACEBC275F4806942DB9C7932D6C54",sendId:"E250CD25C0B3473083E635D0816F821B" },
       callback: (data) => {
-        this.setState( { dataSource : data, productData: data.detials} )
+        const  filePaths  = [];
+        if(data.deliveryCheckImages){
+            data.deliveryCheckImages.map((item,index) => {
+             return filePaths.push({ url: FTP+`${item}`,id:index})
+            })
+        }
+        this.setState( { dataSource : data, productData: data.detials,files: filePaths,} )
         this.setState({ loading: false});
       }
     })
@@ -41,49 +51,57 @@ class DeliveryDetails extends PureComponent{
   }
 
   render(){
-    const { productData ,dataSource } = this.state;
+    const { productData ,dataSource,files } = this.state;
     return(
       <div className={styles.container}>
         <List>
           <Item>
-            {dataSource.sendFstate} 
-            <Brief>{dataSource.sendDate}</Brief>
+             <span className={styles.detailTitle}> { dataSource.sendFstate }</span>
+            <Brief style={styles.detailBrief}>{dataSource.sendDate}</Brief>
           </Item>
-          <Item extra={dataSource.lxdh}>
-            收货人：{dataSource.lxr} 
+          <Item extra={ <span style={styles.detailAddress}>{dataSource.lxdh}</span>}>
+           <span style={styles.detailAddress}> 收货人：{dataSource.lxr} </span>
           </Item>
           <Item>
-          收货地址：{dataSource.tfAddress}
+            <span style={styles.detailAddress}>收货地址：{dataSource.tfAddress}</span>
           </Item>
           <Item>
             {dataSource.sendNo} 
-            <Brief>{dataSource.fOrgName}</Brief>
+            <Brief style={styles.detailBrief}>{dataSource.fOrgName}</Brief>
           </Item>
         </List>
           <List style={{marginTop:'5px'}}>
             {
               productData.map((item,index) =>{
   
-                 return <Item extra={`${item.amount}${item.tenderUnit}`} key={index}>
-                    {item.geName}
-                  <Brief>{item.spec}/{item.fmodel}</Brief>     
+                 return <Item extra={<div><span className={styles.Brief}>{item.amount}</span>
+                 <span className={styles.detailAddress}>{item.purchaseUnit}</span></div>} key={index}>
+                    <span className={styles.detailTitle}></span> {item.geName}
+                  <Brief className={styles.detailBrief}>{item.spec}/{item.fmodel}</Brief>     
                 </Item>
               })
             }
-             <Item extra={ <span onClick={this.handleMore}>更多</span>}> 
-            {/* <Item extra={productData.length > 3 ? <span onClick={this.handleMore}>更多</span> :null}> */}
+            <Item extra={productData.length > 3 ? <span onClick={this.handleMore}>更多</span> :null}>
               <Brief>{productData.length}件产品</Brief> 
             </Item>
           </List>
         <List style={{marginTop:'5px'}}>
-          <Item>
+          <Item extra={dataSource.evaluateValue}>
            评价
           </Item>
           <Item >
-           评价内容
+           {dataSource.evaluate}
           </Item>
           <Item >
-           图片显示
+            {
+              files.length > 0 ? 
+              <ImagePicker
+              files={files}
+              onImageClick={(index, fs) => this.showModal(index, fs)}
+              selectable={false}
+              multiple={this.state.multiple}/>
+              :null
+            }
           </Item>
         </List>
         <List style={{marginTop:'5px'}}>
@@ -91,10 +109,10 @@ class DeliveryDetails extends PureComponent{
             订单号:{dataSource.orderNo}
           </Item>
           <Item >
-            创建时间：{dataSource.dysTime}
+            创建时间：{dataSource.sendDate}
           </Item>
           <Item >
-            创建人：{dataSource.dysUserName}
+            创建人：{dataSource.sendUsername}
           </Item>
           <Item extra={dataSource.totalPrice}>
             验收/送货总金额

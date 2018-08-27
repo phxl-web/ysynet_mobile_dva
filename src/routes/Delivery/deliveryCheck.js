@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 11:16:21 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-24 12:03:45
+ * @Last Modified time: 2018-08-27 09:31:24
  * 送货单验收界面
  */
 import React , { PureComponent } from 'react';
@@ -41,11 +41,12 @@ class DeliveryCheck extends PureComponent{
       //payload: { storageGuid:"926ACEBC275F4806942DB9C7932D6C54",sendId:"E250CD25C0B3473083E635D0816F821B" },
       callback: (data) => {
         const  filePaths  = [];
-        if(data.deliveryCheckImages.length > 0 ){
+        if(data.deliveryCheckImages){
             data.deliveryCheckImages.map((item,index) => {
              return filePaths.push({ url: FTP+`${item}`,id:index})
             })
         }
+    
         this.setState( { dataSource : data, productData: data.detials,files: filePaths,urls:data.deliveryCheckImages} )
         this.setState({ loading: false});
       }
@@ -64,6 +65,7 @@ class DeliveryCheck extends PureComponent{
           callback: (data) => {
             urls.push(data.result);
             this.setState({ files, submitFiles: [...submitFiles, newImgData]});
+           console.log(1)
              
           }
        })
@@ -171,7 +173,7 @@ class DeliveryCheck extends PureComponent{
            <NavBar
             mode="dark"
             rightContent={
-              <span onClick={() => this.props.history.push({pathname:`http://hucdwb.natappfree.cc/meqm/test/mobileScanQrcode?userId=${userId}`})}>扫码</span>
+             <span onClick={() => window.location.href= `http://zzy6gz.natappfree.cc/meqm/test/mobileScanQrcode?userId=${userId}`}>扫码</span>
             }
           ></NavBar>
           <div className={styles.checkContent} style={{height:this.state.contentHeight}}>
@@ -179,19 +181,27 @@ class DeliveryCheck extends PureComponent{
             productData.map((item,index) => {
                 return <div className={styles.listCheck} key={index}>
                         <h3 className={styles.titleInfo}>
-                          <AgreeItem className={styles.geName} checked={allChecked ? allChecked : this.handleDefaultCheckedProduct(item.checkfstate)}  onChange={this.handleCheckBoxChange.bind(null,item)}>通用名称: { item.geName }</AgreeItem> 
+                          <AgreeItem className={styles.geName} checked={allChecked ? allChecked : this.handleDefaultCheckedProduct(item.checkfstate)}  onChange={this.handleCheckBoxChange.bind(null,item)}>
+                          通用名称: { item.geName }     { item.isScope || item.isRegisterOut || item.isProdDateIn || item.isUsefulDateEve || item.isUsefulDateIn? <span className={styles.tagFont}>?</span> : null}
+                          </AgreeItem> 
+                          { item.isScope? <span className={styles.tagFont}>超出供应商许可范围</span> : null}
                         </h3>
                         <div className={styles.checkInfo}>
-                          型号: { item.spec }<br />
-                          规格: { item.fmodel }<br />
-                          采购单位: { item.purchaseUnit }<br />
-                          包装规格:{ item.tfPacking } <br/>
-                          生产批号: { item.flot }<br />
-                          证件效期: { item.registerFirstLast }<br />
-                          生产日期: { item.prodDate }<br />
-                          产品效期:{ item.usefulDate }
-                          <p className={styles.textAlignright}>总价: {item.amountMoney}</p>
+                          <p>型号: { item.spec }</p>
+                            <p>规格: { item.fmodel }</p>
+                            <p>采购单位: { item.purchaseUnit }</p>
+                            <p>包装规格:{ item.tfPacking } </p>
+                            <p>生产批号: { item.flot }</p>
+                            <p>证件效期: { item.registerFirstLast }</p>
+                            { item.isRegisterOut? <span className={styles.tagFont}>产品注册证已过期</span> : null}
+                            <p>生产日期: { item.prodDate }</p>
+                            { item.isProdDateIn? <span className={styles.tagFont}>生产日期不在注册期内</span> : null}
+                            <p>产品效期:{ item.usefulDate }</p>
+                            { item.isUsefulDateEve? <span className={styles.tagFont}>临近保质期</span> : null}
+                            { item.isUsefulDateIn? <span className={styles.tagFont}>已过有效期</span> : null}
+                            <p className={styles.textAlignright}>总价: {item.amountMoney}</p>
                         </div>
+                          
                         <div>
                           <div className={styles.unitPriceTitle}><span>单价(¥):</span><span className={styles.purchasePrice}>{ item.amountMoney }</span></div>
                           <Stepper

@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:18:06 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-24 11:24:51
+ * @Last Modified time: 2018-08-27 10:00:04
  * 我的送货单页面
  */
 
@@ -16,7 +16,6 @@ class Delivery extends PureComponent{
   state = {
     url: `${_local}/delivery/rMobileSearchDeliveryList`
   }
-
   //根据不同的状态只显示不同的字体颜色
   handleFstateClass = (value) => {
     switch (value){
@@ -51,22 +50,35 @@ class Delivery extends PureComponent{
     }
   }
 
-  handleClick = (item) => {
-      if(item.fstate === "50"){
-     const storageGuid = this.props.users.userInfo.rStorageGuid;
-     const sendIds = [];
-     sendIds.push(item.sendId);
-     this.props.dispatch({
-       type: 'delivery/mobileDeliveryThrough',
-       payload: { storageGuid: storageGuid,sendIds: sendIds},
-       callback: () => {
-         
-       }
-     })
-      }else if(item.fstate === "80"){
+  handlePassClick = (item) => {
+    if(item.fstate === "50"){
+      const storageGuid = this.props.users.userInfo.rStorageGuid;
+      const sendIds = [];
+      sendIds.push(item.sendId);
+      this.props.dispatch({
+        type: 'delivery/mobileDeliveryThrough',
+        payload: { storageGuid: storageGuid,sendIds: sendIds},
+        callback: () => {
+          this.props.history.push({pathname: `/checkComplete/${item.sendId}`})
+        }
+     })}else if(item.fstate === "80"){
         this.props.history.push({pathname: `/message/${item.sendId}`})
       }
   }
+  //拒收
+  handleNoPassClick = (item) => {
+    const storageGuid = this.props.users.userInfo.rStorageGuid || this.props.match.params.rStorageGuid;
+    const sendIds = [];
+    sendIds.push(item.sendId);
+    this.props.dispatch({
+      type: 'delivery/mobileDeliveryNotThrough',
+      payload: { storageGuid: storageGuid,sendIds: sendIds},
+      callback: () => {
+        this.props.history.push({pathname: `/checkComplete/${item.sendId}`})
+      }
+    })
+  }
+  
 
   handleUrl= (item) =>{
     this.props.history.push({pathname: `/deliveryDetails/${item.sendId}`})
@@ -74,16 +86,31 @@ class Delivery extends PureComponent{
   render(){
     const  rStorageGuid = this.props.users.userInfo.rStorageGuid;
     const userId = this.props.users.userInfo.userId;
+    const { searchName } = this.props;
     return (
       <div className={styles.container}>
         <Flex>
-          <Flex.Item style={{flex:8}}><SearchBar placeholder="搜索" ref={ref => this.autoFocusInst = ref}/></Flex.Item>
-          <Flex.Item><span onClick={() => this.props.history.push({pathname:`http://hucdwb.natappfree.cc/meqm/test/mobileScanQrcode?userId=${userId}`})}>扫码</span></Flex.Item>
+          <Flex.Item style={{flex:8}}>
+            <SearchBar
+              placeholder="搜索" 
+              onChange={value =>this.setState({ searchName: value })}
+              ref={ref => this.autoFocusInst = ref}
+              onSubmit={value => {
+                document.querySelector('.am-list-view-scrollview').scrollTo(0, 0);
+                this.setState({ searchName: value })
+              }}
+            />
+          </Flex.Item>
+          <Flex.Item>
+            {<span onClick={() => window.location.href= `http://zzy6gz.natappfree.cc/meqm/test/mobileScanQrcode?userId=${userId}`}>扫码</span>}
+            {/* <span onClick={() =>  this.props.history.push({pathname:`/deliveryInfo/2331432745D14FC68C7D1CD6D566A2F6`})}>扫码</span> */}
+          </Flex.Item>
         </Flex>
         <ListViewScroll
           url={this.state.url}
           queryParams={{
-              rStorageGuid: rStorageGuid,
+            rStorageGuid: rStorageGuid,
+            searchParam: searchName
           }}
           item={item => {
           return (<Card full style={{marginBottom:"10px"}}>
@@ -92,14 +119,20 @@ class Delivery extends PureComponent{
                       title={<div><p className={styles.listCardTitle}>{item.rOrgName}</p><p className={styles.listDeliverNo}>{item.sendNo}</p></div>}
                       extra={<span className={styles.listHeaderExtra} style={this.handleFstateClass(item.fstate)}>{item.sendFstate}</span>}
                     />
-                    <Card.Body onClick={this.handleUrl.bind(null,item)}>
+                    <Card.Body>
                       <div><span className={styles.listProduct}>{item.detailNum}件产品</span> <span className={styles.listPrice}>¥:{item.totalPrice}</span></div>
                     </Card.Body>
-                    <Card.Footer content={item.fstate === "80" ? <span  className={styles.listNum}>收货数量: {item.detailCheckNum}</span> : null}  extra={ <Button type="default" inline className={styles.checkDeliveryBtn} style={this.handleFstateButtonClass(item.fstate)} onClick={this.handleClick.bind(null,item)}>{this.handleFstateButtonValue(item.fstate)}</Button>} />
+                    <Card.Footer content={item.fstate === "80" ? 
+                    <span  className={styles.listNum}>收货数量: {item.detailCheckNum}</span> : null}  
+                    extra={<div>
+                            <Button type="default" inline className={styles.checkDeliveryBtn} style={this.handleFstateButtonClass(item.fstate)} onClick={this.handlePassClick.bind(null,item)}>{this.handleFstateButtonValue(item.fstate)}</Button> 
+                            {item.fstate === "50" ? <Button  type='default' className={styles.checkNoDeliveryBtn}  inline onClick={this.handleNoPassClick.bind(null,item)}>拒收</Button>:null }
+                            </div>
+                          }
+                    />
                   </Card>
           ) 
           }}/>
- 
       </div>
     )
   }

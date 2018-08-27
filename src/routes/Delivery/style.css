@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:29:18 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-22 17:06:38
+ * @Last Modified time: 2018-08-24 18:05:49
  */
  @import './../../common/reset.css';
 .container{
@@ -14,11 +14,16 @@
   overflow: auto;
 }
 /* home页面进入的送货单列表界面 */
-.checkDeliveryBtn{
-  font-size: .14rem;
+.checkDeliveryBtn,.checkNoDeliveryBtn{
+  font-size: .12rem;
   height: .3rem;
   line-height: .3rem;
-  width: .9rem;
+  width: .8rem;
+}
+.checkNoDeliveryBtn{
+  color: #fc6621;
+  border:1px solid #fc6621;
+  margin-left: 10px;
 }
 .messageDeliveryBtn{
   font-size: .14rem;
@@ -109,6 +114,11 @@
   font-size: .12rem;
   color: #666;
   line-height: 24px;
+}
+.checkInfo p {
+height: .24rem;
+padding: 0;
+margin: 0;
 }
 .unitPriceTitle{
   width: 60%;
@@ -224,5 +234,29 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .margin10{
   margin: .1rem;
 }
+.tagFont{
+  color: red;
+  font-size: .1rem;
+}
 
+/* 送货单详情 */
+.detailTitle{
+  color: rgba(0, 0, 0, 65%);
+  font-size: .16rem;
+}
+.detailBrief{
+  color: rgba(0, 0, 0, 45%);
+  font-size: .14rem;
+}
+.detailAddress{
+  color: rgba(0, 0, 0, 65%);
+  font-size: .14rem;
+}
+.detailSendNo{
+  color: #1890ff;
+  font-size: .16rem;
+}
+.detailUnit{
+  
+}
 

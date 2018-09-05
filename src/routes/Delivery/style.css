@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:29:18 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-27 17:05:36
+ * @Last Modified time: 2018-09-04 14:37:57
  */
  @import './../../common/reset.css';
 .container{
@@ -32,7 +32,7 @@
   width: .9rem;
 }
 .listCardTitle{
-  font-size: .18rem;
+  font-size: .14rem;
 }
 .listHeaderExtra{
   font-size: .14rem;
@@ -57,11 +57,10 @@
 
 /* 送货单信息页面需要在一屏幕页面内 */
 .infoFooter{
-  height: 30px;
-  margin-top: 10px;
+  height: 40px;
   background-color: #fff;
   font-size:.12rem;
-  line-height: 30px;
+  line-height: 40px;
 }
 
 .infoLeftBtn,.infoRightBtn{
@@ -78,7 +77,7 @@
 
 
 .checkContent{
-  height: calc(100vh - 160px);
+  height: calc(100vh - 193px);
   background-color: #fff;
   overflow: auto;
   padding: 0 .15rem;
@@ -86,11 +85,12 @@
 
 .checkFooter{
   border-top: 1px solid #eee;
-  height: 105px;
+  height: 135px;
   background-color: #fff;
 }
 .checkTools{
   border-top: 1px solid #eee;
+  border-bottom:  1px solid #eee;
 }
 
 /* 验收界面 */
@@ -117,6 +117,7 @@
 }
 .checkInfo p {
 height: .24rem;
+font-size: .14rem;
 padding: 0;
 margin: 0;
 }
@@ -124,10 +125,12 @@ margin: 0;
   width: 60%;
   display: inline-block;
 }
-.price{
-  color: #fc6621;
+.hr{
+  color: #eee;
+}
+.checkNum{
   font-size: .16rem;
-  padding-left: .1rem;
+  padding: .08rem 0 ;
 }
 .footCheckBtns{
   margin-top: .1rem;
@@ -148,6 +151,11 @@ margin: 0;
   height: .35rem;
   line-height: .35rem;
 }
+hr {
+  height:1px;
+  border:none;
+  border-top:1px solid rgba(0, 0, 0, 0.15);
+}
 /* 无效的送货单 */
 .nullIcon{
   height: .6rem;
@@ -156,9 +164,10 @@ margin: 0;
 
 /* 验收完成 */
 .checkMessage{
-  margin: 0  .48rem;
+  margin: 0  .4rem;
   text-align: left;
   font-size: .14rem;
+  white-space: nowrap
 }
 .checkBtns{
  padding-top: .2rem;
@@ -278,5 +287,14 @@ only screen and (min-device-pixel-ratio: 1.5) {
   color: #fff;
 
 }
+.productListInfo{
+  text-align: left;
+  margin-left: .08rem;
+  font-size: .14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 
 

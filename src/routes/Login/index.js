@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:29:35 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-23 16:14:42
+ * @Last Modified time: 2018-09-04 09:29:59
  */
 
   
@@ -68,9 +68,12 @@ class Login extends PureComponent {
           Toast.fail(data.result.loginResult,1)
         }else{
           this.props.history.push({pathname: '/home'})
+        
         }
       }
     })
+
+    //this.props.history.push({pathname: '/checkComplete/4FFEF1A80AB14943A85FA92F0C1B06D9'})
   
    
   }

@@ -13,12 +13,6 @@ export default {
         userInfo: action.payload
       }
     },
-    // userStorage(state,action){
-    //   return {
-    //     ...state,
-    //     storageList: action.payload
-    //   }
-    // },
   },
   effects: {
     *userLogin({ payload, callback },{ call, put }){
@@ -30,10 +24,12 @@ export default {
         Toast.fail(data.result.loginResult || '登录获取用户信息失败!', 1);
       }
     },
-    *getUserInfo({ payload, callback },{ call }){
+    *getUserInfo({ payload, callback },{ call,put }){
       const data = yield call(usersService.getUserInfo,payload);
       if(data.status){
+        yield put({ type: 'userInfo',payload: {...data.result}})
         if(callback) callback(data.result)
+    
       }else{
         Toast.fail(data.msg || '获取用户信息失败')
       }

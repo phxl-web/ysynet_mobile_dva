@@ -2,11 +2,11 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:22:50 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-27 16:24:30
+ * @Last Modified time: 2018-09-05 11:30:22
  * 送货单详情
  */
 import React , { PureComponent } from 'react';
-import {  List,Flex ,ImagePicker} from 'antd-mobile';
+import {  List,Flex ,ImagePicker,Icon} from 'antd-mobile';
 import { connect } from 'dva';
 import { FTP } from '../../api/local';
 import styles from './style.css';
@@ -17,11 +17,13 @@ class DeliveryDetails extends PureComponent{
     sendId: this.props.match.params.sendId,
     productData : [],//产品列表
     dataSource: {} ,//送的货单明细
-    files: []
+    files: [],
+    loading: true
   }
   
   componentDidMount = () => {
     this.getMobileCheckDelivery();
+ 
   }
   componentDidUpdate() {
     document.body.style.overflow = 'auto';
@@ -53,11 +55,17 @@ class DeliveryDetails extends PureComponent{
   render(){
     const { productData ,dataSource,files } = this.state;
     return(
-      <div className={styles.container}>
+      <div className={styles.container}>{
+        this.state.loading ?
+        <div style={{ textAlign: 'center',paddingTop:'50vh' ,width:'100vw',height:'100vh'}}>
+        <Icon type="loading"  size="lg"/>
+        </div>
+        :
+       <div>
         <List>
           <Item>
              <span className={styles.detailfiled65}> { dataSource.sendFstate }</span>
-            <Brief className={styles.detailBrief}>{dataSource.sendDate}</Brief>
+            <Brief className={styles.detailBrief}>{dataSource.jywcTime}</Brief>
           </Item>
           <Item extra={ <span className={styles.detailfiled14}>{dataSource.lxdh}</span>}>
            <span className={styles.detailfiled14}> 收货人：{dataSource.lxr} </span>
@@ -114,8 +122,8 @@ class DeliveryDetails extends PureComponent{
           <Item >
             <span className={styles.detailfiled14}>创建人：{dataSource.sendUsername}</span> 
           </Item>
-          <Item extra={dataSource.totalPrice}>
-            <span className={styles.detailfiled14}>验收/送货总金额</span> 
+          <Item extra={dataSource.fstate === "50"? dataSource.totalPrice:dataSource.ysje}>
+            <span className={styles.detailfiled14}>{dataSource.fstate === "50"?"送货总金额":"收货总金额"}</span> 
           
           </Item>
         </List>
@@ -125,6 +133,8 @@ class DeliveryDetails extends PureComponent{
             <Flex.Item><span className={styles.detailsRightBtn} onClick={() => this.props.history.push({pathname:`/message/${this.state.sendId}`})}>评价</span></Flex.Item>
           </Flex>
           </div>
+          </div>
+      }
       </div>
     )
   }

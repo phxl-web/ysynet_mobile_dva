@@ -57,6 +57,11 @@ class ListViewScroll extends PureComponent {
       isLoading: false,
     })
   }
+ static getDerivedStateFromProps (nextProps) {
+    if (this.props.queryParams !== nextProps.queryParams) {
+
+    }
+  }
 
   async onRefresh () {
     this.setState({ refreshing: true, isLoading: true });

@@ -35,19 +35,19 @@ export const getNavData = app => [
     {
       name: "送货单信息",
       icon: 'setting',
-      path: '/deliveryInfo/:sendId',
-      component: dynamicWrapper(app, [], () => import('../routes/Delivery/deliveryInfo'))
+      path: '/deliveryInfo/:sendId/:userId/:storageGuid',
+      component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/deliveryInfo'))
     },
     {
       name: "无效送货单",
       icon: 'setting',
-      path: '/deliveryNull',
-      component: dynamicWrapper(app, [], () => import('../routes/Delivery/deliveryNull'))
+      path: '/deliveryNull/:userId/:storageGuid/:error',
+      component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/deliveryNull'))
     },
     {
       name: "送货单验收界面",
       icon: 'setting',
-      path: '/deliveryCheck/:sendId',
+      path: '/deliveryCheck/:sendId/:userId/:storageGuid',
       component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/deliveryCheck'))
     },
     {
@@ -71,7 +71,7 @@ export const getNavData = app => [
     {
       name: "进度",
       icon: 'setting',
-      path: '/deliveryProgress',
+      path: '/deliveryProgress/:fstate',
       component: dynamicWrapper(app, [], () => import('../routes/Delivery/deliveryProgress'))
     },
     {

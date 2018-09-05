@@ -12,12 +12,14 @@ export function login(options) {
 
 //获取用户信息
 export function getUserInfo(options){
-  return request(`${_local}/login/getUserInfo`,{
+  return request(`${_local}/user/findOrgUserById`,{
     methods : 'POST',
     type: 'formData',
     body: options
   })
 }
+
+//`${_local}/user/findOrgUserById`,//查询指定用户信息
 
 //获取菜单
 export function getUserM(options){

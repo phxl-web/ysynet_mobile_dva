@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:29:35 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-04 09:29:59
+ * @Last Modified time: 2018-09-05 17:39:49
  */
 
   
@@ -67,7 +67,8 @@ class Login extends PureComponent {
         if(!data.result.userInfo){
           Toast.fail(data.result.loginResult,1)
         }else{
-          this.props.history.push({pathname: '/home'})
+          const userId = data.result.userInfo.userId;
+          this.props.history.push({pathname: `/home/${userId}`})
         
         }
       }

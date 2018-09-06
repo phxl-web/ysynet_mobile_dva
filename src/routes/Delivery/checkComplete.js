@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:16:33 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-04 15:30:50
+ * @Last Modified time: 2018-09-05 16:32:49
  * 验收完成
  */
 
@@ -15,6 +15,8 @@
  class CheckComplete extends PureComponent {
   state = {
     sendId: this.props.match.params.sendId,
+    userId: this.props.match.params.userId,
+    storageGuid: this.props.match.params.storageGuid ,
     dataSource:{},
     productData:[]
    }
@@ -23,8 +25,7 @@
   }
 
   getMobileCheckDelivery = () => {
-    const sendId = this.state.sendId;
-    const storageGuid = this.props.users.userInfo.rStorageGuid;
+    const { sendId, storageGuid } = this.state;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
       payload: { storageGuid: storageGuid,sendId: sendId},
@@ -44,7 +45,7 @@
   //  验收通过   图标颜色26a2fa
   //拒收 图标颜色  fc6621
    render () {
-     const { dataSource,productData } = this.state;
+     const { dataSource,productData ,userId,storageGuid} = this.state;
      return (
       <div className={styles.container}>
         <Result
@@ -82,9 +83,9 @@
         }
         
         <div className={styles.checkBtns}>
-          <Button type="default" inline className={styles.supBtn} onClick={() => this.props.history.push({pathname:'/result'})}  style={{border:'1px solid #666'}}>联系供应商</Button>
-          <Button type="default" inline className={styles.messageBtn} onClick={() => this.props.history.push({pathname:`/message/${this.state.sendId}`})} style={{border:'1px solid #26a2fa'}}>评价</Button>
-          <Button type="default" inline className={styles.goBtn} onClick={() => this.props.history.push({pathname:'/delivery'})} style={{border:'1px solid green'}}>继续验收</Button>
+          <Button type="default" inline className={styles.supBtn} onClick={() => this.props.history.push({pathname:`/result/${userId}/${storageGuid}`})}  style={{border:'1px solid #666'}}>联系供应商</Button>
+          <Button type="default" inline className={styles.messageBtn} onClick={() => this.props.history.push({pathname:`/message/${this.state.sendId}/${userId}/${storageGuid}`})} style={{border:'1px solid #26a2fa'}}>评价</Button>
+          <Button type="default" inline className={styles.goBtn} onClick={() => this.props.history.push({pathname:`/delivery/${userId}/${storageGuid}`})} style={{border:'1px solid green'}}>继续验收</Button>
         </div>
       </div>
      )

@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-04 11:06:31
+ * @Last Modified time: 2018-09-05 17:40:40
  * 主页
  */
 
@@ -12,16 +12,6 @@ import { connect } from 'dva';
 import styles from './home.css';
 import Profile from 'components/profile';
 import Toolbar from 'components/toolbar';
-
-const gridStorageData = [
-  // { text: '我的订单', icon: require('../../assets/image/order.svg') , pathname : '/result' },
-  { text: '我的送货单', icon: require('../../assets/image/delivery.svg') , pathname : '/delivery'},
-  // { text: '我的供应商', icon: require('../../assets/image/supplier.svg'), pathname : '/result' },
-  // { text: '我的产品', icon: require('../../assets/image/product.svg'), pathname : '/result' },
-  // { text: '我的发票', icon: require('../../assets/image/invoice.svg') , pathname : '/result'},
-  // { text: '审批管理', icon: require('../../assets/image/checkmgm.svg') , pathname : '/result'},
-  // { text: '意见反馈', icon: require('../../assets/image/feedback.svg'), pathname : '/result' },
-];
 
 // const gridShebeiData = [
 //   { text: '报修', icon: require('../../assets/image/repair.svg') , pathname : '/ResultInfo'},
@@ -36,10 +26,12 @@ class Home extends PureComponent {
   state = {
     storageData: [],
     tabs : [],
-    userInfo: {}
+    userInfo: {},
+    storageGuid:'',
+    userId: this.props.match.params.userId,
   }
   componentDidMount =()=>{
-    const userId = this.props.users.userInfo.userId || this.getCookie('userId');
+    const { userId } = this.state;
     this.props.dispatch({
       type: 'users/getUserInfo',
       payload: { userId : userId},
@@ -54,38 +46,16 @@ class Home extends PureComponent {
         data.map((item,index) => {
          return tabs.push({title: item.STORAGE_NAME,value: item.value});
         })
-        this.props.users.userInfo.rStorageGuid = data[0].value;
-        this.setCookie('userId',userId,365); 
-        this.setCookie('storageGuid',data[0].value,365); 
-       this.setState({ storageData: data,tabs})
+        this.setState({ storageData: data,tabs,storageGuid:data[0].value})
       }
     })
   }
 
-  setCookie = (c_name,value,expiredays)  =>{  
-    var exdate=new Date()  
-    exdate.setDate(exdate.getDate()+expiredays)  
-    document.cookie=c_name+ "=" +escape(value)+  
-    ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())  
-  }  
+  
 
-  getCookie = (c_name) => {  
-    if (document.cookie.length>0)  
-    {  
-    let  c_start=document.cookie.indexOf(c_name + "=")  
-    if (c_start!==-1)  
-    {   
-      c_start=c_start + c_name.length+1   
-      let c_end=document.cookie.indexOf(";",c_start)  
-      if (c_end===-1) c_end=document.cookie.length  
-      return unescape(document.cookie.substring(c_start,c_end))  
-      }   
-    }  
-    return ""  
-  }
+ 
   handleOnTabClick = (tab, index) =>{
-    this.props.users.userInfo.rStorageGuid = tab.value;
-    this.setCookie('storageGuid',tab.value,365); 
+    this.setState({ storageGuid: tab.value})
   }
 
   handleGridClick = (el,index) => {
@@ -93,8 +63,17 @@ class Home extends PureComponent {
   }
 
   render() {
-    const userInfo = this.state.userInfo;
-    const { tabs } = this.state;
+    const { tabs,userInfo,storageGuid ,userId} = this.state;
+    const gridStorageData = [
+      // { text: '我的订单', icon: require('../../assets/image/order.svg') , pathname : '/result' },
+      { text: '我的送货单', icon: require('../../assets/image/delivery.svg') , pathname : `/delivery/${userId}/${storageGuid}`},
+      // { text: '我的供应商', icon: require('../../assets/image/supplier.svg'), pathname : '/result' },
+      // { text: '我的产品', icon: require('../../assets/image/product.svg'), pathname : '/result' },
+      // { text: '我的发票', icon: require('../../assets/image/invoice.svg') , pathname : '/result'},
+      // { text: '审批管理', icon: require('../../assets/image/checkmgm.svg') , pathname : '/result'},
+      // { text: '意见反馈', icon: require('../../assets/image/feedback.svg'), pathname : '/result' },
+    ];
+  
     return (
       <div className={styles.container}>
         <div className={styles.top}>

@@ -17,19 +17,19 @@ export const getNavData = app => [
     {
       name: "home",
       icon: 'home',
-      path: '/home',
+      path: '/home/:userId',
       component: dynamicWrapper(app, [], () => import('../routes/Home'))
     },
     {
       name: "建设中",
       icon: 'setting',
-      path: '/result',
+      path: '/result/:userId/:storageGuid',
       component: dynamicWrapper(app, [], () => import('../routes/Result'))
     },
     {
       name: "我的送货单",
       icon: 'setting',
-      path: '/delivery',
+      path: '/delivery/:userId/:storageGuid',
       component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery'))
     },
     {
@@ -53,19 +53,19 @@ export const getNavData = app => [
     {
       name: "验收完成界面",
       icon: 'setting',
-      path: '/checkComplete/:sendId',
+      path: '/checkComplete/:sendId/:userId/:storageGuid',
       component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/checkComplete'))
     },
     {
       name: "发表评价",
       icon: 'setting',
-      path: '/message/:sendId',
+      path: '/message/:sendId/:userId/:storageGuid',
       component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/message'))
     },
     {
       name: "感谢评价",
       icon: 'setting',
-      path: '/thankMessage',
+      path: '/thankMessage/:userId/:storageGuid',
       component: dynamicWrapper(app, [], () => import('../routes/Delivery/thankMessage'))
     },
     {
@@ -77,7 +77,7 @@ export const getNavData = app => [
     {
       name: "送货单详情",
       icon: 'setting',
-      path: '/deliveryDetails/:sendId',
+      path: '/deliveryDetails/:sendId/:userId/:storageGuid',
       component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/deliveryDetails'))
     },
     {

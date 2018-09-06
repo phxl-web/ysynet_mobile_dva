@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:22:50 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-05 11:30:22
+ * @Last Modified time: 2018-09-05 16:47:26
  * 送货单详情
  */
 import React , { PureComponent } from 'react';
@@ -15,6 +15,8 @@ const Brief = Item.Brief;
 class DeliveryDetails extends PureComponent{
   state = {
     sendId: this.props.match.params.sendId,
+    userId: this.props.match.params.userId,
+    storageGuid: this.props.match.params.storageGuid,
     productData : [],//产品列表
     dataSource: {} ,//送的货单明细
     files: [],
@@ -30,8 +32,7 @@ class DeliveryDetails extends PureComponent{
   }
   
   getMobileCheckDelivery = () => {
-    const sendId = this.state.sendId;
-    const storageGuid = this.props.users.userInfo.rStorageGuid;
+    const { sendId, storageGuid } = this.state;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
       payload: { storageGuid: storageGuid,sendId: sendId},
@@ -53,7 +54,7 @@ class DeliveryDetails extends PureComponent{
   }
 
   render(){
-    const { productData ,dataSource,files } = this.state;
+    const { productData ,dataSource,files,userId,storageGuid } = this.state;
     return(
       <div className={styles.container}>{
         this.state.loading ?
@@ -129,8 +130,8 @@ class DeliveryDetails extends PureComponent{
         </List>
         <div className={styles.infoFooter}>
           <Flex>
-            <Flex.Item><span className={styles.detailsLeftBtn} onClick={() => this.props.history.push({pathname:'/result'})}>联系供应商</span></Flex.Item>
-            <Flex.Item><span className={styles.detailsRightBtn} onClick={() => this.props.history.push({pathname:`/message/${this.state.sendId}`})}>评价</span></Flex.Item>
+            <Flex.Item><span className={styles.detailsLeftBtn} onClick={() => this.props.history.push({pathname:`/result/${userId}/${storageGuid}`})}>联系供应商</span></Flex.Item>
+            <Flex.Item><span className={styles.detailsRightBtn} onClick={() => this.props.history.push({pathname:`/message/${this.state.sendId}/${userId}/${storageGuid}`})}>评价</span></Flex.Item>
           </Flex>
           </div>
           </div>

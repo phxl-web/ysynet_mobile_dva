@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:20:41 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-27 09:40:03
+ * @Last Modified time: 2018-09-05 16:39:28
  * 发表评价
  */
 
@@ -19,6 +19,8 @@ class Message extends PureComponent{
     loading: false,
     score: 5,
     evaluateWords: '',
+    userId: this.props.match.params.userId,
+    storageGuid: this.props.match.params.storageGuid,
   }
   onStarClick(nextValue, prevValue, name) {
     this.setState({score: nextValue});
@@ -28,15 +30,14 @@ class Message extends PureComponent{
   }
   handleClick = () => {
     this.setState({ loading: true})
-    const { evaluateWords,score } = this.state;
-    const storageGuid = this.props.users.userInfo.rStorageGuid;
+    const { evaluateWords,score, userId,storageGuid } = this.state;
     const sendId = this.props.match.params.sendId;
     this.props.dispatch({
       type: 'delivery/deliveryEvaluate',
       payload: { storageGuid:storageGuid,sendId:sendId,evaluateWords:evaluateWords,score:score },
       callback: () => {
         this.setState({ loading: false}); 
-        this.props.history.push({pathname:`/thankMessage`});
+        this.props.history.push({pathname:`/thankMessage/${userId}/${storageGuid}`});
       }
     })
   }
@@ -44,7 +45,6 @@ class Message extends PureComponent{
 
   render (){
     const { score } = this.state;
-    console.log(this.props)
     return(
       <div>
         <TextareaItem

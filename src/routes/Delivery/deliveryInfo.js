@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 10:11:16 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-04 15:39:20
+ * @Last Modified time: 2018-09-05 17:34:51
  * 送货单信息页面
  */
 import React , { PureComponent } from 'react';
@@ -20,30 +20,15 @@ class DeliveryInfo extends PureComponent{
     storageGuid: this.props.match.params.storageGuid,
     data: {}
   }
-
-   setCookie = (c_name,value,expiredays)  =>{  
-    var exdate=new Date()  
-    exdate.setDate(exdate.getDate()+expiredays)  
-    document.cookie=c_name+ "=" +escape(value)+  
-    ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())  
-  }  
+ 
    componentDidMount() {
-    const sendId = this.state.sendId;
-    const storageGuid = this.state.storageGuid;
+    const { sendId, storageGuid } = this.state;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
       payload: { storageGuid: storageGuid,sendId: sendId},
       callback: (data) => {
         this.setState( { data : data} )
         this.setState({ loading: false});
-      }
-    })
-    this.setCookie('userId',this.state.userId,365); 
-    this.setCookie('storageGuid',this.state.storageGuid,365); 
-    this.props.dispatch({
-      type: 'users/getUserInfo',
-      payload: { userId :  this.state.userId },
-      callback: (data) => {
       }
     })
   }
@@ -55,7 +40,7 @@ class DeliveryInfo extends PureComponent{
 
 
   render (){
-    const { data } = this.state;
+    const { data,userId,storageGuid } = this.state;
     return (
       <div className={styles.container}>
           <div className={styles.infoContent}>
@@ -74,7 +59,7 @@ class DeliveryInfo extends PureComponent{
            data.fstate === "50" ?
            <div className={styles.infoFooter}>
            <Flex>
-             <Flex.Item><span className={styles.infoLeftBtn} onClick={() => this.props.history.push({pathname:'/result'})}>联系供应商</span></Flex.Item>
+             <Flex.Item><span className={styles.infoLeftBtn} onClick={() => this.props.history.push({pathname:`/result/${userId}/${storageGuid}`})}>联系供应商</span></Flex.Item>
              <Flex.Item><span className={styles.infoRightBtn} onClick={this.handleClickCheck}>开始验收</span></Flex.Item>
            </Flex>
            </div>

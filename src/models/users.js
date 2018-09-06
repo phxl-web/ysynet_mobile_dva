@@ -24,10 +24,9 @@ export default {
         Toast.fail(data.result.loginResult || '登录获取用户信息失败!', 1);
       }
     },
-    *getUserInfo({ payload, callback },{ call,put }){
+    *getUserInfo({ payload, callback },{ call }){
       const data = yield call(usersService.getUserInfo,payload);
       if(data.status){
-        yield put({ type: 'userInfo',payload: {...data.result}})
         if(callback) callback(data.result)
     
       }else{

@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 11:16:21 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-05 11:26:02
+ * @Last Modified time: 2018-09-05 17:54:45
  * 送货单验收界面
  */
 import React , { PureComponent } from 'react';
@@ -151,13 +151,13 @@ class DeliveryCheck extends PureComponent{
   }
   
   handleCheck = (type) => {
-     const { sendId,storageGuid } = this.state;
+     const { sendId,storageGuid,userId } = this.state;
   
      this.props.dispatch({
        type: type,
        payload: { storageGuid: storageGuid,sendId: sendId},
        callback: () => {
-          this.props.history.push({pathname:`/CheckComplete/${sendId}`});
+          this.props.history.push({pathname:`/CheckComplete/${sendId}/${userId}/${storageGuid}`});
          this.getMobileCheckDelivery();
        }
      })
@@ -175,7 +175,7 @@ class DeliveryCheck extends PureComponent{
   render (){
     const { files } = this.state;
     const { productData, dataSource,allChecked,storageGuid,userId } = this.state;
-    console.log(productData,'productData')
+    
     return (
       <div className={styles.container}>
           <Flex>
@@ -206,8 +206,8 @@ class DeliveryCheck extends PureComponent{
                             <p>生产日期: { item.prodDate }</p>
                             { item.isProdDateIn? <span className={styles.tagFont}>生产日期不在注册期内</span> : null}
                             <p>产品效期:{ item.usefulDate }</p>
-                            { item.isUsefulDateEve  === "1" ? <span className={styles.tagFont}>临近保质期</span> : null}
-                            { item.isUsefulDateIn === "1" ? <span className={styles.tagFont}>已过有效期</span> : null}
+                            { item.isUsefulDateEve ? <span className={styles.tagFont}>临近保质期</span> : null}
+                            { item.isUsefulDateIn ? <span className={styles.tagFont}>已过有效期</span> : null}
                             <p>单价: {item.purchasePrice}</p>
                             <p>总价: {item.amountMoney}</p>
                         </div>

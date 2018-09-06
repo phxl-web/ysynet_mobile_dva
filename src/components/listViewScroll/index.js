@@ -20,7 +20,8 @@ class ListViewScroll extends PureComponent {
       dataSource,
       refreshing: true,
       isLoading: true,
-      height: document.documentElement.clientHeight
+      height: document.documentElement.clientHeight,
+      queryParams:this.props.queryParams
     };
     this.onRefresh = this.onRefresh.bind(this);
     this.onEndReached = this.onEndReached.bind(this);
@@ -31,7 +32,7 @@ class ListViewScroll extends PureComponent {
       body: {
         pagesize: NUM_ROWS,
         page: pIndex + 1,
-        ...this.props.queryParams
+        ...this.state.queryParams
       },
       type:'formData'
     });
@@ -57,11 +58,36 @@ class ListViewScroll extends PureComponent {
       isLoading: false,
     })
   }
- static getDerivedStateFromProps (nextProps) {
-    if (this.props.queryParams !== nextProps.queryParams) {
+//  static getDerivedStateFromProps (nextProps) {
+//    //console.log(this.props.queryParams,'queryParams');
+//    console.log(nextProps,'nextProps');
+//    this.setState({ queryParams : nextProps.queryParams})
+//     // if (this.props.queryParams !== nextProps.queryParams) {
 
-    }
-  }
+//     // }
+//   }
+
+// now
+UNSAFE_componentWillReceiveProps =(nextProps) =>{
+  // console.log(nextProps,'nextProps')
+  // console.log(this,'this')
+  //this.setState({queryParams : nextProps.queryParams})
+  //const hei = document.documentElement.clientHeight - ReactDOM.findDOMNode(this.lv).parentNode.offsetTop;
+  // this.rData =  this.genData();
+  // this.setState({
+  //   dataSource: this.state.dataSource.cloneWithRows(this.rData),
+  //   height: hei,
+  //   refreshing: false,
+  //   isLoading: false,
+  // })
+}
+
+// static getDerivedStateFromProps(nextProps, prevState) {
+//   if (nextProps.queryParams !== prevState.queryParams) {
+  
+//   }
+//   return null
+// }
 
   async onRefresh () {
     this.setState({ refreshing: true, isLoading: true });

@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:18:06 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-05 15:47:17
+ * @Last Modified time: 2018-09-06 10:40:57
  * 我的送货单页面
  */
 
@@ -15,7 +15,9 @@ import { _local } from '../../api/local';
 class Delivery extends PureComponent{
   state = {
     url: `${_local}/delivery/rMobileSearchDeliveryList`,
-    searchName: ''
+    searchName: '',
+    userId: this.props.match.params.userId,
+    storageGuid: this.props.match.params.storageGuid,
   }
   //根据不同的状态只显示不同的字体颜色
   handleFstateClass = (value) => {
@@ -29,20 +31,7 @@ class Delivery extends PureComponent{
     }
   }
 
-  getCookie = (c_name) => {  
-    if (document.cookie.length>0)  
-    {  
-    let  c_start=document.cookie.indexOf(c_name + "=")  
-    if (c_start!==-1)  
-    {   
-      c_start=c_start + c_name.length+1   
-      let c_end=document.cookie.indexOf(";",c_start)  
-      if (c_end===-1) c_end=document.cookie.length  
-      return unescape(document.cookie.substring(c_start,c_end))  
-      }   
-    }  
-    return ""  
-  }
+
 
   handleFstateButtonClass = (value) => {
     switch (value){
@@ -67,8 +56,8 @@ class Delivery extends PureComponent{
   }
 
   handlePassClick = (item) => {
+    const { storageGuid,userId }  =  this.state;
     if(item.fstate === "50"){
-      const storageGuid = this.props.users.userInfo.rStorageGuid || this.getCookie('storageGuid');
       const sendIds = [];
       sendIds.push(item.sendId);
       this.props.dispatch({
@@ -78,12 +67,12 @@ class Delivery extends PureComponent{
           this.props.history.push({pathname: `/checkComplete/${item.sendId}`})
         }
      })}else if(item.fstate === "80"){
-        this.props.history.push({pathname: `/message/${item.sendId}`})
+        this.props.history.push({pathname: `/message/${item.sendId}/${userId}/${storageGuid}`})
       }
   }
   //拒收
   handleNoPassClick = (item) => {
-    const storageGuid = this.props.users.userInfo.rStorageGuid || this.props.match.params.rStorageGuid || this.getCookie('storageGuid');
+    const { storageGuid }  =  this.state;
     this.props.dispatch({
       type: 'delivery/mobileDeliveryNotThrough',
       payload: { storageGuid: storageGuid,sendId: item.sendId},
@@ -95,42 +84,38 @@ class Delivery extends PureComponent{
   
 
   handleUrl= (item) =>{
-    const storageGuid = this.props.users.userInfo.rStorageGuid || this.props.match.params.rStorageGuid || this.getCookie('storageGuid');
-    const userId = this.props.users.userInfo.userId || this.props.match.params.userId || this.getCookie('userId');
+    const { userId, storageGuid } = this.state;
     if(item.fstate === "50"){
       this.props.history.push({pathname: `/deliveryInfo/${item.sendId}/${userId}/${storageGuid}`})
     }else{
-      this.props.history.push({pathname: `/deliveryDetails/${item.sendId}`})
+      this.props.history.push({pathname: `/deliveryDetails/${item.sendId}/${userId}/${storageGuid}`})
     }
    
   }
   render(){
-    const  rStorageGuid =  this.props.users.userInfo.rStorageGuid || this.getCookie('storageGuid'); 
-    const userId =  this.props.users.userInfo.userId|| this.getCookie('userId'); 
-    const { searchName } = this.state;
-    console.log(searchName,'')
+    const { searchName ,userId , storageGuid} = this.state;
     return (
       <div className={styles.container}>
         <Flex>
           <Flex.Item style={{flex:7}}>
-          <SearchBar
+           {/* <SearchBar
               placeholder="搜索" 
               ref={ref => this.autoFocusInst = ref}
               onSubmit={ value => {
                 this.setState({ searchName: value })
                 //document.querySelector('.am-list-view-scrollview').scrollTo(0, 0);
               }}
-            />
+            />  */}
           </Flex.Item>
           <Flex.Item>
                {/* {<span onClick={() =>  this.props.history.push({pathname:`/deliveryInfo/528C311E57C04927AC1636E86E0B4E94/1C258E0B42C944258CEAF90CB464698C/30B3920747E549BEA2F8CD91291C4D29`})}>扫码</span>} */}
-               {<span onClick={() => window.location.href= `http://nn.s1.natapp.cc/meqm/test/mobileScanQrcode?userId=${userId}&storageGuid=${rStorageGuid}`}><img src={require("../../assets/image/scan.svg")} alt="扫一扫" /></span>}   
+               {<span onClick={() => window.location.href= `http://nn.s1.natapp.cc/meqm/test/mobileScanQrcode?userId=${userId}&storageGuid=${storageGuid}`}><img src={require("../../assets/image/scan.svg")} alt="扫一扫" /></span>}   
           </Flex.Item>
         </Flex>
         <ListViewScroll
           url={this.state.url}
           queryParams={{
-            rStorageGuid: rStorageGuid,
+            rStorageGuid: storageGuid,
             searchParam: searchName
           }}
           item={item => {

@@ -1,0 +1,60 @@
+@import './../../common/reset.css';
+.container{
+  background-color: #eee;
+}
+.regInfo{
+  background-color: #fff;
+  padding-left: 0.1rem;
+  padding-top: 0.05rem;
+  padding-bottom: 0.05rem;
+  font-size: 0.16rem;
+}
+.regInfo > li {
+  margin-top: 0.08rem;
+}
+.regInfo .regInfoName{
+  font-size: 0.2rem;
+  color: #333;
+}
+.regInfo .regInfoSpec{
+  color: #666;
+}
+.regInfo .regInfoMoney{
+  color: rgb(255, 0, 0);
+  position: relative;
+}
+.regInfo .regInfoNum{
+  position: absolute;
+  right: 0.1rem;
+  color: #333;
+}
+.listItem{
+  color: #666;
+  font-size: .14rem;
+}
+.listItemUsefulDate{
+  color: rgb(255, 0, 0);
+  font-size: .14rem;
+}
+/*tabs 2*/
+.tabs2Content{
+  background-color: #fff;
+  padding: .1rem 0 ;
+
+}
+.checkBtns{
+  padding-top: .2rem;
+   background-color: #fff;
+   text-align: center;
+ }
+ .supBtn{
+  color: #666;
+}
+.messageBtn{
+  color: #1688e8;
+}
+/* 无效的包装码 */
+.nullIcon{
+  height: .6rem;
+  width: .6rem;
+}

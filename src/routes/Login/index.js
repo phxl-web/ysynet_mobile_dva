@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:29:35 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-05 17:39:49
+ * @Last Modified time: 2018-11-21 17:24:38
  */
 
   
@@ -24,17 +24,17 @@ class Login extends PureComponent {
   }
   //检测用户名
   handleUserNameChange = (value) => {
-    //字母，数字，下划线，减号 点
-    const uPattern = /^[a-zA-Z0-9_-_.]{0,16}$/;
-    if(!uPattern.test(value)){
-      this.setState( { userError: true})
-    }else{
+      //字母，数字，下划线，减号 点
+      const uPattern = /^[a-zA-Z0-9_-_.]{0,16}$/;
+      if(!uPattern.test(value)){
+        this.setState( { userError: true})
+      }else{
 
-      this.setState( { userError: false,userName: value});
-      this.setState({
-        value,
-      });
-    }
+        this.setState( { userError: false,userName: value});
+        this.setState({
+          value,
+        });
+      }
   }
   //检测密码
   handlePwdChange = (value) => {
@@ -49,30 +49,40 @@ class Login extends PureComponent {
   onLogin = () => {
     this.setState( { loading:true })
     const{  userName,password} = this.state ;
-    let arr = [md5(password.toString()).substring(2, md5(password.toString()).length).toUpperCase(), 'vania']
-    let pwd = '';
-    arr.sort().map( (item, index) => {
-      return pwd += item;
-    })
-    const userInfo = {
-      userNo: userName, 
-      pwd: sha1(pwd),
-      token: 'vania',
-    }
-    this.props.dispatch({
-      type: 'users/userLogin',
-      payload: userInfo,
-      callback: (data) => {
-        this.setState({ loading: false});
-        if(!data.result.userInfo){
-          Toast.fail(data.result.loginResult,1)
-        }else{
-          const userId = data.result.userInfo.userId;
-          this.props.history.push({pathname: `/home/${userId}`})
-        
-        }
+    if(userName!=="" && password!==""){
+      let arr = [md5(password.toString()).substring(2, md5(password.toString()).length).toUpperCase(), 'vania']
+      let pwd = '';
+      arr.sort().map( (item, index) => {
+        return pwd += item;
+      })
+      const userInfo = {
+        userNo: userName, 
+        pwd: sha1(pwd),
+        token: 'vania',
       }
-    })
+      console.log(userInfo,'user')
+      this.props.dispatch({
+        type: 'users/userLogin',
+        payload: userInfo,
+        callback: (data) => {
+          this.setState({ loading: false});
+          if(!data.result.userInfo){
+            Toast.fail(data.result.loginResult,1)
+          }else{
+            const userId = data.result.userInfo.userId;
+            this.props.history.push({pathname: `/home/${userId}`})
+          
+          }
+        }
+      })
+    }else{
+      const userError = userName!==""?false : true;
+      const pwdError = password!=="" ?false : true;
+      
+      this.setState({ loading: false,userError,pwdError});
+    }
+ 
+    
 
     //this.props.history.push({pathname: '/checkComplete/4FFEF1A80AB14943A85FA92F0C1B06D9'})
   

@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-05 17:40:40
+ * @Last Modified time: 2018-11-22 18:42:17
  * 主页
  */
 
@@ -12,7 +12,6 @@ import { connect } from 'dva';
 import styles from './home.css';
 import Profile from 'components/profile';
 import Toolbar from 'components/toolbar';
-
 // const gridShebeiData = [
 //   { text: '报修', icon: require('../../assets/image/repair.svg') , pathname : '/ResultInfo'},
 //   { text: '转科', icon: require('../../assets/image/transfer.svg') , pathname : '/ResultInfo'},
@@ -59,7 +58,13 @@ class Home extends PureComponent {
   }
 
   handleGridClick = (el,index) => {
-    this.props.history.push({pathname: el.pathname})
+    //质检的pathname要为二维码扫一扫的链接
+    if(index === 1){
+      console.log(12132)
+      window.location.href= el.pathname
+    }else{
+      this.props.history.push({pathname: el.pathname})
+    }
   }
 
   render() {
@@ -67,6 +72,7 @@ class Home extends PureComponent {
     const gridStorageData = [
       // { text: '我的订单', icon: require('../../assets/image/order.svg') , pathname : '/result' },
       { text: '我的送货单', icon: require('../../assets/image/delivery.svg') , pathname : `/delivery/${userId}/${storageGuid}`},
+      { text: '质检', icon: require('../../assets/image/product.svg') , pathname : `http://yxc.nat300.top/meqm/test/mobileScanPackQrcode?userId=${userId}&storageGuid=${storageGuid}`},
       // { text: '我的供应商', icon: require('../../assets/image/supplier.svg'), pathname : '/result' },
       // { text: '我的产品', icon: require('../../assets/image/product.svg'), pathname : '/result' },
       // { text: '我的发票', icon: require('../../assets/image/invoice.svg') , pathname : '/result'},

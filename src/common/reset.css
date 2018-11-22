@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:30:15 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-16 09:30:23
+ * @Last Modified time: 2018-11-22 09:45:46
  */
 
 /*修复现代浏览器显示问题*/
@@ -110,4 +110,9 @@ label>* {
   a{
     color: #26a2fa;
     text-decoration: none;
+  }
+  ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
   }

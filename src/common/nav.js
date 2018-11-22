@@ -86,5 +86,18 @@ export const getNavData = app => [
       path: '/productList/:sendId',
       component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/productList'))
     },
+    //质检
+    {
+      name: "质检",
+      icon: 'setting',
+      path: '/qualityTest/:packingCode/:userId/:storageGuid',
+      component: dynamicWrapper(app, ['QualityTest'], () => import('../routes/qualityTest'))
+    },
+    {
+      name: "无效包装码",
+      icon: 'setting',
+      path: '/qualityTest/:userId/:error',
+      component: dynamicWrapper(app, ['Delivery'], () => import('../routes/qualityTest/errorInfo'))
+    },
   ]
 }];

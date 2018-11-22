@@ -1,3 +1,3 @@
-export const _local = 'http://192.168.0.200:5656/ysy'; //院外
-//export const _local = 'http://192.168.0.248:8081'; //个人
-export const FTP = 'http://192.168.0.200:8081/ftp'//图片预览
+
+export const _local = 'http://47.99.177.201:8902/ysy'; //院外-外网
+export const FTP = 'http://47.99.177.201:8902/ysy/ftp'//图片预览

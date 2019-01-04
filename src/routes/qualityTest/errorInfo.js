@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-11-22 15:29:18 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-11-22 15:31:44
+ * @Last Modified time: 2018-12-11 10:11:58
  * 包装码扫一扫错误页面
  */
 import React , { PureComponent } from 'react';

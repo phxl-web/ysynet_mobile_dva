@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 10:11:16 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-05 17:34:51
+ * @Last Modified time: 2018-12-20 14:40:15
  * 送货单信息页面
  */
 import React , { PureComponent } from 'react';
@@ -17,15 +17,16 @@ class DeliveryInfo extends PureComponent{
   state = {
     sendId: this.props.match.params.sendId,
     userId: this.props.match.params.userId,
+    isSign: this.props.match.params.isSign,
     storageGuid: this.props.match.params.storageGuid,
     data: {}
   }
  
    componentDidMount() {
-    const { sendId, storageGuid } = this.state;
+    const { sendId, storageGuid, isSign } = this.state;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
-      payload: { storageGuid: storageGuid,sendId: sendId},
+      payload: { storageGuid: storageGuid,sendId: sendId,isSign:isSign},
       callback: (data) => {
         this.setState( { data : data} )
         this.setState({ loading: false});
@@ -35,12 +36,15 @@ class DeliveryInfo extends PureComponent{
 
   //开始验收按钮
   handleClickCheck = () => {
-    this.props.history.push({pathname:`/DeliveryCheck/${this.state.sendId}/${this.state.userId}/${this.state.storageGuid}`});
+    const { sendId,userId,storageGuid ,isSign } = this.state;
+    this.props.history.push({pathname:`/DeliveryCheck/${sendId}/${userId}/${storageGuid}/${isSign}`});
+  }
+  handleCheckButton = (data,isSign) => {
+    
   }
 
-
   render (){
-    const { data,userId,storageGuid } = this.state;
+    const { data,userId,storageGuid,isSign } = this.state;
     return (
       <div className={styles.container}>
           <div className={styles.infoContent}>
@@ -56,11 +60,11 @@ class DeliveryInfo extends PureComponent{
             <Item>收获地址:{data.tfAddress}</Item>
           </div>
          {
-           data.fstate === "50" ?
+           (isSign === "00" && data.fstate === "50") || (isSign === "01" && data.fstate === "60") ?
            <div className={styles.infoFooter}>
            <Flex>
              <Flex.Item><span className={styles.infoLeftBtn} onClick={() => this.props.history.push({pathname:`/result/${userId}/${storageGuid}`})}>联系供应商</span></Flex.Item>
-             <Flex.Item><span className={styles.infoRightBtn} onClick={this.handleClickCheck}>开始验收</span></Flex.Item>
+             <Flex.Item><span className={styles.infoRightBtn} onClick={this.handleClickCheck}>{ isSign === "01" ? "开始签收" :"开始验收" }</span></Flex.Item>
            </Flex>
            </div>
            :null

@@ -35,7 +35,7 @@ export const getNavData = app => [
     {
       name: "送货单信息",
       icon: 'setting',
-      path: '/deliveryInfo/:sendId/:userId/:storageGuid',
+      path: '/deliveryInfo/:sendId/:userId/:storageGuid/:isSign',
       component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/deliveryInfo'))
     },
     {
@@ -47,7 +47,7 @@ export const getNavData = app => [
     {
       name: "送货单验收界面",
       icon: 'setting',
-      path: '/deliveryCheck/:sendId/:userId/:storageGuid',
+      path: '/deliveryCheck/:sendId/:userId/:storageGuid/:isSign',
       component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/deliveryCheck'))
     },
     {
@@ -98,6 +98,12 @@ export const getNavData = app => [
       icon: 'setting',
       path: '/qualityTest/:userId/:error',
       component: dynamicWrapper(app, ['Delivery'], () => import('../routes/qualityTest/errorInfo'))
+    },
+    {
+      name: "扫箱码",
+      icon: 'setting',
+      path: '/scanDelivery/:packingCode/:sendId/:userId/:storageGuid',
+      component: dynamicWrapper(app, ['QualityTest','Delivery'], () => import('../routes/Delivery/scanDelivery'))
     },
   ]
 }];

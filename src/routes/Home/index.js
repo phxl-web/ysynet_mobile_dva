@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-11-22 18:42:17
+ * @Last Modified time: 2018-12-21 10:09:27
  * 主页
  */
 
@@ -59,12 +59,11 @@ class Home extends PureComponent {
 
   handleGridClick = (el,index) => {
     //质检的pathname要为二维码扫一扫的链接
-    if(index === 1){
-      console.log(12132)
+    if(index === 1 || index === 2){
       window.location.href= el.pathname
     }else{
       this.props.history.push({pathname: el.pathname})
-    }
+     }
   }
 
   render() {
@@ -72,8 +71,9 @@ class Home extends PureComponent {
     const gridStorageData = [
       // { text: '我的订单', icon: require('../../assets/image/order.svg') , pathname : '/result' },
       { text: '我的送货单', icon: require('../../assets/image/delivery.svg') , pathname : `/delivery/${userId}/${storageGuid}`},
-      { text: '质检', icon: require('../../assets/image/product.svg') , pathname : `http://yxc.nat300.top/meqm/test/mobileScanPackQrcode?userId=${userId}&storageGuid=${storageGuid}`},
-      // { text: '我的供应商', icon: require('../../assets/image/supplier.svg'), pathname : '/result' },
+      //{ text: '质检', icon: require('../../assets/image/delivery.svg') , pathname : `/qualityTest/BZ0018218112000001/${userId}/${storageGuid}`},
+      { text: '质检', icon: require('../../assets/image/product.svg') , pathname : `http://nn.s1.natapp.cc/meqm/test/mobileScanPackQrcode?userId=${userId}&storageGuid=${storageGuid}`},
+       { text: '二次验收', icon: require('../../assets/image/scan.svg'), pathname :`http://nn.s1.natapp.cc/meqm/test/mobileScanSignSendQrcode?userId=${userId}&storageGuid=${storageGuid}`},
       // { text: '我的产品', icon: require('../../assets/image/product.svg'), pathname : '/result' },
       // { text: '我的发票', icon: require('../../assets/image/invoice.svg') , pathname : '/result'},
       // { text: '审批管理', icon: require('../../assets/image/checkmgm.svg') , pathname : '/result'},

@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:18:06 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-06 10:40:57
+ * @Last Modified time: 2018-12-20 17:26:09
  * 我的送货单页面
  */
 
@@ -58,13 +58,13 @@ class Delivery extends PureComponent{
   handlePassClick = (item) => {
     const { storageGuid,userId }  =  this.state;
     if(item.fstate === "50"){
-      const sendIds = [];
-      sendIds.push(item.sendId);
+      const sendId = [];
+      sendId.push(item.sendId);
       this.props.dispatch({
         type: 'delivery/mobileDeliveryThrough',
-        payload: { storageGuid: storageGuid,sendIds: sendIds},
+        payload: { storageGuid: storageGuid,sendId: sendId},
         callback: () => {
-          this.props.history.push({pathname: `/checkComplete/${item.sendId}`})
+          this.props.history.push({pathname: `/checkComplete/${item.sendId}/${userId}/${storageGuid}`})
         }
      })}else if(item.fstate === "80"){
         this.props.history.push({pathname: `/message/${item.sendId}/${userId}/${storageGuid}`})
@@ -72,12 +72,12 @@ class Delivery extends PureComponent{
   }
   //拒收
   handleNoPassClick = (item) => {
-    const { storageGuid }  =  this.state;
+    const { storageGuid ,userId}  =  this.state;
     this.props.dispatch({
       type: 'delivery/mobileDeliveryNotThrough',
       payload: { storageGuid: storageGuid,sendId: item.sendId},
       callback: () => {
-        this.props.history.push({pathname: `/checkComplete/${item.sendId}`})
+        this.props.history.push({pathname: `/checkComplete/${item.sendId}/${userId}/${storageGuid}`})
       }
     })
   }
@@ -86,7 +86,7 @@ class Delivery extends PureComponent{
   handleUrl= (item) =>{
     const { userId, storageGuid } = this.state;
     if(item.fstate === "50"){
-      this.props.history.push({pathname: `/deliveryInfo/${item.sendId}/${userId}/${storageGuid}`})
+      this.props.history.push({pathname: `/deliveryInfo/${item.sendId}/${userId}/${storageGuid}/00`})
     }else{
       this.props.history.push({pathname: `/deliveryDetails/${item.sendId}/${userId}/${storageGuid}`})
     }

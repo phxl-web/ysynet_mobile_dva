@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-11-22 09:25:04 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-11-22 15:18:49
+ * @Last Modified time: 2018-12-11 10:44:31
  * 质检
  */
 import React , { PureComponent } from 'react';
@@ -28,7 +28,7 @@ class QualityTestDetails extends PureComponent{
     tfAccessoryFile: false,//供应商营业执照
     jyxkAccessoryFile: false,//供应商经营许可证
     businessLicenseAccessory: false ,// 生产商营业执照
-    tfAllow:[],//生产商许可证
+    tfAllows:[],//生产商许可证
     sign:false,//标记产品效期是否过期
   }
   
@@ -46,15 +46,37 @@ class QualityTestDetails extends PureComponent{
         if(data.usefulDate){
           sign  =  moment().startOf('day').diff(data.usefulDate) > 0 ? true : false;
         }
+        const tfAllows = []
+        let tempTfAllow  = this.formatPicAccessory(tfAllow.join(";"));
+        tempTfAllow.map(item=>{
+          if(item){
+            return  tfAllows.push(item);
+          }else{
+            return null
+          }
+        })
         setTimeout(() => {
-          this.setState({ baseInfo:data, tfAccessoryFile, jyxkAccessoryFile, businessLicenseAccessory,zczTfAccessory ,tfAllow,sign})
+          this.setState({ baseInfo:data, tfAccessoryFile, jyxkAccessoryFile, businessLicenseAccessory,zczTfAccessory ,tfAllows,sign})
         }, 100);
       }
     })
   }
+  //更换格式
+  formatPicAccessory =( accList )=>{
+    if(accList){
+      if(Array.isArray(accList)){
+        return accList
+      }else{
+        let retList = accList.split(';');
+        return retList
+      }
+    }else{
+      return []
+    }
+  }
 
   render() {
-    const { baseInfo, tfAccessoryFile, jyxkAccessoryFile, businessLicenseAccessory, zczTfAccessory, tfAllow , sign} = this.state;
+    const { baseInfo, tfAccessoryFile, jyxkAccessoryFile, businessLicenseAccessory, zczTfAccessory, tfAllows , sign} = this.state;
     return (
       <div className={styles.container}>
         { zczTfAccessory ?  <ShowPicCard  url={`${FTP}${zczTfAccessory}`} style={{height:276,overflowY:'auto'}}/> : null }
@@ -66,7 +88,7 @@ class QualityTestDetails extends PureComponent{
         </ul>
         <WhiteSpace size="sm" />
         <Tabs tabs={tabs}
-          initialPage={1}
+          initialPage={0}
           onChange={(tab, index) => { console.log('onChange', index, tab); }}
           onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
         >
@@ -87,12 +109,13 @@ class QualityTestDetails extends PureComponent{
             { tfAccessoryFile ? <ShowPicCard title="供应商营业执照"  url={`${FTP}${tfAccessoryFile}`} style={{height:276,overflowY:'auto'}}/> : null }
             { jyxkAccessoryFile ? <ShowPicCard title="供应商经营许可证"  url={`${FTP}${jyxkAccessoryFile}`} style={{height:276,overflowY:'auto'}}/> : null }
             { businessLicenseAccessory ? <ShowPicCard title="生产商营业执照"  url={`${FTP}${businessLicenseAccessory}`} style={{height:276,overflowY:'auto'}}/> : null }
-            { tfAllow && tfAllow.length!==0 
-              ? 
-              tfAllow.map((item,index) => {
+            { tfAllows && tfAllows.length !==0 ?
+              tfAllows.map((item,index)=>{
+                console.log(index)
                   return <ShowPicCard key={index} title={`生产商许可证${index+1}`}  url={`${FTP}${item}`} style={{height:276,overflowY:'auto'}}/> 
               })
-              : null
+              :null
+         
             }
           </div>
         </Tabs>

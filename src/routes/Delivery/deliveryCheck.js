@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 11:16:21 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-05 17:54:45
+ * @Last Modified time: 2018-12-21 09:45:42
  * 送货单验收界面
  */
 import React , { PureComponent } from 'react';
@@ -22,6 +22,7 @@ class DeliveryCheck extends PureComponent{
     val:null,
     sendId: this.props.match.params.sendId,
     userId: this.props.match.params.userId,
+    isSign: this.props.match.params.isSign,
     storageGuid: this.props.match.params.storageGuid ,
     files: [], // 展示图片
     submitFiles:[], // 提交图片
@@ -38,10 +39,10 @@ class DeliveryCheck extends PureComponent{
   }
 
   getMobileCheckDelivery = () => {
-    const { sendId ,storageGuid} = this.state;
+    const { sendId ,storageGuid, isSign} = this.state;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
-      payload: { storageGuid: storageGuid,sendId: sendId},
+      payload: { storageGuid: storageGuid,sendId: sendId,isSign:isSign},
       callback: (data) => {
         const  filePaths  = [];
         if(data.deliveryCheckImages){
@@ -152,12 +153,11 @@ class DeliveryCheck extends PureComponent{
   
   handleCheck = (type) => {
      const { sendId,storageGuid,userId } = this.state;
-  
      this.props.dispatch({
        type: type,
        payload: { storageGuid: storageGuid,sendId: sendId},
        callback: () => {
-          this.props.history.push({pathname:`/CheckComplete/${sendId}/${userId}/${storageGuid}`});
+          this.props.history.push({pathname:`/checkComplete/${sendId}/${userId}/${storageGuid}`});
          this.getMobileCheckDelivery();
        }
      })
@@ -174,7 +174,7 @@ class DeliveryCheck extends PureComponent{
 
   render (){
     const { files } = this.state;
-    const { productData, dataSource,allChecked,storageGuid,userId } = this.state;
+    const { productData, dataSource,allChecked,storageGuid,userId,sendId,isSign } = this.state;
     
     return (
       <div className={styles.container}>
@@ -182,10 +182,10 @@ class DeliveryCheck extends PureComponent{
           <Flex.Item style={{flex:7}}>
           </Flex.Item>
           <Flex.Item>
-               {<span onClick={() => window.location.href= `http://nn.s1.natapp.cc/meqm/test/mobileScanQrcode?userId=${userId}&storageGuid=${storageGuid}`}><img src={require("../../assets/image/scan.svg")} alt="扫一扫" /></span>}   
+            {<span onClick={() => window.location.href= `http://nn.s1.natapp.cc/meqm/test/mobileScanPackQrcode?userId=${userId}&storageGuid=${storageGuid}&sendId=${sendId}`}><img src={require("../../assets/image/scan.svg")} alt="扫一扫" /></span>}  
           </Flex.Item>
         </Flex>
-          <div className={styles.checkContent}>
+          <div className={styles.checkContent} style={isSign==="01"?{height:(document.body.clientHeight-120)}:null}>
           {
             productData.map((item,index) => {
                 return <div className={styles.listCheck} key={index}>
@@ -215,7 +215,9 @@ class DeliveryCheck extends PureComponent{
                         <div style={{height:'40px',marginBottom:'7px'}}>
                          {
                            !item.showInput ?
-                           <p className={styles.checkNum}>数量: {item.amount} <span style={{color:"#666",position:'absolute',right:'10px'}} onClick={this.handleEditNum.bind(null,item,index)}><FontAwesomeIcon icon="edit" /></span></p>
+                           <p className={styles.checkNum}>数量: {item.amount} 
+                            {item.DeliveryDetailFstate === "70" ? null : <span style={{color:"#666",position:'absolute',right:'10px'}} onClick={this.handleEditNum.bind(null,item,index)}><FontAwesomeIcon icon="edit" /></span>}
+                           </p>
                           :null 
                          }
                           {
@@ -245,7 +247,9 @@ class DeliveryCheck extends PureComponent{
             }
 
           </div>
-          <div className={styles.checkFooter}>
+          <div className={styles.checkFooter} style={isSign==="01"?{height:85}:null}>
+          {
+            isSign !=="01" ?
             <ImagePicker
               length="8"
               files={files}
@@ -253,6 +257,9 @@ class DeliveryCheck extends PureComponent{
               selectable={files.length < 8}
               accept="image/*"
             />
+            :
+            null
+          }
            <div className={styles.checkTools}>
             <Flex>
                 <Flex.Item>
@@ -265,8 +272,8 @@ class DeliveryCheck extends PureComponent{
            </div>
             <div className={styles.infoFooter}>
               <Flex>
-                <Flex.Item><span className={styles.infoRightBtn} onClick={this.handleDeliveryThrough}>验收通过</span></Flex.Item>
-                <Flex.Item><span className={styles.infoLeftBtn} onClick={this.handleDeliveryNotThrough}>验收不通过</span></Flex.Item>
+                <Flex.Item><span className={styles.infoRightBtn} onClick={this.handleDeliveryThrough}> { isSign === "01" ? "签收通过" :"验收通过" } </span></Flex.Item>
+                <Flex.Item><span className={styles.infoLeftBtn} onClick={this.handleDeliveryNotThrough}> { isSign === "01" ? "签收不通过" :"验收不通过" } </span></Flex.Item>
               </Flex>
             </div>
         

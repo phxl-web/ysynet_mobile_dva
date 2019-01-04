@@ -17,7 +17,7 @@ export const getNavData = app => [
     {
       name: "home",
       icon: 'home',
-      path: '/home/:userId',
+      path: '/home/:userId/:userName/:pwd/:bool',
       component: dynamicWrapper(app, [], () => import('../routes/Home'))
     },
     {

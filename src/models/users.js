@@ -24,6 +24,17 @@ export default {
         Toast.fail(data.result.loginResult || '登录获取用户信息失败!', 1);
       }
     },
+    // 绑定
+    *userBind({ payload, callback },{ call, put }){
+      const data = yield call(usersService.bindUser,payload);
+      if(data.status){
+        yield put({ type: 'userInfo',payload: {...data.result.userInfo}})
+      }else{
+        Toast.fail(data.msg || '登录获取用户信息失败!', 1);
+      }
+      if(callback) callback(data);
+    },
+
     *getUserInfo({ payload, callback },{ call }){
       const data = yield call(usersService.getUserInfo,payload);
       if(data.status){

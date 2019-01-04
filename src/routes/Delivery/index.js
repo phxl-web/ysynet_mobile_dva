@@ -1,13 +1,14 @@
 /*
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:18:06 
- * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-12-20 17:26:09
+ * @Last Modified by: wwb
+ * @Last Modified time: 2019-01-04 17:47:30
  * 我的送货单页面
  */
 
 import React , { PureComponent } from 'react';
-import { Card, Button,Flex,SearchBar} from 'antd-mobile';
+// import { Card, Button,Flex,SearchBar} from 'antd-mobile';
+import { Card, Button,Flex} from 'antd-mobile';
 import { connect } from 'dva';
 import ListViewScroll from '../../components/listViewScroll';
 import styles from './style.css';

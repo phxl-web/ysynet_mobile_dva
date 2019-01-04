@@ -1,8 +1,8 @@
 /*
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:29:35 
- * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-11-21 17:24:38
+ * @Last Modified by: wwb
+ * @Last Modified time: 2019-01-04 17:47:49
  */
 
   
@@ -10,7 +10,7 @@ import React, { PureComponent } from 'react';
 import { InputItem, Button, List, Toast } from 'antd-mobile';
 import styles from './style.css';
 import { connect } from 'dva';
-import sha1 from 'sha1';
+// import sha1 from 'sha1';s
 import md5 from 'md5';
 
 class Login extends PureComponent {
@@ -20,7 +20,12 @@ class Login extends PureComponent {
     userName: "",
     password: "",
     loading: false,
-    value:''
+    value:'',
+    openid: null
+  }
+  componentDidMount = () =>{
+    const openid = this.props.match.params.id;
+    this.setState({ openid });
   }
   //检测用户名
   handleUserNameChange = (value) => {
@@ -45,32 +50,55 @@ class Login extends PureComponent {
       this.setState( { pwdError: false,password: value})
     }
   }
+  userLogin = (info,id) =>{
+    let userInfo = {
+      userNo: info.name,
+      pwd: info.pwd, 
+      token: 'vania'
+    }
+    this.props.dispatch({
+      type: 'users/userLogin',
+      payload: userInfo,
+      callback: (data) =>{
+        this.props.history.push({pathname: `/home/${id}/${info.name}/${info.pwd}/false`})
+      }
+    })
+  }
+
   //登录
   onLogin = () => {
     this.setState( { loading:true })
-    const{  userName,password} = this.state ;
+    const{  userName, password, openid } = this.state ;
     if(userName!=="" && password!==""){
       let arr = [md5(password.toString()).substring(2, md5(password.toString()).length).toUpperCase(), 'vania']
       let pwd = '';
       arr.sort().map( (item, index) => {
         return pwd += item;
       })
+      // const userInfo = {
+      //   userNo: userName, 
+      //   pwd: sha1(pwd),
+      //   token: 'vania',
+      //   openid
+      // }
       const userInfo = {
-        userNo: userName, 
-        pwd: sha1(pwd),
-        token: 'vania',
+        name: userName,
+        pwd: password,
+        openid
       }
       console.log(userInfo,'user')
       this.props.dispatch({
-        type: 'users/userLogin',
+        // type: 'users/userLogin',
+        type: 'users/userBind',
         payload: userInfo,
         callback: (data) => {
           this.setState({ loading: false});
-          if(!data.result.userInfo){
-            Toast.fail(data.result.loginResult,1)
+          if(!data.status){
+            Toast.fail(data.msg,1)
           }else{
-            const userId = data.result.userInfo.userId;
-            this.props.history.push({pathname: `/home/${userId}`})
+            this.userLogin(userInfo,data.result.userId)
+            // const userId = data.result.userId;
+            // this.props.history.push({pathname: `/home/${userId}`})
           
           }
         }

@@ -1,0 +1,32 @@
+.container{
+  width: 100%;
+  height: calc(100vh - 200px);
+  padding: .2rem .48rem;
+}
+.bulbWrap{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bulb{
+  margin: 1.5rem 0 .4rem 0;
+  width: 1rem;
+  height: 1rem;
+  background-image: url("../../assets/image/bulb.svg");
+  background-size: cover;
+}
+.tooltip{
+  font-size: .2rem;
+  text-align: center;
+  line-height: 1.5;
+  color: #108ee9;
+  margin: 0 0 .2rem 0;
+}
+.bulbText{
+  font-size: .18rem;
+  text-align: center;
+  line-height: 1.5;
+  color: #333333;
+  margin: 0 0 .4rem 0;
+}

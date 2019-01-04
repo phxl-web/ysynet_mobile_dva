@@ -10,6 +10,15 @@ export function login(options) {
   });
 }
 
+// 绑定
+export function bindUser(options) {
+  return request(`${_local}/WeiXinTest/weBind`,{
+    methods: "POST",
+    type: 'formData',
+    body: options
+  });
+}
+
 //获取用户信息
 export function getUserInfo(options){
   return request(`${_local}/user/findOrgUserById`,{

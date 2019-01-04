@@ -1,8 +1,8 @@
 /*
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
- * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-12-21 10:09:27
+ * @Last Modified by: wwb
+ * @Last Modified time: 2019-01-04 17:18:18
  * 主页
  */
 
@@ -28,16 +28,42 @@ class Home extends PureComponent {
     userInfo: {},
     storageGuid:'',
     userId: this.props.match.params.userId,
+    userName: this.props.match.params.userName,
+    pwd: this.props.match.params.pwd,
+    bool: this.props.match.params.bool, // false: 登陆页面跳转进home, true: 直接跳转进home
   }
   componentDidMount =()=>{
-    const { userId } = this.state;
+    const { userId, userName, pwd, bool } = this.state;
+    let userInfo = {
+      userNo: userName,
+      pwd: pwd, 
+      // token: 'vania'
+    }
+    if(bool === 'false'){
+      this.genUserInfo(userId);
+      this.genStorage();
+    }else{
+      this.props.dispatch({
+        type: 'users/userLogin',
+        payload: userInfo,
+        callback: (data) =>{
+          this.genUserInfo(userId);
+          this.genStorage();
+        }
+      })
+    }
+  }
+  genUserInfo = (userId) =>{
     this.props.dispatch({
       type: 'users/getUserInfo',
-      payload: { userId : userId},
+      payload: { userId : userId,token: 'vania'},
       callback: (data) => {
        this.setState({ userInfo: data})
       }
     })
+  }
+
+  genStorage = () =>{
     this.props.dispatch({
       type: 'users/getStorages',
       callback: (data) => {
@@ -49,7 +75,6 @@ class Home extends PureComponent {
       }
     })
   }
-
   
 
  
@@ -83,7 +108,7 @@ class Home extends PureComponent {
     return (
       <div className={styles.container}>
         <div className={styles.top}>
-          <Profile title={userInfo.orgName} extra={userInfo.userName} tag={userInfo.jobNum} />
+          <Profile title={userInfo.orgName} extra={userInfo.userName} tag={userInfo.jobNum} avatar={userInfo.headImgUrl}/>
         </div>
         <div className={styles.footer}>
           <Tabs tabs={tabs}

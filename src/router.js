@@ -55,7 +55,7 @@ import { Router, Route, Switch } from 'dva/router';
 import cloneDeep from 'lodash/cloneDeep';
 
 import Login from './routes/Login';
-
+import BindUser from './routes/Bind';
 import { getNavData } from './common/nav';
 import { getPlainNode } from './utils';
 
@@ -108,7 +108,8 @@ function RouterConfig({ history, app }) {
 
       <Router history={history}>
         <Switch>
-          <Route path="/login" component={Login}/>
+          <Route path="/login/:id" component={Login}/>
+          <Route path="/bindUser/:id" component={BindUser}/>
           {/* <Route path="/home" component={Home}/> */}
           {/* <Route path="/app" render={props => <WorkplaceLayout {...props} {...passProps} />} /> */}
           <Route path="/" render={props => <BasicLayout {...props} {...passProps} />} />

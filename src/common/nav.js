@@ -105,5 +105,18 @@ export const getNavData = app => [
       path: '/scanDelivery/:packingCode/:sendId/:userId/:storageGuid',
       component: dynamicWrapper(app, ['QualityTest','Delivery'], () => import('../routes/Delivery/scanDelivery'))
     },
+    //订单提醒详情 普耗和手术
+    {
+      name: "普耗详情",
+      icon: 'setting',
+      path: '/orderReminder/:orderId/:openId',
+      component: dynamicWrapper(app, ['OrderReminder'], () => import('../routes/orderReminder'))
+    },
+    {
+      name: "手术订单详情",
+      icon: 'setting',
+      path: '/orderReminder/operDetails/:orderId/:openId',
+      component: dynamicWrapper(app, ['OrderReminder'], () => import('../routes/orderReminder/operDetails'))
+    },
   ]
 }];

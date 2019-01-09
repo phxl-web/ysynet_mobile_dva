@@ -1,0 +1,34 @@
+/*
+ * @Author: gaofengjiao 
+ * @Date: 2019-01-07 11:21:24 
+ * @Last Modified by: gaofengjiao
+ * @Last Modified time: 2019-01-08 09:53:55
+ */
+
+import * as OrderReminderService from '../services/OrderReminder';
+import { Toast } from 'antd-mobile';
+export default {
+  namespace: 'orderReminder',
+  state: {
+  },
+  reducers: {
+  },
+  effects: {
+    *queryOperationOrder({ payload, callback},{ call,put }){
+      const data = yield call(OrderReminderService.queryOrderAndOperation,payload);
+      if(data.status){
+        if(callback) callback(data.result)
+      }else{
+        Toast.fail(data.msg || "获取信息失败")
+      }
+    },
+    *queryOrderDetailList({ payload, callback},{ call,put }){
+      const data = yield call(OrderReminderService.queryOrderDetailList,payload);
+      if(data.status){
+        if(callback) callback(data.result)
+      }else{
+        Toast.fail(data.msg || "获取信息失败")
+      }
+    },
+  }
+}

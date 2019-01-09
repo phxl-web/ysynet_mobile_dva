@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
  * @Last Modified by: wwb
- * @Last Modified time: 2019-01-04 17:18:18
+ * @Last Modified time: 2019-01-09 17:02:21
  * 主页
  */
 
@@ -34,24 +34,27 @@ class Home extends PureComponent {
   }
   componentDidMount =()=>{
     const { userId, userName, pwd, bool } = this.state;
-    let userInfo = {
-      userNo: userName,
-      pwd: pwd, 
-      // token: 'vania'
-    }
-    if(bool === 'false'){
-      this.genUserInfo(userId);
-      this.genStorage();
-    }else{
-      this.props.dispatch({
-        type: 'users/userLogin',
-        payload: userInfo,
-        callback: (data) =>{
-          this.genUserInfo(userId);
-          this.genStorage();
-        }
-      })
-    }
+    console.log(userId,userName,pwd,bool)
+    // let userInfo = {
+    //   userNo: userName,
+    //   pwd: pwd, 
+    //   token: 'vania'
+    // }
+    this.genUserInfo(userId);
+    this.genStorage();
+    // if(bool === 'false'){
+    //   this.genUserInfo(userId);
+    //   this.genStorage();
+    // }else{
+    //   this.props.dispatch({
+    //     type: 'users/userLogin',
+    //     payload: userInfo,
+    //     callback: (data) =>{
+    //       this.genUserInfo(userId);
+    //       this.genStorage();
+    //     }
+    //   })
+    // }
   }
   genUserInfo = (userId) =>{
     this.props.dispatch({

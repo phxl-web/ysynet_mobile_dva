@@ -7,6 +7,9 @@ class ShowPicCard extends PureComponent {
   static propTypes = {
     url: PropTypes.string.isRequired,
   }
+  // handleZoom = (e)=>{
+  //   console.log(e,'123')
+  // }
 
   render() {
     const { title ,url,style} = this.props;
@@ -29,6 +32,7 @@ class ShowPicCard extends PureComponent {
               style={style}
             >
               <img
+                // onClick={this.handleZoom}
                 src={url}
                 alt={title}
                 style={{ width: '100%', verticalAlign: 'top'}}

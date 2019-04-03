@@ -1,8 +1,8 @@
 /*
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
- * @Last Modified by: wwb
- * @Last Modified time: 2019-01-09 17:02:21
+ * @Last Modified by: gaofengjiao
+ * @Last Modified time: 2019-04-01 14:56:06
  * 主页
  */
 
@@ -11,7 +11,7 @@ import { Tabs, Grid } from 'antd-mobile';
 import { connect } from 'dva';
 import styles from './home.css';
 import Profile from 'components/profile';
-import Toolbar from 'components/toolbar';
+// import Toolbar from 'components/toolbar';
 // const gridShebeiData = [
 //   { text: '报修', icon: require('../../assets/image/repair.svg') , pathname : '/ResultInfo'},
 //   { text: '转科', icon: require('../../assets/image/transfer.svg') , pathname : '/ResultInfo'},
@@ -28,33 +28,12 @@ class Home extends PureComponent {
     userInfo: {},
     storageGuid:'',
     userId: this.props.match.params.userId,
-    userName: this.props.match.params.userName,
-    pwd: this.props.match.params.pwd,
-    bool: this.props.match.params.bool, // false: 登陆页面跳转进home, true: 直接跳转进home
   }
   componentDidMount =()=>{
-    const { userId, userName, pwd, bool } = this.state;
-    console.log(userId,userName,pwd,bool)
-    // let userInfo = {
-    //   userNo: userName,
-    //   pwd: pwd, 
-    //   token: 'vania'
-    // }
+    console.log(this.props.users)
+    const { userId } = this.state;
     this.genUserInfo(userId);
     this.genStorage();
-    // if(bool === 'false'){
-    //   this.genUserInfo(userId);
-    //   this.genStorage();
-    // }else{
-    //   this.props.dispatch({
-    //     type: 'users/userLogin',
-    //     payload: userInfo,
-    //     callback: (data) =>{
-    //       this.genUserInfo(userId);
-    //       this.genStorage();
-    //     }
-    //   })
-    // }
   }
   genUserInfo = (userId) =>{
     this.props.dispatch({
@@ -100,8 +79,8 @@ class Home extends PureComponent {
       // { text: '我的订单', icon: require('../../assets/image/order.svg') , pathname : '/result' },
       { text: '我的送货单', icon: require('../../assets/image/delivery.svg') , pathname : `/delivery/${userId}/${storageGuid}`},
       //{ text: '质检', icon: require('../../assets/image/delivery.svg') , pathname : `/qualityTest/BZ0018218112000001/${userId}/${storageGuid}`},
-      { text: '质检', icon: require('../../assets/image/product.svg') , pathname : `http://nn.s1.natapp.cc/meqm/test/mobileScanPackQrcode?userId=${userId}&storageGuid=${storageGuid}`},
-       { text: '二次验收', icon: require('../../assets/image/scan.svg'), pathname :`http://nn.s1.natapp.cc/meqm/test/mobileScanSignSendQrcode?userId=${userId}&storageGuid=${storageGuid}`},
+      { text: '质检', icon: require('../../assets/image/product.svg') , pathname : `http://wxtest.hsms.com.cn/meqm/test/mobileScanPackQrcode?userId=${userId}&storageGuid=${storageGuid}`},
+       { text: '科室验收', icon: require('../../assets/image/scan.svg'), pathname :`http://wxtest.hsms.com.cn/meqm/test/mobileScanSignSendQrcode?userId=${userId}&storageGuid=${storageGuid}`},
       // { text: '我的产品', icon: require('../../assets/image/product.svg'), pathname : '/result' },
       // { text: '我的发票', icon: require('../../assets/image/invoice.svg') , pathname : '/result'},
       // { text: '审批管理', icon: require('../../assets/image/checkmgm.svg') , pathname : '/result'},
@@ -131,7 +110,7 @@ class Home extends PureComponent {
           
           </Tabs>
         </div>
-        <Toolbar className={styles.toolbar_container}/>
+        {/* <Toolbar className={styles.toolbar_container}/> */}
       </div>
     )
   }

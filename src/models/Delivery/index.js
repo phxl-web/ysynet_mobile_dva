@@ -85,6 +85,22 @@ export default {
         Toast.fail(data.msg || "评价失败 ")
       }
      
-    }
+    },
+    *findOperPackageDetail({ payload, callback},{ call,put }){
+      const data = yield call(deliveryService.findOperPackageDetail,payload);
+      if(data.status){
+        if(callback) callback(data.result)
+      }else{
+        Toast.fail(data.msg || "获取信息失败")
+      }
+    },
+    *checkOperDeliveryAudit({ payload, callback},{ call,put }){
+      const data = yield call(deliveryService.checkOperDeliveryAudit,payload);
+      if(data.status){
+        if(callback) callback(data.result)
+      }else{
+        Toast.fail(data.msg || "获取信息失败")
+      }
+    },
   }
 }

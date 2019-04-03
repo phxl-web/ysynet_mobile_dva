@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 11:16:21 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-12-21 09:45:42
+ * @Last Modified time: 2019-03-29 17:45:06
  * 送货单验收界面
  */
 import React , { PureComponent } from 'react';
@@ -137,7 +137,6 @@ class DeliveryCheck extends PureComponent{
   }
   //验收产品数量改为0的时候要取消选中
   onChange = (val) => {
-    console.log(val,'val')
     this.setState({ val: val})
   }
   //选中
@@ -152,10 +151,10 @@ class DeliveryCheck extends PureComponent{
   }
   
   handleCheck = (type) => {
-     const { sendId,storageGuid,userId } = this.state;
+     const { sendId,storageGuid,userId,isSign } = this.state;
      this.props.dispatch({
        type: type,
-       payload: { storageGuid: storageGuid,sendId: sendId},
+       payload: { storageGuid: storageGuid,sendId: sendId,isSign:isSign },
        callback: () => {
           this.props.history.push({pathname:`/checkComplete/${sendId}/${userId}/${storageGuid}`});
          this.getMobileCheckDelivery();
@@ -182,7 +181,7 @@ class DeliveryCheck extends PureComponent{
           <Flex.Item style={{flex:7}}>
           </Flex.Item>
           <Flex.Item>
-            {<span onClick={() => window.location.href= `http://nn.s1.natapp.cc/meqm/test/mobileScanPackQrcode?userId=${userId}&storageGuid=${storageGuid}&sendId=${sendId}`}><img src={require("../../assets/image/scan.svg")} alt="扫一扫" /></span>}  
+            {<span onClick={() => window.location.href= `http://wxtest.hsms.com.cn/meqm/test/mobileScanPackQrcode?userId=${userId}&storageGuid=${storageGuid}&sendId=${sendId}`}><img src={require("../../assets/image/scan.svg")} alt="扫一扫" /></span>}  
           </Flex.Item>
         </Flex>
           <div className={styles.checkContent} style={isSign==="01"?{height:(document.body.clientHeight-120)}:null}>

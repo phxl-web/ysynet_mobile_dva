@@ -1,8 +1,8 @@
 /*
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:29:35 
- * @Last Modified by: wwb
- * @Last Modified time: 2019-01-04 17:47:49
+ * @Last Modified by: gaofengjiao
+ * @Last Modified time: 2019-04-01 14:30:12
  */
 
   
@@ -10,8 +10,9 @@ import React, { PureComponent } from 'react';
 import { InputItem, Button, List, Toast } from 'antd-mobile';
 import styles from './style.css';
 import { connect } from 'dva';
-// import sha1 from 'sha1';s
+import sha1 from 'sha1';
 import md5 from 'md5';
+import message from '../Delivery/message';
 
 class Login extends PureComponent {
   state = {
@@ -56,11 +57,22 @@ class Login extends PureComponent {
       pwd: info.pwd, 
       token: 'vania'
     }
+    let arr = [md5(userInfo.pwd.toString()).substring(2, md5(userInfo.pwd.toString()).length).toUpperCase(), 'vania']
+    let pwd = '';
+    arr.sort().map((item, index) => {
+      return pwd += item;
+    })
+    userInfo.pwd = sha1(pwd);
     this.props.dispatch({
       type: 'users/userLogin',
       payload: userInfo,
       callback: (data) =>{
-        this.props.history.push({pathname: `/home/${id}/${info.name}/${info.pwd}/false`})
+      if(data.status)
+        if (!data.result.userInfo) {
+          message.error(data.result.loginResult)
+        }else{
+          this.props.history.push({pathname: `/home/${id}/${info.name}/${info.pwd}/false`})
+        }
       }
     })
   }
@@ -75,20 +87,12 @@ class Login extends PureComponent {
       arr.sort().map( (item, index) => {
         return pwd += item;
       })
-      // const userInfo = {
-      //   userNo: userName, 
-      //   pwd: sha1(pwd),
-      //   token: 'vania',
-      //   openid
-      // }
       const userInfo = {
         name: userName,
         pwd: password,
         openid
       }
-      console.log(userInfo,'user')
       this.props.dispatch({
-        // type: 'users/userLogin',
         type: 'users/userBind',
         payload: userInfo,
         callback: (data) => {
@@ -96,25 +100,15 @@ class Login extends PureComponent {
           if(!data.status){
             Toast.fail(data.msg,1)
           }else{
-            this.userLogin(userInfo,data.result.userId)
-            // const userId = data.result.userId;
-            // this.props.history.push({pathname: `/home/${userId}`})
-          
+             this.userLogin(userInfo,data.result.userId)
           }
-        }
+       }
       })
     }else{
       const userError = userName!==""?false : true;
       const pwdError = password!=="" ?false : true;
-      
       this.setState({ loading: false,userError,pwdError});
     }
- 
-    
-
-    //this.props.history.push({pathname: '/checkComplete/4FFEF1A80AB14943A85FA92F0C1B06D9'})
-  
-   
   }
   render() {
     return (

@@ -19,6 +19,7 @@ export const getNavData = app => [
       icon: 'home',
       path: '/home/:userId/:userName/:pwd/:bool',
       component: dynamicWrapper(app, [], () => import('../routes/Home'))
+      
     },
     {
       name: "建设中",
@@ -41,7 +42,7 @@ export const getNavData = app => [
     {
       name: "无效送货单",
       icon: 'setting',
-      path: '/deliveryNull/:userId/:storageGuid/:error',
+      path: '/deliveryNull/:userId/:storageGuid/:error/:orderType',
       component: dynamicWrapper(app, ['Delivery'], () => import('../routes/Delivery/deliveryNull'))
     },
     {
@@ -117,6 +118,19 @@ export const getNavData = app => [
       icon: 'setting',
       path: '/orderReminder/operDetails/:orderId/:openId',
       component: dynamicWrapper(app, ['OrderReminder'], () => import('../routes/orderReminder/operDetails'))
+    },
+    //手术送货单
+    {
+      name: "手术送货单信息",
+      icon: 'setting',
+      path: '/operDelivery/:sendId/:userId/:storageGuid/:isSign',
+      component: dynamicWrapper(app, ['Delivery'], () => import('../routes/OperDelivery'))
+    },
+    {
+      name: "手术送货单信息",
+      icon: 'setting',
+      path: '/operDelivery/details/:sendId/:userId/:storageGuid/:isSign/:packageId',
+      component: dynamicWrapper(app, ['Delivery'], () => import('../routes/OperDelivery/details'))
     },
   ]
 }];

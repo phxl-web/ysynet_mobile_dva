@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-12-11 10:00:19 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-12-19 16:16:31
+ * @Last Modified time: 2019-03-29 14:10:51
  * 扫箱码验收
  */
 import React , { PureComponent } from 'react';
@@ -73,7 +73,6 @@ class ScanDelivery extends PureComponent{
   }
   render (){
     const { baseInfo ,showInput} = this.state;
-    console.log(baseInfo,'baseInfo')
     return this.props.children || (
       <div className={styles.container}>
           <div className={styles.checkContent}>

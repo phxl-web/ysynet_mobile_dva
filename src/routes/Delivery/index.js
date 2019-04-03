@@ -110,7 +110,7 @@ class Delivery extends PureComponent{
           </Flex.Item>
           <Flex.Item>
                {/* {<span onClick={() =>  this.props.history.push({pathname:`/deliveryInfo/528C311E57C04927AC1636E86E0B4E94/1C258E0B42C944258CEAF90CB464698C/30B3920747E549BEA2F8CD91291C4D29`})}>扫码</span>} */}
-               {<span onClick={() => window.location.href= `http://nn.s1.natapp.cc/meqm/test/mobileScanQrcode?userId=${userId}&storageGuid=${storageGuid}`}><img src={require("../../assets/image/scan.svg")} alt="扫一扫" /></span>}   
+               {<span onClick={() => window.location.href= `http://wxtest.hsms.com.cn/meqm/test/mobileScanQrcode?userId=${userId}&storageGuid=${storageGuid}`}><img src={require("../../assets/image/scan.svg")} alt="扫一扫" /></span>}   
           </Flex.Item>
         </Flex>
         <ListViewScroll

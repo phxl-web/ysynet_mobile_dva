@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-11-22 15:29:18 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-12-11 10:11:58
+ * @Last Modified time: 2019-04-01 11:30:20
  * 包装码扫一扫错误页面
  */
 import React , { PureComponent } from 'react';
@@ -13,6 +13,8 @@ class ErrorInfo extends PureComponent{
   state = {
     userId: this.props.match.params.userId,
     error : this.props.match.params.error ,
+    userName: this.props.users.userInfo.userNo,
+    pwd: this.props.users.userInfo.pwd,
   }
 
   handleError = (value) => {
@@ -24,7 +26,7 @@ class ErrorInfo extends PureComponent{
   } 
 
   render (){
-    const { error,userId } = this.state;
+    const { error,userId, userName, pwd } = this.state;
     return (
       <div className={styles.container}>
             <Result
@@ -32,7 +34,7 @@ class ErrorInfo extends PureComponent{
             title={this.handleError(error)}
             />
             <div className={styles.checkBtns}>
-              <Button type="default" inline className={styles.messageBtn} onClick={() => this.props.history.push({pathname:`/home/${userId}`})} style={{border:'1px solid #26a2fa'}}>返回首页</Button>
+              <Button type="default" inline className={styles.messageBtn} onClick={() => this.props.history.push({pathname:`/home/${userId}/${userName}/${pwd}/false`})} style={{border:'1px solid #26a2fa'}}>返回首页</Button>
           </div>
       </div>
     )

@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 10:11:16 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-06 10:59:58
+ * @Last Modified time: 2019-04-01 17:26:53
  * 错误页面
  */
 import React , { PureComponent } from 'react';
@@ -14,6 +14,9 @@ class ErrorInfo extends PureComponent{
     userId: this.props.match.params.userId,
     storageGuid: this.props.match.params.storageGuid,
     error : this.props.match.params.error ,
+    orderType : this.props.match.params.orderType ,
+    userName: this.props.users.userInfo.userNo,
+    pwd: this.props.users.userInfo.pwd,
   }
 
   handleError = (value) => {
@@ -25,7 +28,7 @@ class ErrorInfo extends PureComponent{
   } 
 
   render (){
-    const { error,userId,storageGuid } = this.state;
+    const { error,userId,storageGuid,userName,pwd, orderType } = this.state;
     return (
       <div className={styles.container}>
             <Result
@@ -34,8 +37,11 @@ class ErrorInfo extends PureComponent{
             />
             <div className={styles.checkBtns}>
             <Button type="default" inline className={styles.supBtn} onClick={() => this.props.history.push({pathname:'/result'})}  style={{border:'1px solid #666'}}>联系供应商</Button>
-            <Button type="default" inline className={styles.messageBtn} onClick={() => this.props.history.push({pathname:`/home/${userId}`})} style={{border:'1px solid #26a2fa'}}>返回首页</Button>
-            <Button type="default" inline className={styles.goBtn} onClick={() => this.props.history.push({pathname:`/delivery/${userId}/${storageGuid}`})} style={{border:'1px solid green'}}>继续验收</Button>
+            <Button type="default" inline className={styles.messageBtn} onClick={() => this.props.history.push({pathname:`/home/${userId}/${userName}/${pwd}/false`})} style={{border:'1px solid #26a2fa'}}>返回首页</Button>
+            {
+              orderType === "OPER_DELIVERY" ? <Button type="default" inline className={styles.goBtn} onClick={() => this.props.history.push({pathname: `/home/${userId}/${userName}/${pwd}/false`})} style={{border:'1px solid green'}}>继续验收</Button> :<Button type="default" inline className={styles.goBtn} onClick={() => this.props.history.push({pathname:`/delivery/${userId}/${storageGuid}`})} style={{border:'1px solid green'}}>继续验收</Button>
+            }
+
           </div>
       </div>
     )

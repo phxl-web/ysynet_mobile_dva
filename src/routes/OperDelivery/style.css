@@ -1,0 +1,24 @@
+.unitPrice{
+  text-align: right;
+}
+.productWrap  span{
+  color: #333 ;
+  margin-left: 8px;
+}
+.footer{
+  display: flex;
+  flex: 1;
+}
+.footer .amount{
+  width: 50%;
+}
+.footer .amount span{
+  color: #1890FF;
+}
+.footer .totalPrice{
+  text-align: right;
+  width: 50%;
+}
+.footer .totalPrice span{
+  color: red;
+}

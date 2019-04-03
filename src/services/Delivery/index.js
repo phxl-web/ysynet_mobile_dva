@@ -72,3 +72,21 @@ export function deliveryEvaluate(options){
     body: options
   })
 }
+
+//手术送货单详情
+export function findOperPackageDetail(options){
+  return request(`${_local}/order/findOperPackageDetail`,{
+    methods: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
+
+//手机端验收通过不通过
+export function checkOperDeliveryAudit(options){
+  return request(`${_local}/order/checkOperDeliveryAudit`,{
+    methods: 'POST',
+    type: 'formData',
+    body: options
+  })
+}

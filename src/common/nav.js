@@ -132,5 +132,11 @@ export const getNavData = app => [
       path: '/operDelivery/details/:sendId/:userId/:storageGuid/:isSign/:packageId',
       component: dynamicWrapper(app, ['Delivery'], () => import('../routes/OperDelivery/details'))
     },
+    {
+      name: "证件列表",
+      icon: 'setting',
+      path: '/certList/:rOrgId/:fOrgId/:openId',
+      component: dynamicWrapper(app, ['OrderReminder'], () => import('../routes/orderReminder/certList'))
+    },
   ]
 }];

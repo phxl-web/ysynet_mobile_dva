@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 10:11:16 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-12-20 14:40:15
+ * @Last Modified time: 2019-04-04 17:29:00
  * 送货单信息页面
  */
 import React , { PureComponent } from 'react';
@@ -36,10 +36,12 @@ class DeliveryInfo extends PureComponent{
 
   //开始验收按钮
   handleClickCheck = () => {
-    const { sendId,userId,storageGuid ,isSign } = this.state;
-    this.props.history.push({pathname:`/DeliveryCheck/${sendId}/${userId}/${storageGuid}/${isSign}`});
-  }
-  handleCheckButton = (data,isSign) => {
+    const { sendId,userId,storageGuid ,isSign,data } = this.state;
+    if(data.orderType === "OPER_DELIVERY"){
+      this.props.history.push({pathname:`/operDelivery/${sendId}/${userId}/${storageGuid}/${isSign}`});
+    }else{
+      this.props.history.push({pathname:`/DeliveryCheck/${sendId}/${userId}/${storageGuid}/${isSign}`});
+    }
     
   }
 

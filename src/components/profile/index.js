@@ -41,7 +41,8 @@ class Profile extends PureComponent {
           <div className={styles.head}>
             <img
             alt={title}
-            src={ avatar || require('../../assets/image/user.png')}  
+            src={ avatar }
+            // src={ avatar || require('../../assets/image/user.png')}  
             className={styles.portrait} />
           </div>
           <div className={styles.text}>

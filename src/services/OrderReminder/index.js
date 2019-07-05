@@ -16,3 +16,12 @@ export function queryOrderDetailList(options){
     body: options
   })
 }
+
+//授权缺失详
+export function queryCertList(options){
+  return request(`${_local}/cert/queryCertList`,{
+    methods: 'POST',
+    type: 'formData',
+    body: options
+  })
+}

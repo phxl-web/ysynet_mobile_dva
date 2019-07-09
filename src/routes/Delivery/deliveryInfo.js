@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 10:11:16 
  * @Last Modified by: gaofengjiao
- * @Last Modified time: 2019-04-04 17:29:00
+ * @Last Modified time: 2019-07-08 11:01:43
  * 送货单信息页面
  */
 import React , { PureComponent } from 'react';
@@ -17,7 +17,7 @@ class DeliveryInfo extends PureComponent{
   state = {
     sendId: this.props.match.params.sendId,
     userId: this.props.match.params.userId,
-    isSign: this.props.match.params.isSign,
+    isSign: this.props.match.params.isSign, //开始签收(二次验收)01 00开始验收
     storageGuid: this.props.match.params.storageGuid,
     data: {}
   }

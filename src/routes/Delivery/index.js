@@ -1,8 +1,8 @@
 /*
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:18:06 
- * @Last Modified by: wwb
- * @Last Modified time: 2019-01-04 17:47:30
+ * @Last Modified by: xiangxue
+ * @Last Modified time: 2019-07-18 16:13:58
  * 我的送货单页面
  */
 
@@ -91,7 +91,6 @@ class Delivery extends PureComponent{
     }else{
       this.props.history.push({pathname: `/deliveryDetails/${item.sendId}/${userId}/${storageGuid}`})
     }
-   
   }
   render(){
     const { searchName ,userId , storageGuid} = this.state;
@@ -110,14 +109,17 @@ class Delivery extends PureComponent{
           </Flex.Item>
           <Flex.Item>
                {/* {<span onClick={() =>  this.props.history.push({pathname:`/deliveryInfo/528C311E57C04927AC1636E86E0B4E94/1C258E0B42C944258CEAF90CB464698C/30B3920747E549BEA2F8CD91291C4D29`})}>扫码</span>} */}
-               {<span onClick={() => window.location.href= `http://wxtest.hsms.com.cn/meqm/test/mobileScanQrcode?userId=${userId}&storageGuid=${storageGuid}`}><img src={require("../../assets/image/scan.svg")} alt="扫一扫" /></span>}   
+               {/* {<span onClick={() => window.location.href= `http://wxtest.hsms.com.cn/meqm/test/mobileScanQrcode?userId=${userId}&storageGuid=${storageGuid}`}><img src={require("../../assets/image/scan.svg")} alt="扫一扫" /></span>}    */}
+               {<span onClick={() => window.location.href= `http://yxc.nat300.top/meqm/test/mobileScanQrcode?userId=${userId}&storageGuid=${storageGuid}`}><img src={require("../../assets/image/scan.svg")} alt="扫一扫" /></span>}   
           </Flex.Item>
         </Flex>
         <ListViewScroll
           url={this.state.url}
           queryParams={{
             rStorageGuid: storageGuid,
-            searchParam: searchName
+            searchParam: searchName,
+            userId,
+            
           }}
           item={item => {
           return (<Card full style={{marginBottom:"10px"}}>

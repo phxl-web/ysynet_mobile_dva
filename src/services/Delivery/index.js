@@ -30,7 +30,7 @@ export function deliveryDetialCheck(options){
 
 //送货单验收通过
 export function mobileDeliveryThrough(options){
-  return request(`${_local}/check/mobileDeliveryThrough`,{
+  return request(`${_local}/check/scanThrough`,{
     methods: 'POST',
     type: 'formData',
     body: options

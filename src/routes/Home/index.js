@@ -1,8 +1,8 @@
 /*
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
- * @Last Modified by: gaofengjiao
- * @Last Modified time: 2019-04-01 14:56:06
+ * @Last Modified by: xiangxue
+ * @Last Modified time: 2019-07-17 10:01:15
  * 主页
  */
 
@@ -33,7 +33,7 @@ class Home extends PureComponent {
     console.log(this.props.users)
     const { userId } = this.state;
     this.genUserInfo(userId);
-    this.genStorage();
+    this.genStorage(userId);
   }
   genUserInfo = (userId) =>{
     this.props.dispatch({
@@ -45,9 +45,10 @@ class Home extends PureComponent {
     })
   }
 
-  genStorage = () =>{
+  genStorage = (userId) =>{
     this.props.dispatch({
       type: 'users/getStorages',
+      payload: { userId : userId,token: 'vania'},
       callback: (data) => {
         const tabs = [];
         data.map((item,index) => {
@@ -107,7 +108,6 @@ class Home extends PureComponent {
                       </div>
               })
             }
-          
           </Tabs>
         </div>
         {/* <Toolbar className={styles.toolbar_container}/> */}

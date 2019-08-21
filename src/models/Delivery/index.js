@@ -39,9 +39,10 @@ export default {
     *mobileDeliveryThrough({ payload, callback} , { call }){
       const data = yield call(deliveryService.mobileDeliveryThrough,payload);
       if(data.status){
-        if(callback) callback()
+        if(callback) callback(data.status)
         Toast.success("操作成功")
       }else{
+        if(callback) callback(data.status)
         Toast.fail(data.msg || "操作失败 ")
       }
      
@@ -49,9 +50,10 @@ export default {
     *mobileDeliveryNotThrough({ payload, callback} , { call }){
       const data = yield call(deliveryService.mobileDeliveryNotThrough,payload);
       if(data.status){
-        if(callback) callback()
+        if(callback) callback(data.status)
         Toast.success("操作成功")
       }else{
+        if(callback) callback(data.status)
         Toast.fail(data.msg || "操作失败 ")
       }
     

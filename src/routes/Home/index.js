@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-07-17 10:01:15
+ * @Last Modified time: 2019-08-19 15:32:20
  * 主页
  */
 
@@ -11,6 +11,8 @@ import { Tabs, Grid } from 'antd-mobile';
 import { connect } from 'dva';
 import styles from './home.css';
 import Profile from 'components/profile';
+import { MEQM } from '../../api/local';
+
 // import Toolbar from 'components/toolbar';
 // const gridShebeiData = [
 //   { text: '报修', icon: require('../../assets/image/repair.svg') , pathname : '/ResultInfo'},
@@ -80,8 +82,8 @@ class Home extends PureComponent {
       // { text: '我的订单', icon: require('../../assets/image/order.svg') , pathname : '/result' },
       { text: '我的送货单', icon: require('../../assets/image/delivery.svg') , pathname : `/delivery/${userId}/${storageGuid}`},
       //{ text: '质检', icon: require('../../assets/image/delivery.svg') , pathname : `/qualityTest/BZ0018218112000001/${userId}/${storageGuid}`},
-      { text: '质检', icon: require('../../assets/image/product.svg') , pathname : `http://wxtest.hsms.com.cn/meqm/test/mobileScanPackQrcode?userId=${userId}&storageGuid=${storageGuid}`},
-       { text: '科室验收', icon: require('../../assets/image/scan.svg'), pathname :`http://wxtest.hsms.com.cn/meqm/test/mobileScanSignSendQrcode?userId=${userId}&storageGuid=${storageGuid}`},
+      { text: '质检', icon: require('../../assets/image/product.svg') , pathname : `${MEQM}/test/mobileScanPackQrcode?userId=${userId}&storageGuid=${storageGuid}`},
+       { text: '科室验收', icon: require('../../assets/image/scan.svg'), pathname :`${MEQM}/test/mobileScanSignSendQrcode?userId=${userId}&storageGuid=${storageGuid}`},
       // { text: '我的产品', icon: require('../../assets/image/product.svg'), pathname : '/result' },
       // { text: '我的发票', icon: require('../../assets/image/invoice.svg') , pathname : '/result'},
       // { text: '审批管理', icon: require('../../assets/image/checkmgm.svg') , pathname : '/result'},

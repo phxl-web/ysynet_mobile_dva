@@ -2,4 +2,6 @@
 html, body, :global(#root) {
   height: 100%;
 }
+/* 解决chrome浏览器touch事件警告 */
+* { touch-action: pan-y; } 
 

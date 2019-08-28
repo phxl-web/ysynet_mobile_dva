@@ -1,8 +1,8 @@
 /*
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 10:11:16 
- * @Last Modified by: gaofengjiao
- * @Last Modified time: 2019-07-08 11:01:43
+ * @Last Modified by: xiangxue
+ * @Last Modified time: 2019-08-28 13:37:01
  * 送货单信息页面
  */
 import React , { PureComponent } from 'react';
@@ -23,10 +23,10 @@ class DeliveryInfo extends PureComponent{
   }
  
    componentDidMount() {
-    const { sendId, storageGuid, isSign } = this.state;
+    const { sendId, storageGuid, isSign, userId } = this.state;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
-      payload: { storageGuid: storageGuid,sendId: sendId,isSign:isSign},
+      payload: { storageGuid: storageGuid,sendId: sendId,isSign:isSign, userId: userId},
       callback: (data) => {
         this.setState( { data : data} )
         this.setState({ loading: false});

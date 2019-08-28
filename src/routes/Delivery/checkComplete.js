@@ -1,8 +1,8 @@
 /*
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:16:33 
- * @Last Modified by: gaofengjiao
- * @Last Modified time: 2019-04-01 17:20:42
+ * @Last Modified by: xiangxue
+ * @Last Modified time: 2019-08-28 14:07:55
  * 验收完成
  */
 
@@ -27,10 +27,10 @@
   }
 
   getMobileCheckDelivery = () => {
-    const { sendId, storageGuid } = this.state;
+    const { sendId, storageGuid, userId } = this.state;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
-      payload: { storageGuid: storageGuid,sendId: sendId},
+      payload: { storageGuid: storageGuid,sendId: sendId,userId:userId},
       callback: (data) => {
         const productDatas = [];
         data.detials.map((item,index) => {

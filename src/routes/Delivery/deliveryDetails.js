@@ -1,8 +1,8 @@
 /*
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:22:50 
- * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-09-05 16:47:26
+ * @Last Modified by: xiangxue
+ * @Last Modified time: 2019-08-28 14:06:16
  * 送货单详情
  */
 import React , { PureComponent } from 'react';
@@ -32,10 +32,10 @@ class DeliveryDetails extends PureComponent{
   }
   
   getMobileCheckDelivery = () => {
-    const { sendId, storageGuid } = this.state;
+    const { sendId, storageGuid,userId } = this.state;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
-      payload: { storageGuid: storageGuid,sendId: sendId},
+      payload: { storageGuid: storageGuid,sendId: sendId,userId:userId},
       callback: (data) => {
         const  filePaths  = [];
         if(data.deliveryCheckImages){

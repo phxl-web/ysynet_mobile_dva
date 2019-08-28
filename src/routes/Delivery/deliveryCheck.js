@@ -2,11 +2,11 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 11:16:21 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-08-14 11:39:11
+ * @Last Modified time: 2019-08-28 11:15:37
  * 送货单验收界面
  */
 import React, { PureComponent } from 'react';
-import { ImagePicker, Flex, Checkbox, Stepper, Button, Carousel, Icon } from 'antd-mobile';
+import { ImagePicker, Flex, Checkbox, Stepper, Button, Icon } from 'antd-mobile';
 import { connect } from 'dva';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -46,10 +46,10 @@ class DeliveryCheck extends PureComponent {
   }
 
   getMobileCheckDelivery = () => {
-    const { sendId, storageGuid, isSign } = this.state;
+    const { sendId, storageGuid, isSign, userId } = this.state;
     this.props.dispatch({
       type: 'delivery/mobileCheckDelivery',
-      payload: { storageGuid: storageGuid, sendId: sendId, isSign: isSign },
+      payload: { storageGuid: storageGuid, sendId: sendId, isSign: isSign, userId: userId },
       callback: (data) => {
         const filePaths = [];
         if (data.deliveryCheckImages) {
@@ -62,7 +62,7 @@ class DeliveryCheck extends PureComponent {
           item.showInput = false;
           return productList.push(item);
         })
-        this.setState({ dataSource: data, productData: productList, files: filePaths, urls: data.deliveryCheckImages })
+        this.setState({ dataSource: data, productData: productList, files: filePaths, urls: data.deliveryCheckImages ? data.deliveryCheckImages : [] })
         this.setState({ loading: false });
         //this.setState( { showInput : false})
       }
@@ -70,7 +70,9 @@ class DeliveryCheck extends PureComponent {
   }
   //点击图片放大图
   imageClick = (index, files) => {
-    this.setState({ picIndex: index, modalPic: true })
+    // this.setState({ picIndex: index, modalPic: true })
+    console.log(files[index])
+    window.open(files[index].url)
   }
   //图片更新
   imageUpdate = (files, type, index) => {
@@ -82,9 +84,8 @@ class DeliveryCheck extends PureComponent {
           type: 'delivery/uploadDeliveryImages',
           payload: { tfAccessory: newImgData, sendId: sendId },
           callback: (data) => {
-            urls.push(data.result);
+            urls.push(data.result && data.result);
             this.setState({ files, submitFiles: [...submitFiles, newImgData] });
-
           }
         })
       })
@@ -99,7 +100,6 @@ class DeliveryCheck extends PureComponent {
           this.setState({ files, submitFiles: submitFiles, urls });
         }
       })
-
     }
   }
 
@@ -172,7 +172,7 @@ class DeliveryCheck extends PureComponent {
   handleCheck = (type, prodDateCur) => {
     const { sendId, storageGuid, userId, isSign } = this.state;
     if (prodDateCur) {
-      
+
     } else {
       this.setState({
         deliveryNotThroughLoading: true,
@@ -183,12 +183,12 @@ class DeliveryCheck extends PureComponent {
 
     this.props.dispatch({
       type: type,
-      payload: { storageGuid: storageGuid, sendId: sendId, isSign: isSign, prodDateCur },
+      payload: { storageGuid: storageGuid, sendId: sendId, isSign: isSign, prodDateCur, userId: userId },
       callback: (status) => {
-        if(status){
+        if (status) {
           this.props.history.push({ pathname: `/checkComplete/${sendId}/${userId}/${storageGuid}` });
           this.getMobileCheckDelivery();
-        }else{
+        } else {
           this.setState({
             deliveryNotThroughLoading: false,
             deliveryThroughLoading: false,
@@ -196,7 +196,7 @@ class DeliveryCheck extends PureComponent {
             deliveryBtnDisabled: false
           })
         }
-        
+
       }
     })
   }
@@ -227,9 +227,6 @@ class DeliveryCheck extends PureComponent {
       sendId,
       isSign,
       files,
-      picIndex,
-      imgHeight,
-      modalPic,
       deliveryThroughLoading,
       deliveryNotBtnDisabled,
       deliveryNotThroughLoading,
@@ -338,7 +335,6 @@ class DeliveryCheck extends PureComponent {
           <div className={styles.infoFooter}>
             <Flex>
               <Flex.Item>
-
                 <span className={styles.infoRightBtn} onClick={this.handleDeliveryThrough} style={{ color: deliveryBtnDisabled ? '#ccc' : '#fff' }}>
                   {deliveryThroughLoading && <Icon type='loading' size='xs' style={{ position: 'relative', top: '5px', left: '-10px', }} />}
                   {isSign === "01" ? "签收通过" : "验收通过"}
@@ -386,53 +382,65 @@ class DeliveryCheck extends PureComponent {
             </Carousel>
           }
         </Modal> */}
-        <PicModal
+        {/* <PicModal
           picModalProps={{ visible: modalPic, index: picIndex, imgHeight, files }}
           onClose={() => { this.setState({ modalPic: false }) }}
-        />
+        /> */}
       </div >
     )
   }
 }
 export default connect(state => state)(DeliveryCheck);
 
-function PicModal(props) {
-  const { visible, files, index } = props.picModalProps;
-  return (
-    <div>
-      {
-        visible
-        &&
-        <div className={styles.picModal} >
-          <div className={styles.carousel}>
-            <div className={styles.close}><Icon type='cross' size='lg' onClick={() => { props.onClose() }} /></div>
-            {
-              files && files.length &&
-              <Carousel
-                autoplay={false}
-                dots={false}
-                infinite
-                selectedIndex={index}
-                style={{ height: 'auto' }}
-              >
-                {files.map(item => (
-                  <img
-                    src={item.url}
-                    key={item.id}
-                    alt=""
-                    style={{ width: '100%', verticalAlign: 'top', height: 'auto' }}
-                    onLoad={() => {
-                      window.dispatchEvent(new Event('resize'));
-                    }}
-                  />
-                ))
-                }
-              </Carousel>
-            }
-          </div>
-          <div className={styles.shade}></div>
-        </div>
-      }
-    </div>
-  )
-}
+// function PicModal(props) {
+//   const { visible, files, index } = props.picModalProps;
+//   return (
+//     <div>
+//       {
+//         visible
+//         &&
+//         <div className={styles.picModal} >
+//           <div className={styles.carousel}>
+//             <div className={styles.close}>
+//               <Icon type='cross' size='lg' onClick={() => { props.onClose() }} /></div>
+//               {
+//                 <img
+//                 src={files[index].url}
+//                 key={files[index].id}
+//                 alt=""
+//                 style={{ width: '100%', verticalAlign: 'top', height: 'auto' }}
+//                 // onLoad={() => {
+//                 //   window.dispatchEvent(new Event('resize'));
+//                 // }}
+//               />
+//               }
+//             {/* {
+//               files && files.length &&
+//               <Carousel
+//                 autoplay={false}
+//                 dots={false}
+//                 infinite
+//                 selectedIndex={index}
+//                 style={{ height: 'auto' }}
+//               >
+//                 {files.map(item => (
+//                   <img
+//                     src={item.url}
+//                     key={item.id}
+//                     alt=""
+//                     style={{ width: '100%', verticalAlign: 'top', height: 'auto' }}
+//                     onLoad={() => {
+//                       window.dispatchEvent(new Event('resize'));
+//                     }}
+//                   />
+//                 ))
+//                 } 
+//               </Carousel>*/}
+//             }
+//           </div>
+//           <div className={styles.shade}></div>
+//         </div>
+//       }
+//     </div>
+//   )
+// }

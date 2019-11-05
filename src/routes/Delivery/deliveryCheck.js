@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 11:16:21 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-08-28 11:15:37
+ * @Last Modified time: 2019-11-05 13:59:40
  * 送货单验收界面
  */
 import React, { PureComponent } from 'react';
@@ -171,15 +171,13 @@ class DeliveryCheck extends PureComponent {
 
   handleCheck = (type, prodDateCur) => {
     const { sendId, storageGuid, userId, isSign } = this.state;
-    if (prodDateCur) {
-
-    } else {
+    if (!prodDateCur) {
       this.setState({
-        deliveryNotThroughLoading: true,
-        deliveryBtnDisabled: true,
-        deliveryNotBtnDisabled: true,
+        deliveryNotThroughLoading: false,
+        deliveryBtnDisabled: false,
+        deliveryNotBtnDisabled: false,
       })
-    }
+    } 
 
     this.props.dispatch({
       type: type,
@@ -205,15 +203,26 @@ class DeliveryCheck extends PureComponent {
   handleDeliveryThrough = (item) => {
     const { productData, deliveryBtnDisabled } = this.state;
     if (!deliveryBtnDisabled) {
+      this.setState({
+        deliveryBtnDisabled: true,
+        deliveryThroughLoading:true,
+        deliveryNotBtnDisabled: true,
+      })
       const curProduct = productData.filter(item => item.checkfstate > 0)
         .map((_item) => { return { sendDetailGuid: _item.sendDetailGuid, amount: _item.amount } })
       this.handleCheck('delivery/mobileDeliveryThrough', curProduct);
+
     }
   }
   //验收不通过
   handleDeliveryNotThrough = (item) => {
     const { deliveryNotBtnDisabled } = this.state;
     if (!deliveryNotBtnDisabled) {
+      this.setState({
+        deliveryNotThroughLoading: true,
+        deliveryBtnDisabled: true,
+        deliveryNotBtnDisabled: true,
+      })
       this.handleCheck('delivery/mobileDeliveryNotThrough');
     }
   }
@@ -232,6 +241,7 @@ class DeliveryCheck extends PureComponent {
       deliveryNotThroughLoading,
       deliveryBtnDisabled,
     } = this.state;
+    console.log(deliveryThroughLoading)
     return (
       <div className={styles.container}>
         <Flex>

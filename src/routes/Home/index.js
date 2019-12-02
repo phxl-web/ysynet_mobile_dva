@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-11-28 17:13:27
+ * @Last Modified time: 2019-12-02 13:59:35
  * 主页
  */
 
@@ -69,7 +69,8 @@ class Home extends PureComponent {
 
   handleGridClick = (el, index) => {
     //质检的pathname要为二维码扫一扫的链接
-    if (index === 1 || index === 2) {
+    const pathName = el.pathname.indexOf('mobileScanPackQrcode') > -1 || el.pathname.indexOf('mobileScanSignSendQrcode') > -1;
+    if (pathName) {
       window.location.href = el.pathname
     } else {
       this.props.history.push({ pathname: el.pathname })

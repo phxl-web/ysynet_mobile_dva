@@ -1,15 +1,16 @@
 /**
  * @file 下滑刷新 - 组件二次封装
  */
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { ListView, PullToRefresh } from 'antd-mobile';
 import promiseRequest from '../../utils/promise_request'
+import _ from 'lodash';
 
 const NUM_ROWS = 50;
 let pageIndex = 0;
 
-class ListViewScroll extends PureComponent {
+class ListViewScroll extends Component {
   constructor(props) {
     super(props);
     const dataSource = new ListView.DataSource({
@@ -21,29 +22,30 @@ class ListViewScroll extends PureComponent {
       refreshing: true,
       isLoading: true,
       height: document.documentElement.clientHeight,
-      queryParams:this.props.queryParams
+      queryParams: this.props.queryParams
     };
     this.onRefresh = this.onRefresh.bind(this);
     this.onEndReached = this.onEndReached.bind(this);
   }
-  async genData (pIndex = 0) {
+
+
+  async genData(queryParams, pIndex = 0) {
     const dataArr = [];
+    const query = queryParams ? { ...queryParams } : { ...this.state.queryParams }
     const promiseData = await promiseRequest(`${this.props.url}`, {
       body: {
         pagesize: NUM_ROWS,
         page: pIndex + 1,
-        ...this.state.queryParams
+        ...query
       },
-      type:'formData'
+      type: 'formData'
     });
-
     const data = promiseData.result.rows || promiseData.result;
-    for (let i = 0; i < data.length ; i++) {
+    for (let i = 0; i < data.length; i++) {
       dataArr.push(`row - ${(pIndex * NUM_ROWS) + i}`);
     }
-    this.setState({ data: [ ...this.state.data, ...data] });
+    this.setState({ data: [...this.state.data, ...data] });
     return dataArr;
-    
   }
   componentDidUpdate() {
     document.body.style.overflow = 'hidden';
@@ -58,54 +60,39 @@ class ListViewScroll extends PureComponent {
       isLoading: false,
     })
   }
-//  static getDerivedStateFromProps (nextProps) {
-//    //console.log(this.props.queryParams,'queryParams');
-//    console.log(nextProps,'nextProps');
-//    this.setState({ queryParams : nextProps.queryParams})
-//     // if (this.props.queryParams !== nextProps.queryParams) {
 
-//     // }
-//   }
-
-// now
-UNSAFE_componentWillReceiveProps =(nextProps) =>{
-  // console.log(nextProps,'nextProps')
-  // console.log(this,'this')
-  //this.setState({queryParams : nextProps.queryParams})
-  //const hei = document.documentElement.clientHeight - ReactDOM.findDOMNode(this.lv).parentNode.offsetTop;
-  // this.rData =  this.genData();
-  // this.setState({
-  //   dataSource: this.state.dataSource.cloneWithRows(this.rData),
-  //   height: hei,
-  //   refreshing: false,
-  //   isLoading: false,
-  // })
-}
-
-// static getDerivedStateFromProps(nextProps, prevState) {
-//   if (nextProps.queryParams !== prevState.queryParams) {
-  
-//   }
-//   return null
-// }
-
-  async onRefresh () {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!_.isEqual(nextProps.queryParams, prevState.queryParams)) {
+      return {
+        queryParams: nextProps.queryParams,
+      };
+    }
+    return null
+  }
+  componentDidUpdate = (prevProps, prevState) => {
+    if (!_.isEqual(prevProps.queryParams, this.state.queryParams)) {
+      this.onRefresh();
+    }
+  }
+  async onRefresh() {
     this.setState({ refreshing: true, isLoading: true });
     this.rData = await this.genData();
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2,
+    });
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this.rData),
+      dataSource: dataSource.cloneWithRows(this.rData),
       refreshing: false,
       isLoading: false,
     })
   };
-  
-  async onEndReached (event) {
+
+  async onEndReached(event) {
     if (this.state.isLoading && !this.state.hasMore) {
       return;
     }
-    console.log('reach end', event);
     this.setState({ isLoading: true });
-    const newData = await this.genData(++pageIndex);
+    const newData = await this.genData(this.state.queryParams, ++pageIndex);
     this.rData = [...this.rData, ...newData];
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.rData),
@@ -114,15 +101,12 @@ UNSAFE_componentWillReceiveProps =(nextProps) =>{
   };
 
   render() {
-    const { data } = this.state;
-    let index = data.length - 1;
-    const row = (rowData, sectionID, rowID) => {
-      if (index < 0) {
-        index = data.length - 1;
-      } 
-      const obj = data[index--];
+    const { data, dataSource } = this.state;
+    
+    const row = (rowData, sectionID, rowID, highlightRow) => {
+      const obj = data[rowID];
       return (
-        <this.props.item {...obj}/>
+        <this.props.item {...obj} />
       );
     };
     const separator = (sectionID, rowID) => (
@@ -140,14 +124,13 @@ UNSAFE_componentWillReceiveProps =(nextProps) =>{
       <ListView
         key={'1'}
         ref={el => this.lv = el}
-        dataSource={this.state.dataSource}
+        dataSource={dataSource}
         renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
           {this.state.isLoading ? '加载中...' : '加载完成'}
         </div>)}
         renderRow={row}
         style={{
           minHeight: 'calc(100vh - 5px)',
-
           border: '1px solid #ddd',
           margin: '5px 0',
           overflowX: 'hidden'

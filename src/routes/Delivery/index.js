@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 09:18:06 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-08-19 15:39:38
+ * @Last Modified time: 2019-12-02 10:08:19
  * 我的送货单页面
  */
 
@@ -14,11 +14,17 @@ import ListViewScroll from '../../components/listViewScroll';
 import styles from './style.css';
 import { _local, MEQM } from '../../api/local';
 class Delivery extends PureComponent {
-  state = {
-    url: `${_local}/delivery/rMobileSearchDeliveryList`,
-    searchName: '',
-    userId: this.props.match.params.userId,
-    storageGuid: this.props.match.params.storageGuid,
+  constructor(props) {
+    super(props);
+    console.log(props, 'props');
+    
+    this.state = {
+      url: `${_local}/delivery/rMobileSearchDeliveryList`,
+      searchName: '',
+      userId: this.props.match.params.userId,
+      storageGuid: this.props.match.params.storageGuid,
+    }
+    
   }
   //根据不同的状态只显示不同的字体颜色
   handleFstateClass = (value) => {
@@ -99,6 +105,7 @@ class Delivery extends PureComponent {
   }
   render() {
     const { searchName, userId, storageGuid } = this.state;
+    
     return (
       <div className={styles.container}>
         <Flex>

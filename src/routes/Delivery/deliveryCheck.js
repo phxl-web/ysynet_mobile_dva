@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 11:16:21 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-11-05 13:59:40
+ * @Last Modified time: 2019-11-06 13:58:02
  * 送货单验收界面
  */
 import React, { PureComponent } from 'react';
@@ -52,7 +52,9 @@ class DeliveryCheck extends PureComponent {
       payload: { storageGuid: storageGuid, sendId: sendId, isSign: isSign, userId: userId },
       callback: (data) => {
         const filePaths = [];
-        if (data.deliveryCheckImages) {
+        const deliveryCheckImages = data.deliveryCheckImages.filter(item => item !== "");
+
+        if (deliveryCheckImages&&deliveryCheckImages.length) {
           data.deliveryCheckImages.map((item, index) => {
             return filePaths.push({ url: FTP + `${item}`, id: index })
           })
@@ -62,7 +64,9 @@ class DeliveryCheck extends PureComponent {
           item.showInput = false;
           return productList.push(item);
         })
-        this.setState({ dataSource: data, productData: productList, files: filePaths, urls: data.deliveryCheckImages ? data.deliveryCheckImages : [] })
+        
+        console.log(deliveryCheckImages)
+        this.setState({ dataSource: data, productData: productList, files: filePaths, urls: (deliveryCheckImages&&deliveryCheckImages.length) ? deliveryCheckImages : [] })
         this.setState({ loading: false });
         //this.setState( { showInput : false})
       }
@@ -177,7 +181,7 @@ class DeliveryCheck extends PureComponent {
         deliveryBtnDisabled: false,
         deliveryNotBtnDisabled: false,
       })
-    } 
+    }
 
     this.props.dispatch({
       type: type,
@@ -205,7 +209,7 @@ class DeliveryCheck extends PureComponent {
     if (!deliveryBtnDisabled) {
       this.setState({
         deliveryBtnDisabled: true,
-        deliveryThroughLoading:true,
+        deliveryThroughLoading: true,
         deliveryNotBtnDisabled: true,
       })
       const curProduct = productData.filter(item => item.checkfstate > 0)
@@ -271,7 +275,7 @@ class DeliveryCheck extends PureComponent {
                   <p>证件效期: {item.registerFirstLast}</p>
                   {item.isRegisterOut ? <span className={styles.tagFont}>产品注册证已过期</span> : null}
                   <p>生产日期: {item.prodDate}</p>
-                  {item.isProdDateIn && item.prodDate ? <span className={styles.tagFont}>生产日期不在注册期内</span> : null}
+                  {(item.registerType==='00'&&item.isProdDateIn && item.prodDate)? <span className={styles.tagFont}>生产日期不在注册期内</span> : null}
                   <p>产品效期:{item.usefulDate}</p>
                   {item.isUsefulDateEve ? <span className={styles.tagFont}>临近保质期</span> : null}
                   {item.isUsefulDateIn ? <span className={styles.tagFont}>已过有效期</span> : null}

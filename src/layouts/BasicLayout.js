@@ -5,8 +5,6 @@ import { connect } from 'dva';
 class BasicLayout extends PureComponent {
   render() {
     const { getRouteData } = this.props;
-    console.log(getRouteData('BasicLayout'));
-    
     return (
       <div>
         <Switch>

@@ -2,7 +2,7 @@
  * @Author: xiangxue 
  * @Date: 2019-11-28 16:06:04 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-12-02 11:43:41
+ * @Last Modified time: 2019-12-02 16:19:26
  * @page - 手术跟台申请
  */
 
@@ -50,7 +50,6 @@ class SurgeryApplication extends PureComponent {
     this.getDetpData()
   }
   getDetpData = () => {
-    console.log(this.props)
     this.props.dispatch({
       type: 'SurgeryApplication/searchDeptInfoList',
       payload: { isPager: false, orgId: this.orgId },

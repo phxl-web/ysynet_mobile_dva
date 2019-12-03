@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:29:35 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-11-28 16:23:34
+ * @Last Modified time: 2019-12-03 09:22:28
  */
 
   
@@ -52,10 +52,9 @@ class Login extends PureComponent {
     }
   }
   userLogin = (info,id) =>{
-    const{  userName, password } = this.state ;
     let userInfo = {
-      userNo: userName,
-      pwd: password, 
+      userNo: info.name,
+      pwd: info.pwd, 
       token: 'vania'
     }
     let arr = [md5(userInfo.pwd.toString()).substring(2, md5(userInfo.pwd.toString()).length).toUpperCase(), 'vania']
@@ -64,7 +63,6 @@ class Login extends PureComponent {
       return pwd += item;
     })
     userInfo.pwd = sha1(pwd);
-    console.log(userInfo)
     this.props.dispatch({
       type: 'users/userLogin',
       payload: userInfo,
@@ -73,7 +71,7 @@ class Login extends PureComponent {
         if (!data.result.userInfo) {
           message.error(data.result.loginResult)
         }else{
-          this.props.history.push({pathname: `/home/${id}/${userInfo.userNo}/${userInfo.pwd}/false`})
+          this.props.history.push({pathname: `/home/${id}/${info.name}/${info.pwd}/false`})
         }
       }
     })
@@ -136,11 +134,7 @@ class Login extends PureComponent {
             </List>
           </div>
           <div className={styles.btnLogin}>
-            <Button 
-            type="primary" 
-            // loading={this.state.loading} 
-            onClick={this.userLogin.bind(this,{},'B449C3E60C174FF1B395F17783E47B51')} 
-            style={{backgroundColor:"#485dfb"}}>登录</Button>
+            <Button type="primary" loading={this.state.loading} onClick={this.onLogin} style={{backgroundColor:"#485dfb"}}>登录</Button>
           </div>
         </div>
       </div>

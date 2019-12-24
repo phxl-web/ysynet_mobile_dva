@@ -47,3 +47,12 @@ export function getStorages(options){
     body: options
   })
 }
+
+//获取库房
+export function getMobilMenuByUserId(options){
+  return request(`${_local}/login/getMobilMenuByUserId`,{
+    methods: "POST",
+    type: 'formData',
+    body: options
+  })
+}

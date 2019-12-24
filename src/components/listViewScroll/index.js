@@ -28,7 +28,8 @@ class ListViewScroll extends Component {
   }
   async componentDidMount() {
     const h = document.documentElement.clientHeight - ReactDOM.findDOMNode(this.lv).parentNode.offsetTop;
-    this.rData = await this.genData();
+    const {queryParams} = this.state;
+    this.rData = await this.genData(queryParams);
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.rData),
       height: h,
@@ -74,13 +75,16 @@ class ListViewScroll extends Component {
     return dataArr;
   }
 
-  // 上拉刷新
+  // 下拉刷新
   onRefresh = async () => {
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2,
+    });
     pageIndex = 1;
     this.setState({ refreshing: true });
     this.rData = await this.genData(this.state.queryParams, pageIndex, false);
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this.rData),
+      dataSource: dataSource.cloneWithRows(this.rData),
       refreshing: false
     });
   };

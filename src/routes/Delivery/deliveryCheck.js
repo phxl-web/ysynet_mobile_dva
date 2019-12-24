@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 11:16:21 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-11-06 13:58:02
+ * @Last Modified time: 2019-12-12 11:39:19
  * 送货单验收界面
  */
 import React, { PureComponent } from 'react';
@@ -273,7 +273,7 @@ class DeliveryCheck extends PureComponent {
                   <p>包装规格:{item.tfPacking} </p>
                   <p>生产批号: {item.flot}</p>
                   <p>证件效期: {item.registerFirstLast}</p>
-                  {item.isRegisterOut ? <span className={styles.tagFont}>产品注册证已过期</span> : null}
+                  {item.isRegisterOut&&item.registerType!=='01' ? <span className={styles.tagFont}>产品注册证已过期</span> : null}
                   <p>生产日期: {item.prodDate}</p>
                   {(item.registerType==='00'&&item.isProdDateIn && item.prodDate)? <span className={styles.tagFont}>生产日期不在注册期内</span> : null}
                   <p>产品效期:{item.usefulDate}</p>
@@ -341,8 +341,8 @@ class DeliveryCheck extends PureComponent {
                 </AgreeItem>
               </Flex.Item>
               {<Flex.Item style={{ textAlign: 'right', paddingRight: '10px' }}>
-                <div>已验收{dataSource.detailCheckNum || 0}/{dataSource.detailNum || 0}</div>
-                <div>产品总数{Number(dataSource.detailCheckNum || 0) + Number(dataSource.NoCheckNum || 0)}</div>
+                <div>已验收{dataSource.detailCheckNum || 0}/{dataSource.totalAmount || 0}</div>
+                <div>产品总数{dataSource.totalAmount}</div>
               </Flex.Item>}
             </Flex>
           </div>

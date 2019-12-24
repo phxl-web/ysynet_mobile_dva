@@ -2,14 +2,14 @@
  * @Author: xiangxue 
  * @Date: 2019-11-28 16:06:04 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-12-02 16:19:26
+ * @Last Modified time: 2019-12-12 11:15:47
  * @page - 手术跟台申请
  */
 
 
 import React, { PureComponent } from 'react';
 import { createForm } from 'rc-form';
-import { Card, Button, Flex, SearchBar, Picker, List, Toast, Modal } from 'antd-mobile';
+import { Card, Button, Flex, SearchBar, Picker, List, Toast, Modal, Icon } from 'antd-mobile';
 import { connect } from 'dva';
 import ListViewScroll from '../../components/listViewScroll';
 import styles from './style.css';
@@ -18,6 +18,10 @@ import { _local } from '../../api/local';
 const alert = Modal.alert;
 //01待转发 02已转发 03已驳回
 const statusData = [
+  {
+    label: '全部 ',
+    value: '',
+  },
   {
     label: '待转发 ',
     value: '01',
@@ -43,7 +47,8 @@ class SurgeryApplication extends PureComponent {
         searchName: '',
         orgId: this.orgId,
       },
-      detpData: []
+      detpData: [],
+      modalLoading: false
     }
   }
   componentDidMount = () => {
@@ -56,7 +61,7 @@ class SurgeryApplication extends PureComponent {
       callback: (data) => {
         if (data.status) {
           this.setState({
-            detpData: data.result.rows.map(item => ({ label: item.deptName, value: item.deptGuid }))
+            detpData: [{ label: '全部', value: '' }, ...data.result.rows.map(item => ({ label: item.deptName, value: item.deptGuid }))]
           })
         } else {
           Toast.fail(data.msg || "获取信息失败")
@@ -74,15 +79,23 @@ class SurgeryApplication extends PureComponent {
     ])
   }
   sureDispatch = (item, state) => {
+    this.setState({
+      modalLoading: true,
+      state
+    });
+    const stateText = state === '02' ? '确认' : '驳回';
     this.props.dispatch({
       type: 'SurgeryApplication/updateHisOrder',
       payload: {
         planNo: [item.planNo], fstate: state
       },
       callback: (status) => {
+        this.setState({ modalLoading: false });
         if (status) {
-          // this.setState({ query: { ...this.state.query } });
+          Toast.success(`${stateText}成功`, 1);
           this.lv.onRefresh();
+        } else {
+          Toast.fail(`${stateText}失败`, 1);
         }
       }
     })
@@ -105,7 +118,7 @@ class SurgeryApplication extends PureComponent {
     }
   }
   render() {
-    const { query, detpData } = this.state;
+    const { query, detpData, state } = this.state;
     const { getFieldProps } = this.props.form;
     return (
       <div className={styles.surgeryApplication}>
@@ -138,11 +151,11 @@ class SurgeryApplication extends PureComponent {
             <Picker
               data={detpData}
               cols={1}
-              {...getFieldProps('dateName')}
+              {...getFieldProps('deptName')}
               className="forss"
               title="选择申请科室"
               extra="申请科室"
-              onOk={v => this.setState({ query: { ...query, dateName: v } })}
+              onOk={v => this.setState({ query: { ...query, deptName: v } })}
             >
               <List.Item></List.Item>
             </Picker>
@@ -156,12 +169,12 @@ class SurgeryApplication extends PureComponent {
             return (<Card full style={{ marginBottom: "10px" }}>
               <Card.Header
                 onClick={this.handleUrl.bind(null, item)}
-                title={<div><p className={styles.listCardTitle}>科室申请单号：{item.planNo}</p></div>}
+                title={<div><p className={styles.listCardTitle}>科室申请单号：{item.planId}</p></div>}
                 extra={this.fState(item.fstate)}
               />
               <Card.Body>
                 <div>
-                  <p className={styles.listProduct}>申请科室名称：{item.storageName}</p>
+                  <p className={styles.listProduct}>申请科室名称：{item.deptName}</p>
                   <p className={styles.listProduct}>制单日期：{item.orderDate}</p>
                 </div>
               </Card.Body>
@@ -182,14 +195,26 @@ class SurgeryApplication extends PureComponent {
                     inline
                     onClick={this.handleClick.bind(null, item, '03')}
                   >
-                    拒收
+                    驳回
                   </Button>
                 </div>
                 }
               />
             </Card>
             )
-          }} />
+          }}
+        />
+        <Modal
+          visible={this.state.modalLoading}
+          transparent
+          maskClosable={false}
+          title={state === '02' ? '确认中' : '驳回中'}
+          footer={[]}
+        >
+          <Icon type='loading' />
+        </Modal>
+
+
       </div>
     )
   }

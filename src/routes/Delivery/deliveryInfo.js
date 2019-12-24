@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 10:11:16 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-08-28 13:37:01
+ * @Last Modified time: 2019-12-06 15:51:35
  * 送货单信息页面
  */
 import React , { PureComponent } from 'react';
@@ -56,7 +56,7 @@ class DeliveryInfo extends PureComponent{
             <Item>创建时间:{data.sendDate}</Item>
             <Item>订单号:{data.orderNo}</Item>
             <Item>送货单总金额:{data.totalPrice}</Item>
-            <Item>产品数量:{data.detailNum}</Item>
+            <Item>产品数量:{data.totalAmount}</Item>
             <Item>收货人:{data.lxr}</Item>
             <Item>收货人联系方式:{data.lxdh}</Item>
             <Item>收获地址:{data.tfAddress}</Item>

@@ -52,6 +52,15 @@ export default {
       }else {
         Toast.fail(data.msg || '获取库房失败')
       }
+    },
+    *getMobilMenuByUserId({ payload, callback }, { call, put}){
+      const data = yield call(usersService.getMobilMenuByUserId,payload);
+      if(data.status){
+        //yield put({ type: 'userStorage',payload: {...data.result}})
+        if(callback) callback(data.result);
+      }else {
+        Toast.fail(data.msg || '获取菜单失败')
+      }
     }
   }
 }

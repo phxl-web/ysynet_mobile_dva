@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-16 14:22:50 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-11-29 17:29:39
+ * @Last Modified time: 2019-12-10 16:38:32
  * 送货单详情
  */
 import React, { PureComponent } from 'react';
@@ -37,7 +37,7 @@ class DeliveryDetails extends PureComponent {
         console.log(data)
         if (data.status) {
           this.setState({
-            baseInfo: data.result[0]
+            baseInfo: data.result.rows[0]
           })
         } else {
           Toast.fail(data.msg || "获取信息失败")

@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-15 16:31:00 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-12-24 13:38:19
+ * @Last Modified time: 2019-12-31 10:19:52
  * 主页
  */
 
@@ -30,7 +30,7 @@ class Home extends PureComponent {
     });
   }
   getMenuByUserId = (userId) => { // 获取菜单
-    const { userInfo, storageGuid } = this.state;
+    // const { userInfo, storageGuid } = this.state;
     this.props.dispatch({
       type: 'users/getMobilMenuByUserId',
       payload: { userId: userId, token: 'vania' },
@@ -40,13 +40,11 @@ class Home extends PureComponent {
           let pathname = '';
           // 质检和科室管理直接调用扫码功能
           if (item.MENU_URL === '/qualityTest') {
-            pathname = `${MEQM}/test/mobileScanPackQrcode?userId=${userId}&storageGuid=${storageGuid}`
+            pathname = `${MEQM}/test/mobileScanPackQrcode`
           } else if (item.MENU_URL === '/deptCheck') {
-            pathname = `${MEQM}/test/mobileScanSignSendQrcode?userId=${userId}&storageGuid=${storageGuid}`
+            pathname = `${MEQM}/test/mobileScanSignSendQrcode`
           } else {
-            pathname = item.MENU_URL === '/surgeryApplication'
-              ? `${item.MENU_URL}/${userId}/${storageGuid}/${userInfo.orgId}`
-              : `${item.MENU_URL}/${userId}/${storageGuid}`;
+            pathname = `${item.MENU_URL}`;
           }
           return {
             text: item.MENU_NAME,
@@ -54,7 +52,7 @@ class Home extends PureComponent {
             pathname
           }
         });
-        this.setState({ gridStorageData })
+        this.setState({ gridStorageData, userId })
       }
     })
   }
@@ -94,11 +92,14 @@ class Home extends PureComponent {
 
   handleGridClick = (el, index) => {
     //质检的pathname要为二维码扫一扫的链接
+    const { userInfo, storageGuid, userId } = this.state;
     const pathName = el.pathname.indexOf('mobileScanPackQrcode') > -1 || el.pathname.indexOf('mobileScanSignSendQrcode') > -1;
     if (pathName) {
-      window.location.href = el.pathname
+      window.location.href = `${el.pathname}?userId=${userId}&storageGuid=${storageGuid}`
+    } else if (el.pathname.indexOf('surgeryApplication') > -1) {
+      this.props.history.push({ pathname: `${el.pathname}/${userId}/${storageGuid}/${userInfo.orgId}` })
     } else {
-      this.props.history.push({ pathname: el.pathname })
+      this.props.history.push({ pathname: `${el.pathname}/${userId}/${storageGuid}` })
     }
   }
 
@@ -117,7 +118,7 @@ class Home extends PureComponent {
               cols={1}
               onChange={this.handleOnTabClick}
             >
-              <List.Item arrow="horizontal">当前科室：</List.Item>
+              <List.Item arrow="horizontal">当前库房：</List.Item>
             </Picker>
           </List>
           <Grid data={gridStorageData} hasLine={false} columnNum={4} activeClassName={styles.activeGridClass} onClick={this.handleGridClick} />

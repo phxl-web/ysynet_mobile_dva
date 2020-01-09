@@ -14,10 +14,13 @@
     "dva": "^2.3.1",
     "md5": "^2.2.1",
     "moment": "^2.22.2",
+    "prop-types": "^15.7.2",
+    "rc-form": "^2.4.11",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-star-rating-component": "^1.4.1",
-    "sha1": "^1.1.1"
+    "sha1": "^1.1.1",
+    "weixin-js-sdk": "^1.4.0-test"
   },
   "devDependencies": {
     "babel-plugin-dva-hmr": "^0.3.2",
@@ -30,7 +33,7 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
     "husky": "^0.12.0",
-    "less": "^3.8.0",
+    "less": "2.7",
     "less-loader": "^4.1.0",
     "redbox-react": "^1.4.3",
     "roadhog": "^2.0.0",

@@ -2,7 +2,7 @@
  * @Author: xiangxue 
  * @Date: 2019-11-28 16:06:04 
  * @Last Modified by: xiangxue
- * @Last Modified time: 2019-12-12 11:15:47
+ * @Last Modified time: 2020-01-19 15:42:57
  * @page - 手术跟台申请
  */
 
@@ -46,6 +46,7 @@ class SurgeryApplication extends PureComponent {
       query: {
         searchName: '',
         orgId: this.orgId,
+        storageGuid: this.storageGuid
       },
       detpData: [],
       modalLoading: false
